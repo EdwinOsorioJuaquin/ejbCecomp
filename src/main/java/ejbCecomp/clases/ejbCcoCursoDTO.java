@@ -2,46 +2,29 @@ package ejbCecomp.clases;
 
 import ejbCecomp.entidades.ejbCcoCepCurso;
 import ejbCecomp.entidades.ejbCcoCepNivelModalidad;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ejbCcoCursoDTO {
+public class ejbCcoCursoDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
     private ejbCcoCepCurso curso;
     private ejbCcoCepNivelModalidad nivel;
     private String nombreNivel;
-    private String nombreCurso;
-    private String duracion;
-    private Boolean activo;
-    private Integer idCurso;
-    
+    private List<String> temas;
+
     public ejbCcoCursoDTO(ejbCcoCepCurso curso) {
         this.curso = curso;
-        this.idCurso = curso.getIdCurso();
-        this.nombreCurso = curso.getNomCurso();
-        this.duracion = curso.getDuracion();
-        this.activo = curso.getBandera();
-        
-        if (curso.getCepNivelModalidad() != null) {
+        if (curso != null && curso.getCepNivelModalidad() != null) {
             this.nivel = curso.getCepNivelModalidad();
             this.nombreNivel = curso.getCepNivelModalidad().getNomNivMod();
         }
-    }
-    
-        public String getNombreCurso() {
-        return curso != null ? curso.getNomCurso() : "";
-    }
-    
-    public String getDuracion() {
-        return curso != null ? curso.getDuracion() : "";
-    }
-    
-    public Boolean getActivo() {
-        return curso != null ? curso.getBandera() : false;
-    }
-    
-    public Integer getIdCurso() {
-        return curso != null ? curso.getIdCurso() : null;
     }
 }
