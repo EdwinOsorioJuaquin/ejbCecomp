@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Local
 public interface ejbCcoCcoPreciosServiceLocal {
-        /**
+     /**
      * Función para crear un precio
      * @param precio Datos del precio y concepto
      * @return Precio creado

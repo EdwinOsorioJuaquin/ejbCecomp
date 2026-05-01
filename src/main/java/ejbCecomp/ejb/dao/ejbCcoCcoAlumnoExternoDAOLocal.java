@@ -28,6 +28,7 @@ public interface ejbCcoCcoAlumnoExternoDAOLocal extends ejbCcoGenericoDAOLocal<e
      * @return 
     */
     public List<ejbCcoCcoAlumnoExterno> listarAlumnosExternos();
+    
     /**
     * Guarda persona natural
      * @param persona
@@ -48,6 +49,7 @@ public interface ejbCcoCcoAlumnoExternoDAOLocal extends ejbCcoGenericoDAOLocal<e
         * @return 
     */
     public ejbCcoDrtPersonanatural actualizarPersona(ejbCcoDrtPersonanatural persona);
+    
     
     public void actualizarAlumnoExterno(ejbCcoCcoAlumnoExterno alumno);
 

@@ -1,9 +1,11 @@
 
 package ejbCecomp.ejb.dao;
 
+import ejbCecomp.clases.ejbCcoCursoDTO;
 import ejbCecomp.entidades.ejbCcoCepCurso;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,5 +42,31 @@ public class ejbCcoCursoDAO extends ejbCcoGenericoDAO<ejbCcoCepCurso> implements
         query.setParameter("nombre", "%" + nombre + "%");
 
         return query.getResultList();
+    }
+    
+    /**
+     * Listar solo cursos activos (bandera = true)
+     * @return Lista de cursos activos
+     */
+    @Override
+    public List<ejbCcoCepCurso> listarActivos() {
+        TypedQuery<ejbCcoCepCurso> query = 
+            em.createQuery("SELECT c FROM CepCurso c WHERE c.bandera = true", 
+                           ejbCcoCepCurso.class);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<ejbCcoCursoDTO> listarCursosConNivel() {
+        TypedQuery<ejbCcoCepCurso> query = em.createQuery(
+            "SELECT c FROM CepCurso c WHERE c.bandera = true", 
+            ejbCcoCepCurso.class);
+        List<ejbCcoCepCurso> cursos = query.getResultList();
+
+        List<ejbCcoCursoDTO> dtos = new ArrayList<>();
+        for (ejbCcoCepCurso curso : cursos) {
+            dtos.add(new ejbCcoCursoDTO(curso));
+        }
+        return dtos;
     }
 }

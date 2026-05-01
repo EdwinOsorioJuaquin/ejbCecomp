@@ -18,8 +18,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-public class ejbCcoCepCursoDocenteService 
-        implements ejbCcoCepCursoDocenteServiceLocal {
+public class ejbCcoCepCursoDocenteService implements ejbCcoCepCursoDocenteServiceLocal {
 
     @Resource
     UserTransaction ut;
