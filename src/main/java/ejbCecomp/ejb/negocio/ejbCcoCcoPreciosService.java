@@ -1,31 +1,26 @@
-
 package ejbCecomp.ejb.negocio;
 
 import ejbCecomp.ejb.dao.ejbCcoCcoPreciosDAOLocal;
-import ejbCecomp.ejb.dao.ejbCcoCursoDAOLocal;
 import ejbCecomp.entidades.ejbCcoCcoPrecios;
-import ejbCecomp.entidades.ejbCcoCepCurso;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
 import jakarta.inject.Inject;
-import jakarta.transaction.UserTransaction;
+import jakarta.transaction.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * Servicio de negocio para la gestión de precios
- */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class ejbCcoCcoPreciosService implements ejbCcoCcoPreciosServiceLocal {
 
     @Resource
-    UserTransaction ut;
+    private UserTransaction ut;
 
     @Inject
-    ejbCcoCcoPreciosDAOLocal dao;
+    private ejbCcoCcoPreciosDAOLocal dao;
 
     @Override
     public ejbCcoCcoPrecios crear(ejbCcoCcoPrecios precio) {
@@ -34,10 +29,17 @@ public class ejbCcoCcoPreciosService implements ejbCcoCcoPreciosServiceLocal {
             precio = dao.crear(precio);
             ut.commit();
             return precio;
-        } catch (Exception e) {
-            rollback();
+        } catch (NotSupportedException | SystemException | RollbackException | 
+                 HeuristicMixedException | HeuristicRollbackException | 
+                 SecurityException | IllegalStateException ex) {
+            try {
+                ut.rollback();
+            } catch (IllegalStateException | SecurityException | SystemException ex1) {
+                Logger.getLogger(ejbCcoCcoPreciosService.class.getName())
+                      .log(Level.SEVERE, null, ex1);
+            }
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -47,10 +49,17 @@ public class ejbCcoCcoPreciosService implements ejbCcoCcoPreciosServiceLocal {
             precio = dao.actualizar(precio);
             ut.commit();
             return precio;
-        } catch (Exception e) {
-            rollback();
+        } catch (NotSupportedException | SystemException | RollbackException | 
+                 HeuristicMixedException | HeuristicRollbackException | 
+                 SecurityException | IllegalStateException ex) {
+            try {
+                ut.rollback();
+            } catch (IllegalStateException | SecurityException | SystemException ex1) {
+                Logger.getLogger(ejbCcoCcoPreciosService.class.getName())
+                      .log(Level.SEVERE, null, ex1);
+            }
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -64,18 +73,12 @@ public class ejbCcoCcoPreciosService implements ejbCcoCcoPreciosServiceLocal {
     }
 
     @Override
-    public List<ejbCcoCcoPrecios> buscarPorConcepto(String concepto) {
-        return dao.buscarPorConcepto(concepto);
+    public List<ejbCcoCcoPrecios> listarActivos() {
+        return dao.listarActivos();
     }
 
-    /**
-     * Manejo de rollback en caso de error
-     */
-    private void rollback() {
-        try {
-            ut.rollback();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    @Override
+    public List<ejbCcoCcoPrecios> buscarPorConcepto(String concepto) {
+        return dao.buscarPorConcepto(concepto);
     }
 }

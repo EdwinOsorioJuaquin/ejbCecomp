@@ -37,6 +37,12 @@ public interface ejbCcoCcoPreciosServiceLocal {
      * @return Lista de precios
      */
     List<ejbCcoCcoPrecios> listarTodos();
+    
+    /**
+     * Función para listar todos los precios activos
+     * @return Lista de precios activos
+     */
+    List<ejbCcoCcoPrecios> listarActivos();
 
     /**
      * Función para listar precios por concepto
