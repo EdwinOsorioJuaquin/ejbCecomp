@@ -1,14 +1,12 @@
 package ejbCecomp.clases;
 
-import ejbCecomp.entidades.ejbCcoCepCurso;
-import ejbCecomp.entidades.ejbCcoCepNivelModalidad;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import ejbCecomp.entidades.*;
+import lombok.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ejbCcoCursoDTO implements Serializable {
@@ -16,15 +14,19 @@ public class ejbCcoCursoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private ejbCcoCepCurso curso;
-    private ejbCcoCepNivelModalidad nivel;
     private String nombreNivel;
-    private List<String> temas;
-
+    private String nombrePlan;
+    
     public ejbCcoCursoDTO(ejbCcoCepCurso curso) {
         this.curso = curso;
-        if (curso != null && curso.getCepNivelModalidad() != null) {
-            this.nivel = curso.getCepNivelModalidad();
-            this.nombreNivel = curso.getCepNivelModalidad().getNomNivMod();
+        
+        if (curso != null) {
+            if (curso.getCepNivelModalidad() != null) {
+                this.nombreNivel = curso.getCepNivelModalidad().getNomNivMod();
+            }
+            if (curso.getCepCecPlan() != null) {
+                this.nombrePlan = curso.getCepCecPlan().getNomPland();
+            }
         }
     }
 }

@@ -45,10 +45,10 @@ import java.util.List;
     @NamedQuery(name = "DrtPersonanatural.findByDireccion", query = "SELECT d FROM DrtPersonanatural d WHERE d.direccion = :direccion"),
     @NamedQuery(name = "DrtPersonanatural.findByIdUbgPro", query = "SELECT d FROM DrtPersonanatural d WHERE d.idUbgPro = :idUbgPro"),
     @NamedQuery(name = "DrtPersonanatural.findByObservacion", query = "SELECT d FROM DrtPersonanatural d WHERE d.observacion = :observacion"),
-    @NamedQuery(name = "DrtPersonanatural.findByIdPndid", query = "SELECT d FROM DrtPersonanatural d WHERE d.idPndid = :idPndid"),
+    @NamedQuery(name = "DrtPersonanatural.findByIdPdid", query = "SELECT d FROM DrtPersonanatural d WHERE d.idPdid = :idPdid"),
     @NamedQuery(name = "DrtPersonanatural.findByNumeroPndid", query = "SELECT d FROM DrtPersonanatural d WHERE d.numeroPndid = :numeroPndid"),
     @NamedQuery(name = "DrtPersonanatural.findByIdPnec", query = "SELECT d FROM DrtPersonanatural d WHERE d.idPnec = :idPnec"),
-    @NamedQuery(name = "DrtPersonanatural.findByIdGrpsgn", query = "SELECT d FROM DrtPersonanatural d WHERE d.idGrpsgn = :idGrpsgn"),
+    @NamedQuery(name = "DrtPersonanatural.findByIdGrpsng", query = "SELECT d FROM DrtPersonanatural d WHERE d.idGrpsng = :idGrpsng"),
     @NamedQuery(name = "DrtPersonanatural.findByNombreCompleto", query = "SELECT d FROM DrtPersonanatural d WHERE d.nombreCompleto = :nombreCompleto"),
     @NamedQuery(name = "DrtPersonanatural.findByIdColegio", query = "SELECT d FROM DrtPersonanatural d WHERE d.idColegio = :idColegio"),
     @NamedQuery(name = "DrtPersonanatural.findByAnioEgresoCole", query = "SELECT d FROM DrtPersonanatural d WHERE d.anioEgresoCole = :anioEgresoCole"),
@@ -69,7 +69,6 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "id_dir")
     private Integer idDir; 
@@ -118,15 +117,15 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @Size(max = 250)
     @Column(name = "observacion")
     private String observacion;
-    @Column(name = "id_pndid")
-    private Integer idPndid;
+    @Column(name = "id_pdid")
+    private Integer idPdid;
     @Size(max = 250)
     @Column(name = "numero_pndid")
     private String numeroPndid;
     @Column(name = "id_pnec")
     private Integer idPnec;
-    @Column(name = "id_grpsgn")
-    private Integer idGrpsgn;
+    @Column(name = "id_grpsng")
+    private Integer idGrpsng;
     @Size(max = 180)
     @Column(name = "nombre_completo")
     private String nombreCompleto;
@@ -305,11 +304,11 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     }
 
     public Integer getIdPndid() {
-        return idPndid;
+        return idPdid;
     }
 
-    public void setIdPndid(Integer idPndid) {
-        this.idPndid = idPndid;
+    public void setIdPndid(Integer idPdid) {
+        this.idPdid = idPdid;
     }
 
     public String getNumeroPndid() {
@@ -328,12 +327,12 @@ public class ejbCcoDrtPersonanatural implements Serializable {
         this.idPnec = idPnec;
     }
 
-    public Integer getIdGrpsgn() {
-        return idGrpsgn;
+    public Integer getIdGrpsng() {
+        return idGrpsng;
     }
 
-    public void setIdGrpsgn(Integer idGrpsgn) {
-        this.idGrpsgn = idGrpsgn;
+    public void setIdGrpsng(Integer idGrpsng) {
+        this.idGrpsng = idGrpsng;
     }
 
     public String getNombreCompleto() {

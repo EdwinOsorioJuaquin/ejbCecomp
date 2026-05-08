@@ -1,5 +1,6 @@
 package ejbCecomp.ejb.negocio;
 
+import ejbCecomp.clases.ejbCcoAlumnoExternoDTO;
 import ejbCecomp.entidades.ejbCcoCcoAlumnoExterno;
 import ejbCecomp.entidades.ejbCcoDrtPersonanatural;
 import jakarta.ejb.Local;
@@ -23,4 +24,10 @@ public interface ejbCcoCcoAlumnoExternoServiceLocal {
     public void actualizarAlumnoExterno(ejbCcoCcoAlumnoExterno alumno);
 
     public void cambiarEstado(Integer idAlumno, short estado);
+    
+    public List<ejbCcoAlumnoExternoDTO> listarAlumnosExternosDTO();
+    
+    public Integer obtenerUltimoIdPersona();
+    
+    public Integer obtenerUltimoIdAlumno();
 }

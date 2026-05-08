@@ -1,6 +1,7 @@
 
 package ejbCecomp.ejb.dao;
 
+import ejbCecomp.clases.ejbCcoAlumnoExternoDTO;
 import ejbCecomp.entidades.*;
 import jakarta.ejb.Local;
 import java.util.List;
@@ -60,4 +61,10 @@ public interface ejbCcoCcoAlumnoExternoDAOLocal extends ejbCcoGenericoDAOLocal<e
      */
 
     public void cambiarEstado(Integer idAlumno, short estado);
+    
+    public List<ejbCcoAlumnoExternoDTO> listarAlumnosExternosDTO();
+    
+     public Integer obtenerUltimoIdPersona();
+     
+     public Integer obtenerUltimoIdAlumno();
 }
