@@ -40,22 +40,22 @@ public class ejbCcoCcoAlumnoExternoDAO extends ejbCcoGenericoDAO<ejbCcoCcoAlumno
             Integer nextId = (Integer) idQuery.getSingleResult();
             persona.setIdDir(nextId);
 
-            // 2. Insertar en drt_directorio (requerido por la relación @OneToOne)
+            // 2. Insertar en drt_directorio
             Query insertDirectorio = em.createNativeQuery(
                 "INSERT INTO drt_directorio (id_dir, id_dclas, psp_cxt, psp_app, psp_uid, dateinsert) " +
                 "VALUES (?, ?, ?, ?, ?, GETDATE())"
             );
             insertDirectorio.setParameter(1, nextId);
-            insertDirectorio.setParameter(2, 1); // ID_CLAS por defecto (verifica cuál es válido)
+            insertDirectorio.setParameter(2, 1);
             insertDirectorio.setParameter(3, (short) 0);
             insertDirectorio.setParameter(4, (short) 0);
             insertDirectorio.setParameter(5, 0);
             insertDirectorio.executeUpdate();
 
-            // 3. Insertar en drt_personanatural
+            // 3. Insertar en drt_personanatural - AGREGANDO numero_pndid
             Query insertQuery = em.createNativeQuery(
-                "INSERT INTO drt_personanatural (id_dir, ap_materno, ap_paterno, nombre, sexo, fecha_nac, direccion, celular_prin, email_prin, nombre_completo, estado_pernat, fecha_ing, update_self, id_ubg_nac, id_ubg_pro, id_colegio, anio_egreso_cole) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                "INSERT INTO drt_personanatural (id_dir, ap_materno, ap_paterno, nombre, sexo, fecha_nac, direccion, celular_prin, email_prin, nombre_completo, estado_pernat, fecha_ing, update_self, id_ubg_nac, id_ubg_pro, id_colegio, anio_egreso_cole, numero_pndid) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
 
             insertQuery.setParameter(1, persona.getIdDir());
@@ -75,6 +75,7 @@ public class ejbCcoCcoAlumnoExternoDAO extends ejbCcoGenericoDAO<ejbCcoCcoAlumno
             insertQuery.setParameter(15, persona.getIdUbgPro());
             insertQuery.setParameter(16, persona.getIdColegio());
             insertQuery.setParameter(17, persona.getAnioEgresoCole());
+            insertQuery.setParameter(18, persona.getNumeroPndid());  // ← DNI aquí
 
             insertQuery.executeUpdate();
 

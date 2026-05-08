@@ -75,4 +75,9 @@ public class ejbCcoCcoAlumnoExternoService implements ejbCcoCcoAlumnoExternoServ
     public Integer obtenerUltimoIdAlumno() {
         return dao.obtenerUltimoIdAlumno();
     }
+    
+    @Override
+    public ejbCcoCcoAlumnoExterno buscarPorId(Integer id) {
+        return dao.buscarPorId(id);
+    }
 }
