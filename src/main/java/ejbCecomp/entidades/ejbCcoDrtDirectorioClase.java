@@ -32,12 +32,6 @@ import java.util.List;
     @NamedQuery(name = "DrtDirectorioClase.findByAbrevia", query = "SELECT d FROM DrtDirectorioClase d WHERE d.abrevia = :abrevia")})
 public class ejbCcoDrtDirectorioClase implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_dclas")
-    private Short idDclas;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
@@ -53,6 +47,13 @@ public class ejbCcoDrtDirectorioClase implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "abrevia")
     private String abrevia;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_dclas")
+    private Short idDclas;
     @OneToMany(mappedBy = "drtDirectorioClase")
     private List<ejbCcoDrtDirectorio> drtDirectorioList;
 
@@ -78,29 +79,6 @@ public class ejbCcoDrtDirectorioClase implements Serializable {
         this.idDclas = idDclas;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getAbrevia() {
-        return abrevia;
-    }
-
-    public void setAbrevia(String abrevia) {
-        this.abrevia = abrevia;
-    }
 
     public List<ejbCcoDrtDirectorio> getDrtDirectorioList() {
         return drtDirectorioList;
@@ -133,6 +111,30 @@ public class ejbCcoDrtDirectorioClase implements Serializable {
     @Override
     public String toString() {
         return "ejbCecomp.entidades.DrtDirectorioClase[ idDclas=" + idDclas + " ]";
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getAbrevia() {
+        return abrevia;
+    }
+
+    public void setAbrevia(String abrevia) {
+        this.abrevia = abrevia;
     }
     
 }

@@ -80,4 +80,10 @@ public class ejbCcoCcoAlumnoExternoService implements ejbCcoCcoAlumnoExternoServ
     public ejbCcoCcoAlumnoExterno buscarPorId(Integer id) {
         return dao.buscarPorId(id);
     }
+    
+    @Override
+    public ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir) {
+        return dao.buscarPorIdDir(idDir);
+    }
+    
 }

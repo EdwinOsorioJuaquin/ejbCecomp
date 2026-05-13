@@ -1,7 +1,7 @@
 package ejbCecomp.ejb.negocio;
 
-import ejbCecomp.ejb.dao.ejbCcoCepCursoDocenteDAOLocal;
-import ejbCecomp.entidades.ejbCcoCepCursoDocente;
+import ejbCecomp.ejb.dao.ejbCcoCepPersonalDAOLocal;
+import ejbCecomp.entidades.ejbCcoCepPersonal;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
@@ -14,65 +14,65 @@ import java.util.logging.Logger;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-public class ejbCcoCepCursoDocenteService implements ejbCcoCepCursoDocenteServiceLocal {
+public class ejbCcoCepPersonalService implements ejbCcoCepPersonalServiceLocal {
 
     @Resource
     private UserTransaction ut;
 
     @Inject
-    private ejbCcoCepCursoDocenteDAOLocal dao;
+    private ejbCcoCepPersonalDAOLocal dao;
 
     @Override
-    public ejbCcoCepCursoDocente crear(ejbCcoCepCursoDocente grupo) {
+    public ejbCcoCepPersonal crear(ejbCcoCepPersonal cepPersonal) {
         try {
             ut.begin();
-            grupo = dao.guardarGrupo(grupo);
+            cepPersonal = dao.guardarCepPersonal(cepPersonal);
             ut.commit();
-            return grupo;
+            return cepPersonal;
         } catch (Exception e) {
             try {
                 ut.rollback();
             } catch (Exception ex) {
-                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ejbCcoCepPersonalService.class.getName()).log(Level.SEVERE, null, ex);
             }
             return null;
         }
     }
 
     @Override
-    public ejbCcoCepCursoDocente actualizar(ejbCcoCepCursoDocente grupo) {
+    public ejbCcoCepPersonal actualizar(ejbCcoCepPersonal cepPersonal) {
         try {
             ut.begin();
-            grupo = dao.actualizarGrupo(grupo);
+            cepPersonal = dao.actualizar(cepPersonal);
             ut.commit();
-            return grupo;
+            return cepPersonal;
         } catch (Exception e) {
             try {
                 ut.rollback();
             } catch (Exception ex) {
-                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ejbCcoCepPersonalService.class.getName()).log(Level.SEVERE, null, ex);
             }
             return null;
         }
     }
 
     @Override
-    public ejbCcoCepCursoDocente buscarPorId(Integer id) {
+    public ejbCcoCepPersonal buscarPorId(Integer id) {
         return dao.buscarPorId(id);
     }
 
     @Override
-    public List<ejbCcoCepCursoDocente> listarTodos() {
+    public List<ejbCcoCepPersonal> listarTodos() {
         return dao.listarTodos();
     }
 
     @Override
-    public List<ejbCcoCepCursoDocente> listarActivos() {
+    public List<ejbCcoCepPersonal> listarActivos() {
         return dao.listarActivos();
     }
     
     @Override
-    public Integer obtenerUltimoIdGrupo() {
-        return dao.obtenerUltimoIdGrupo();
+    public Integer obtenerUltimoIdPersonal() {
+        return dao.obtenerUltimoIdPersonal();
     }
 }

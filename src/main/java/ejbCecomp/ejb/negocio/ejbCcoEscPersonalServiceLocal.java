@@ -8,4 +8,10 @@ import java.util.List;
 public interface ejbCcoEscPersonalServiceLocal {
     List<ejbCcoEscPersonal> listarTodos();
     List<ejbCcoEscPersonal> listarActivos();
+    ejbCcoEscPersonal crear(ejbCcoEscPersonal escPersonal);
+    ejbCcoEscPersonal actualizar(ejbCcoEscPersonal escPersonal);
+    ejbCcoEscPersonal buscarPorId(Integer id);
+    ejbCcoEscPersonal buscarPorIdDir(Integer idDir);
+    Integer obtenerUltimoIdEsc();
+    List<ejbCcoEscPersonal> listarNoDocentesCecomp();
 }

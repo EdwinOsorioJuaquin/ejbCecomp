@@ -64,7 +64,9 @@ public interface ejbCcoCcoAlumnoExternoDAOLocal extends ejbCcoGenericoDAOLocal<e
     
     public List<ejbCcoAlumnoExternoDTO> listarAlumnosExternosDTO();
     
-     public Integer obtenerUltimoIdPersona();
+    public Integer obtenerUltimoIdPersona();
      
-     public Integer obtenerUltimoIdAlumno();
+    public Integer obtenerUltimoIdAlumno();
+     
+    ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir);
 }

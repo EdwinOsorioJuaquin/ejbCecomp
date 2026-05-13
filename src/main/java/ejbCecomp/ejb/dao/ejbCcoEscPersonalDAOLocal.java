@@ -8,4 +8,10 @@ import java.util.List;
 public interface ejbCcoEscPersonalDAOLocal extends ejbCcoGenericoDAOLocal<ejbCcoEscPersonal> {
     List<ejbCcoEscPersonal> listarTodos();
     List<ejbCcoEscPersonal> listarActivos();
+    ejbCcoEscPersonal buscarPorId(Integer id);
+    ejbCcoEscPersonal buscarPorIdDir(Integer idDir);
+    Integer obtenerUltimoIdEsc();
+    List<ejbCcoEscPersonal> listarNoDocentesCecomp();
+    ejbCcoEscPersonal guardarEscPersonal(ejbCcoEscPersonal escPersonal);
+    ejbCcoEscPersonal actualizarEscPersonal(ejbCcoEscPersonal escPersonal);
 }

@@ -209,4 +209,19 @@ public class ejbCcoCcoAlumnoExternoDAO extends ejbCcoGenericoDAO<ejbCcoCcoAlumno
             return 1;
         }
     }
+    
+    @Override
+    public ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir) {
+        try {
+            TypedQuery<ejbCcoCcoAlumnoExterno> query = em.createQuery(
+                "SELECT a FROM CcoAlumnoExterno a WHERE a.drtPersonanatural.idDir = :idDir",
+                ejbCcoCcoAlumnoExterno.class
+            );
+            query.setParameter("idDir", idDir);
+            List<ejbCcoCcoAlumnoExterno> results = query.getResultList();
+            return results.isEmpty() ? null : results.get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -32,4 +32,6 @@ public interface ejbCcoCcoAlumnoExternoServiceLocal {
     public Integer obtenerUltimoIdAlumno();
     
     ejbCcoCcoAlumnoExterno buscarPorId(Integer id);
+    
+    public ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir);
 }

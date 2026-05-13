@@ -14,14 +14,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+/**
+ *
+ * @author Jael
+ */
 @Entity(name="EscPersonal")
 @Table(name = "esc_personal")
 @XmlRootElement
@@ -40,50 +47,39 @@ import java.util.Date;
 public class ejbCcoEscPersonal implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_esc")
     private Integer idEsc;
-    
     @Column(name = "id_estado")
     private Integer idEstado;
-    
     @Column(name = "id_tipo")
     private Integer idTipo;
-    
     @Column(name = "fecha_ing")
     @Temporal(TemporalType.DATE)
     private Date fechaIng;
-    
     @Column(name = "condicion")
     private Integer condicion;
-    
     @Size(max = 25)
     @Column(name = "ruc")
     private String ruc;
-    
     @Size(max = 100)
     @Column(name = "especialidad")
     private String especialidad;
-    
     @Size(max = 20)
     @Column(name = "abrev_esp")
     private String abrevEsp;
-    
     @Column(name = "fecha_cese")
     @Temporal(TemporalType.DATE)
     private Date fechaCese;
-    
     @Size(max = 400)
     @Column(name = "observaciones")
     private String observaciones;
-    
-    // RELACIÓN CON PERSONA NATURAL - AGREGAR ESTO
     @JoinColumn(name = "id_dir", referencedColumnName = "id_dir")
     @ManyToOne
-    private ejbCcoDrtPersonanatural drtPersonanatural;
+    private ejbCcoDrtPersonanatural idDir;
+    @OneToMany(mappedBy = "idEsc")
+    private List<ejbCcoCepPersonal> ejbCcoCepPersonalList;
 
     public ejbCcoEscPersonal() {
     }
@@ -172,13 +168,21 @@ public class ejbCcoEscPersonal implements Serializable {
         this.observaciones = observaciones;
     }
 
-    // GETTER Y SETTER PARA LA RELACIÓN
-    public ejbCcoDrtPersonanatural getDrtPersonanatural() {
-        return drtPersonanatural;
+    public ejbCcoDrtPersonanatural getIdDir() {
+        return idDir;
     }
 
-    public void setDrtPersonanatural(ejbCcoDrtPersonanatural drtPersonanatural) {
-        this.drtPersonanatural = drtPersonanatural;
+    public void setIdDir(ejbCcoDrtPersonanatural idDir) {
+        this.idDir = idDir;
+    }
+
+    @XmlTransient
+    public List<ejbCcoCepPersonal> getEjbCcoCepPersonalList() {
+        return ejbCcoCepPersonalList;
+    }
+
+    public void setEjbCcoCepPersonalList(List<ejbCcoCepPersonal> ejbCcoCepPersonalList) {
+        this.ejbCcoCepPersonalList = ejbCcoCepPersonalList;
     }
 
     @Override
@@ -190,6 +194,7 @@ public class ejbCcoEscPersonal implements Serializable {
 
     @Override
     public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ejbCcoEscPersonal)) {
             return false;
         }
@@ -202,6 +207,7 @@ public class ejbCcoEscPersonal implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.EscPersonal[ idEsc=" + idEsc + " ]";
+        return "ejbCecomp.entidades.ejbCcoEscPersonal[ idEsc=" + idEsc + " ]";
     }
+    
 }
