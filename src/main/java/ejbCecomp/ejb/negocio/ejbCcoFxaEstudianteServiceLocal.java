@@ -3,6 +3,7 @@ package ejbCecomp.ejb.negocio;
 
 import ejbCecomp.entidades.*;
 import jakarta.ejb.Local;
+import java.util.List;
 
 /**
  *
@@ -23,4 +24,6 @@ public interface ejbCcoFxaEstudianteServiceLocal {
      * @return Reporta la nueva clase creada
      */
     ejbCcoFxaEstudiante crear(ejbCcoFxaEstudiante objEstudiante);
+    
+    public List<ejbCcoFxaEstudiante> listarTodosActivos();
 }

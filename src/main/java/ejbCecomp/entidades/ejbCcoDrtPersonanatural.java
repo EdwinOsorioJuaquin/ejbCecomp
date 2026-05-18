@@ -21,6 +21,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -45,10 +46,10 @@ import java.util.List;
     @NamedQuery(name = "DrtPersonanatural.findByDireccion", query = "SELECT d FROM DrtPersonanatural d WHERE d.direccion = :direccion"),
     @NamedQuery(name = "DrtPersonanatural.findByIdUbgPro", query = "SELECT d FROM DrtPersonanatural d WHERE d.idUbgPro = :idUbgPro"),
     @NamedQuery(name = "DrtPersonanatural.findByObservacion", query = "SELECT d FROM DrtPersonanatural d WHERE d.observacion = :observacion"),
-    @NamedQuery(name = "DrtPersonanatural.findByIdPndid", query = "SELECT d FROM DrtPersonanatural d WHERE d.idPndid = :idPndid"),
+    @NamedQuery(name = "DrtPersonanatural.findByIdPdid", query = "SELECT d FROM DrtPersonanatural d WHERE d.idPdid = :idPdid"),
     @NamedQuery(name = "DrtPersonanatural.findByNumeroPndid", query = "SELECT d FROM DrtPersonanatural d WHERE d.numeroPndid = :numeroPndid"),
     @NamedQuery(name = "DrtPersonanatural.findByIdPnec", query = "SELECT d FROM DrtPersonanatural d WHERE d.idPnec = :idPnec"),
-    @NamedQuery(name = "DrtPersonanatural.findByIdGrpsgn", query = "SELECT d FROM DrtPersonanatural d WHERE d.idGrpsgn = :idGrpsgn"),
+    @NamedQuery(name = "DrtPersonanatural.findByIdGrpsng", query = "SELECT d FROM DrtPersonanatural d WHERE d.idGrpsng = :idGrpsng"),
     @NamedQuery(name = "DrtPersonanatural.findByNombreCompleto", query = "SELECT d FROM DrtPersonanatural d WHERE d.nombreCompleto = :nombreCompleto"),
     @NamedQuery(name = "DrtPersonanatural.findByIdColegio", query = "SELECT d FROM DrtPersonanatural d WHERE d.idColegio = :idColegio"),
     @NamedQuery(name = "DrtPersonanatural.findByAnioEgresoCole", query = "SELECT d FROM DrtPersonanatural d WHERE d.anioEgresoCole = :anioEgresoCole"),
@@ -66,19 +67,12 @@ import java.util.List;
     @NamedQuery(name = "DrtPersonanatural.findByDocumentoModifica", query = "SELECT d FROM DrtPersonanatural d WHERE d.documentoModifica = :documentoModifica")})
 public class ejbCcoDrtPersonanatural implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    @Column(name = "id_dir")
-    private Integer idDir; 
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_ubg_nac")
     private int idUbgNac;
     @Basic(optional = false)
-    @NotNull
+    @NotNull()
     @Size(min = 1, max = 50)
     @Column(name = "ap_materno")
     private String apMaterno;
@@ -96,9 +90,6 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @NotNull
     @Column(name = "sexo")
     private Character sexo;
-    @Column(name = "fecha_nac")
-    @Temporal(TemporalType.DATE)
-    private Date fechaNac;
     @Basic(optional = false)
     @NotNull
     @Column(name = "estado_pernat")
@@ -109,7 +100,7 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaIng;
     @Size(max = 200)
-    @Column(name = "direccion")
+    @Column(name="direccion")
     private String direccion;
     @Basic(optional = false)
     @NotNull
@@ -118,28 +109,20 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @Size(max = 250)
     @Column(name = "observacion")
     private String observacion;
-    @Column(name = "id_pndid")
-    private Integer idPndid;
     @Size(max = 250)
     @Column(name = "numero_pndid")
     private String numeroPndid;
-    @Column(name = "id_pnec")
-    private Integer idPnec;
-    @Column(name = "id_grpsgn")
-    private Integer idGrpsgn;
     @Size(max = 180)
     @Column(name = "nombre_completo")
     private String nombreCompleto;
     @Basic(optional = false)
-    @NotNull
+    @NotNull()
     @Column(name = "id_colegio")
     private int idColegio;
     @Basic(optional = false)
     @NotNull
     @Column(name = "anio_egreso_cole")
     private int anioEgresoCole;
-    @Column(name = "update_flow")
-    private Integer updateFlow;
     @Size(max = 250)
     @Column(name = "email_prin")
     private String emailPrin;
@@ -162,6 +145,30 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @Size(max = 50)
     @Column(name = "pswv")
     private String pswv;
+    @Size(max = 150)
+    @Column(name = "documento_modifica")
+    private String documentoModifica;
+    @Column(name = "id_pais")
+    private Integer idPais;
+    @OneToMany(mappedBy = "idDir")
+    private List<ejbCcoEscPersonal> ejbCcoEscPersonalList;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_dir")
+    private Integer idDir;
+    @Column(name = "fecha_nac")
+    @Temporal(TemporalType.DATE)
+    private Date fechaNac;
+    @Column(name = "id_pdid")
+    private Integer idPdid;
+    @Column(name = "id_pnec")
+    private Integer idPnec;
+    @Column(name = "id_grpsng")
+    private Integer idGrpsng;
+    @Column(name = "update_flow")
+    private Integer updateFlow;
     @Column(name = "id_tip_colegio")
     private Integer idTipColegio;
     @Column(name = "id_dir_modifica")
@@ -169,9 +176,6 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @Column(name = "fecha_modifica")
     @Temporal(TemporalType.DATE)
     private Date fechaModifica;
-    @Size(max = 150)
-    @Column(name = "documento_modifica")
-    private String documentoModifica;
     @OneToMany(mappedBy = "drtPersonanatural")
     private List<ejbCcoFxaEstudiante> fxaEstudianteList;
     @OneToMany(mappedBy = "drtPersonanatural")
@@ -179,8 +183,8 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @JoinColumn(name = "id_dir", referencedColumnName = "id_dir", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private ejbCcoDrtDirectorio drtDirectorio;
-    @OneToMany(mappedBy = "drtPersonanatural")
-    private List<ejbCcoCepCcoAluIns> cepCcoAluInsList;
+//    @OneToMany(mappedBy = "drtPersonanatural")
+//    private List<ejbCcoCepCcoAluIns> cepCcoAluInsList;
     @OneToMany(mappedBy = "drtPersonanatural")
     private List<ejbCcoCepPagos> cepPagosList;
     @OneToMany(mappedBy = "drtPersonanatural")
@@ -240,21 +244,6 @@ public class ejbCcoDrtPersonanatural implements Serializable {
         this.apPaterno = apPaterno;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Character getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(Character sexo) {
-        this.sexo = sexo;
-    }
 
     public Date getFechaNac() {
         return fechaNac;
@@ -280,13 +269,6 @@ public class ejbCcoDrtPersonanatural implements Serializable {
         this.fechaIng = fechaIng;
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
 
     public int getIdUbgPro() {
         return idUbgPro;
@@ -296,20 +278,13 @@ public class ejbCcoDrtPersonanatural implements Serializable {
         this.idUbgPro = idUbgPro;
     }
 
-    public String getObservacion() {
-        return observacion;
-    }
-
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
-    }
 
     public Integer getIdPndid() {
-        return idPndid;
+        return idPdid;
     }
 
-    public void setIdPndid(Integer idPndid) {
-        this.idPndid = idPndid;
+    public void setIdPndid(Integer idPdid) {
+        this.idPdid = idPdid;
     }
 
     public String getNumeroPndid() {
@@ -328,12 +303,12 @@ public class ejbCcoDrtPersonanatural implements Serializable {
         this.idPnec = idPnec;
     }
 
-    public Integer getIdGrpsgn() {
-        return idGrpsgn;
+    public Integer getIdGrpsng() {
+        return idGrpsng;
     }
 
-    public void setIdGrpsgn(Integer idGrpsgn) {
-        this.idGrpsgn = idGrpsgn;
+    public void setIdGrpsng(Integer idGrpsng) {
+        this.idGrpsng = idGrpsng;
     }
 
     public String getNombreCompleto() {
@@ -408,21 +383,6 @@ public class ejbCcoDrtPersonanatural implements Serializable {
         this.otroColegio = otroColegio;
     }
 
-    public String getPswa() {
-        return pswa;
-    }
-
-    public void setPswa(String pswa) {
-        this.pswa = pswa;
-    }
-
-    public String getPswv() {
-        return pswv;
-    }
-
-    public void setPswv(String pswv) {
-        this.pswv = pswv;
-    }
 
     public Integer getIdTipColegio() {
         return idTipColegio;
@@ -480,13 +440,13 @@ public class ejbCcoDrtPersonanatural implements Serializable {
         this.drtDirectorio = drtDirectorio;
     }
 
-    public List<ejbCcoCepCcoAluIns> getCepCcoAluInsList() {
-        return cepCcoAluInsList;
-    }
-
-    public void setCepCcoAluInsList(List<ejbCcoCepCcoAluIns> cepCcoAluInsList) {
-        this.cepCcoAluInsList = cepCcoAluInsList;
-    }
+//    public List<ejbCcoCepCcoAluIns> getCepCcoAluInsList() {
+//        return cepCcoAluInsList;
+//    }
+//
+//    public void setCepCcoAluInsList(List<ejbCcoCepCcoAluIns> cepCcoAluInsList) {
+//        this.cepCcoAluInsList = cepCcoAluInsList;
+//    }
 
     public List<ejbCcoCepPagos> getCepPagosList() {
         return cepPagosList;
@@ -527,6 +487,73 @@ public class ejbCcoDrtPersonanatural implements Serializable {
     @Override
     public String toString() {
         return "ejbCecomp.entidades.DrtPersonanatural[ idDir=" + idDir + " ]";
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Character getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Character sexo) {
+        this.sexo = sexo;
+    }
+
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
+    public String getPswa() {
+        return pswa;
+    }
+
+    public void setPswa(String pswa) {
+        this.pswa = pswa;
+    }
+
+    public String getPswv() {
+        return pswv;
+    }
+
+    public void setPswv(String pswv) {
+        this.pswv = pswv;
+    }
+
+    public Integer getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(Integer idPais) {
+        this.idPais = idPais;
+    }
+
+    @XmlTransient
+    public List<ejbCcoEscPersonal> getEjbCcoEscPersonalList() {
+        return ejbCcoEscPersonalList;
+    }
+
+    public void setEjbCcoEscPersonalList(List<ejbCcoEscPersonal> ejbCcoEscPersonalList) {
+        this.ejbCcoEscPersonalList = ejbCcoEscPersonalList;
     }
     
 }

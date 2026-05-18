@@ -11,4 +11,6 @@ public interface ejbCcoFxaEstudianteDAOLocal extends ejbCcoGenericoDAOLocal<ejbC
     
     List<ejbCcoFxaEstudiante> listarPromocion(Integer promocion,int idEscuela);
     
+    public List<ejbCcoFxaEstudiante> listarTodosActivos();
+    
 }

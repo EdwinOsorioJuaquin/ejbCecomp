@@ -9,7 +9,7 @@ import java.util.List;
  * Interfaz de negocio para la gestión de cursos.
  */
 @Local
-public interface ejbCcoCursoServiceLocal {
+public interface ejbCcoCepCursoServiceLocal {
     /**
      * Función para crear un nuevo curso
      * @param curso Objeto con los datos del curso
@@ -43,5 +43,11 @@ public interface ejbCcoCursoServiceLocal {
      * @return Lista de cursos encontrados
      */
     List<ejbCcoCepCurso> buscarPorNombre(String nombre);
+    
+    /**
+     * Función para listar todos los cursos activos
+     * @return Lista de cursos activos
+     */
+    List<ejbCcoCepCurso> listarActivos();
 
 }

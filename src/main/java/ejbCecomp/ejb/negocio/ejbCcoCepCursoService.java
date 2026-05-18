@@ -1,36 +1,35 @@
 
 package ejbCecomp.ejb.negocio;
 
-import ejbCecomp.entidades.ejbCcoCepCecCert;
+import ejbCecomp.ejb.dao.ejbCcoCursoDAOLocal;
+import ejbCecomp.entidades.ejbCcoCepCurso;
+import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
-import java.util.List;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
-import jakarta.transaction.*;
 import jakarta.inject.Inject;
-import jakarta.annotation.Resource;
-import ejbCecomp.ejb.dao.ejbCcoCepCecCertDAOLocal;
-
+import jakarta.transaction.UserTransaction;
+import java.util.List;
 
 /**
- * Servicio de negocio para la gestión de certificados.
+ * Servicio de negocio para la gestión de cursos.
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
+public class ejbCcoCepCursoService implements ejbCcoCepCursoServiceLocal {
     @Resource
     UserTransaction ut;
 
     @Inject
-    ejbCcoCepCecCertDAOLocal dao;
+    ejbCcoCursoDAOLocal dao;
 
     @Override
-    public ejbCcoCepCecCert crear(ejbCcoCepCecCert cert) {
+    public ejbCcoCepCurso crear(ejbCcoCepCurso curso) {
         try {
             ut.begin();
-            cert = dao.crear(cert);
+            curso = dao.crear(curso);
             ut.commit();
-            return cert;
+            return curso;
         } catch (Exception e) {
             rollback();
         }
@@ -38,12 +37,12 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
     }
 
     @Override
-    public ejbCcoCepCecCert actualizar(ejbCcoCepCecCert cert) {
+    public ejbCcoCepCurso actualizar(ejbCcoCepCurso curso) {
         try {
             ut.begin();
-            cert = dao.actualizar(cert);
+            curso = dao.actualizar(curso);
             ut.commit();
-            return cert;
+            return curso;
         } catch (Exception e) {
             rollback();
         }
@@ -51,18 +50,18 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
     }
 
     @Override
-    public ejbCcoCepCecCert buscarPorId(Integer id) {
+    public ejbCcoCepCurso buscarPorId(Integer id) {
         return dao.buscarPorId(id);
     }
 
     @Override
-    public List<ejbCcoCepCecCert> listarTodos() {
+    public List<ejbCcoCepCurso> listarTodos() {
         return dao.listarTodos();
     }
 
     @Override
-    public List<ejbCcoCepCecCert> listarPorAlumno(Integer idAlumno) {
-        return dao.listarPorAlumno(idAlumno);
+    public List<ejbCcoCepCurso> buscarPorNombre(String nombre) {
+        return dao.buscarPorNombre(nombre);
     }
 
     /**
@@ -75,4 +74,10 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
             ex.printStackTrace();
         }
     }
+
+    @Override
+    public List<ejbCcoCepCurso> listarActivos() {
+            return dao.listarActivos();
+    }
+    
 }
