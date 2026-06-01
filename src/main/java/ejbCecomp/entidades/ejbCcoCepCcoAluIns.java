@@ -57,8 +57,8 @@ public class ejbCcoCepCcoAluIns implements Serializable {
     @Column(name = "historial_fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date historialFecha;
-    @OneToMany(mappedBy = "cepCcoAluIns")
-    private List<ejbCcoCepCecCert> cepCecCertList;
+//    @OneToMany(mappedBy = "cepCcoAluIns")
+//    private List<ejbCcoCepCecCert> cepCecCertList;
     @JoinColumn(name = "id_ad", referencedColumnName = "id_ad")
     @ManyToOne
     private ejbCcoCepCursoDocente cepCursoDocente;
@@ -119,13 +119,6 @@ public class ejbCcoCepCcoAluIns implements Serializable {
         this.historialFecha = historialFecha;
     }
 
-    public List<ejbCcoCepCecCert> getCepCecCertList() {
-        return cepCecCertList;
-    }
-
-    public void setCepCecCertList(List<ejbCcoCepCecCert> cepCecCertList) {
-        this.cepCecCertList = cepCecCertList;
-    }
 
     public ejbCcoCepCursoDocente getCepCursoDocente() {
         return cepCursoDocente;

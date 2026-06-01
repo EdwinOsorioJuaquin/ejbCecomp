@@ -7,6 +7,7 @@ package ejbCecomp.entidades;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -41,12 +42,13 @@ import java.io.Serializable;
     @NamedQuery(name = "CepCecHistorico.findByNombreCompletoDoc", query = "SELECT c FROM CepCecHistorico c WHERE c.nombreCompletoDoc = :nombreCompletoDoc")})
 public class ejbCcoCepCecHistorico implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_historico")
     private Integer idHistorico;
+    @Column(name = "id_cert")
+    private Integer idCert;
     @Column(name = "id_dir")
     private Integer idDir;
     @Size(max = 50)
@@ -78,9 +80,6 @@ public class ejbCcoCepCecHistorico implements Serializable {
     @Size(max = 100)
     @Column(name = "nombre_completo_doc")
     private String nombreCompletoDoc;
-    @JoinColumn(name = "id_cert", referencedColumnName = "id_cert")
-    @ManyToOne
-    private ejbCcoCepCecCert cepCecCert;
 
     public ejbCcoCepCecHistorico() {
     }
@@ -95,6 +94,14 @@ public class ejbCcoCepCecHistorico implements Serializable {
 
     public void setIdHistorico(Integer idHistorico) {
         this.idHistorico = idHistorico;
+    }
+
+    public Integer getIdCert() {
+        return idCert;
+    }
+
+    public void setIdCert(Integer idCert) {
+        this.idCert = idCert;
     }
 
     public Integer getIdDir() {
@@ -201,14 +208,6 @@ public class ejbCcoCepCecHistorico implements Serializable {
         this.nombreCompletoDoc = nombreCompletoDoc;
     }
 
-    public ejbCcoCepCecCert getCepCecCert() {
-        return cepCecCert;
-    }
-
-    public void setCepCecCert(ejbCcoCepCecCert cepCecCert) {
-        this.cepCecCert = cepCecCert;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -231,7 +230,8 @@ public class ejbCcoCepCecHistorico implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.CepCecHistorico[ idHistorico=" + idHistorico + " ]";
+        return "ejbCecomp.entidades.ejbCcoCepCecHistorico[ idHistorico=" + idHistorico + " ]";
     }
+
     
 }

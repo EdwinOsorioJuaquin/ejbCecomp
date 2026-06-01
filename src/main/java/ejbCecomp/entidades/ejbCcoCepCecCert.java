@@ -5,19 +5,23 @@
 package ejbCecomp.entidades;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -35,12 +39,15 @@ import java.util.List;
     @NamedQuery(name = "CepCecCert.findByResol", query = "SELECT c FROM CepCecCert c WHERE c.resol = :resol")})
 public class ejbCcoCepCecCert implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_cert")
     private Integer idCert;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_matri_alum")
+    private int idMatriAlum;
     @Column(name = "fecha_cert")
     @Temporal(TemporalType.DATE)
     private Date fechaCert;
@@ -48,13 +55,17 @@ public class ejbCcoCepCecCert implements Serializable {
     private Boolean estadoCert;
     @Column(name = "resol")
     private Integer resol;
-    @JoinColumn(name = "id_matri_alum", referencedColumnName = "id_matri_alu")
-    @ManyToOne(optional = false)
-    private ejbCcoCepCcoAluIns cepCcoAluIns;
-    @OneToMany(mappedBy = "cepCecCert")
-    private List<ejbCcoCepCecHistorico> cepCecHistoricoList;
-    @OneToMany(mappedBy = "cepCecCert")
-    private List<ejbCcoCepPagos> cepPagosList;
+    
+    @OneToMany(mappedBy = "idCertificado")
+    private Collection<ejbCcoCcoCertificadoQr> ejbCcoCcoCertificadoQrCollection;
+
+    public Collection<ejbCcoCcoCertificadoQr> getEjbCcoCcoCertificadoQrCollection() {
+        return ejbCcoCcoCertificadoQrCollection;
+    }
+
+    public void setEjbCcoCcoCertificadoQrCollection(Collection<ejbCcoCcoCertificadoQr> ejbCcoCcoCertificadoQrCollection) {
+        this.ejbCcoCcoCertificadoQrCollection = ejbCcoCcoCertificadoQrCollection;
+    }
 
     public ejbCcoCepCecCert() {
     }
@@ -63,12 +74,25 @@ public class ejbCcoCepCecCert implements Serializable {
         this.idCert = idCert;
     }
 
+    public ejbCcoCepCecCert(Integer idCert, int idMatriAlum) {
+        this.idCert = idCert;
+        this.idMatriAlum = idMatriAlum;
+    }
+
     public Integer getIdCert() {
         return idCert;
     }
 
     public void setIdCert(Integer idCert) {
         this.idCert = idCert;
+    }
+
+    public int getIdMatriAlum() {
+        return idMatriAlum;
+    }
+
+    public void setIdMatriAlum(int idMatriAlum) {
+        this.idMatriAlum = idMatriAlum;
     }
 
     public Date getFechaCert() {
@@ -95,30 +119,6 @@ public class ejbCcoCepCecCert implements Serializable {
         this.resol = resol;
     }
 
-    public ejbCcoCepCcoAluIns getCepCcoAluIns() {
-        return cepCcoAluIns;
-    }
-
-    public void setCepCcoAluIns(ejbCcoCepCcoAluIns cepCcoAluIns) {
-        this.cepCcoAluIns = cepCcoAluIns;
-    }
-
-    public List<ejbCcoCepCecHistorico> getCepCecHistoricoList() {
-        return cepCecHistoricoList;
-    }
-
-    public void setCepCecHistoricoList(List<ejbCcoCepCecHistorico> cepCecHistoricoList) {
-        this.cepCecHistoricoList = cepCecHistoricoList;
-    }
-
-    public List<ejbCcoCepPagos> getCepPagosList() {
-        return cepPagosList;
-    }
-
-    public void setCepPagosList(List<ejbCcoCepPagos> cepPagosList) {
-        this.cepPagosList = cepPagosList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -141,7 +141,8 @@ public class ejbCcoCepCecCert implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.CepCecCert[ idCert=" + idCert + " ]";
+        return "ejbCecomp.entidades.ejbCcoCepCecCert[ idCert=" + idCert + " ]";
     }
+
     
 }
