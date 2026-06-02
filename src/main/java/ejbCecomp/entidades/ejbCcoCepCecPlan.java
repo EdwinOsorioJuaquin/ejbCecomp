@@ -5,35 +5,35 @@
 package ejbCecomp.entidades;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author Jael
  */
-@Entity(name="CepCecPlan")
+@Entity(name = "CepCecPlan")
 @Table(name = "cep_cec_plan")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCecPlan.findAll", query = "SELECT c FROM CepCecPlan c"),
     @NamedQuery(name = "CepCecPlan.findByIdPland", query = "SELECT c FROM CepCecPlan c WHERE c.idPland = :idPland"),
     @NamedQuery(name = "CepCecPlan.findByNomPland", query = "SELECT c FROM CepCecPlan c WHERE c.nomPland = :nomPland"),
     @NamedQuery(name = "CepCecPlan.findByEstadoPland", query = "SELECT c FROM CepCecPlan c WHERE c.estadoPland = :estadoPland"),
     @NamedQuery(name = "CepCecPlan.findByFechaRegis", query = "SELECT c FROM CepCecPlan c WHERE c.fechaRegis = :fechaRegis"),
-    @NamedQuery(name = "CepCecPlan.findByDesPland", query = "SELECT c FROM CepCecPlan c WHERE c.desPland = :desPland")
-})
+    @NamedQuery(name = "CepCecPlan.findByDesPland", query = "SELECT c FROM CepCecPlan c WHERE c.desPland = :desPland")})
 public class ejbCcoCepCecPlan implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +53,10 @@ public class ejbCcoCepCecPlan implements Serializable {
     @Size(max = 100)
     @Column(name = "des_pland")
     private String desPland;
+    @OneToMany(mappedBy = "cepCecPlan")
+    private List<ejbCcoCepCurso> cepCursoList;
+    @OneToMany(mappedBy = "cepCecPlan")
+    private List<ejbCcoCepCecSesion> cepCecSesionList;
 
     public ejbCcoCepCecPlan() {
     }
@@ -101,6 +105,22 @@ public class ejbCcoCepCecPlan implements Serializable {
         this.desPland = desPland;
     }
 
+    public List<ejbCcoCepCurso> getCepCursoList() {
+        return cepCursoList;
+    }
+
+    public void setCepCursoList(List<ejbCcoCepCurso> cepCursoList) {
+        this.cepCursoList = cepCursoList;
+    }
+
+    public List<ejbCcoCepCecSesion> getCepCecSesionList() {
+        return cepCecSesionList;
+    }
+
+    public void setCepCecSesionList(List<ejbCcoCepCecSesion> cepCecSesionList) {
+        this.cepCecSesionList = cepCecSesionList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -123,7 +143,7 @@ public class ejbCcoCepCecPlan implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.ejbCcoCepCecPlan[ idPland=" + idPland + " ]";
+        return "ejbCecomp.entidades.CepCecPlan[ idPland=" + idPland + " ]";
     }
     
 }

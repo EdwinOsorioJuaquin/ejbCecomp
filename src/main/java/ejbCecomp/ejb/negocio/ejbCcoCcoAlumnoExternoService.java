@@ -5,7 +5,6 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import ejbCecomp.ejb.dao.ejbCcoCcoAlumnoExternoDAOLocal;
 import ejbCecomp.entidades.ejbCcoDrtPersonanatural;
-import ejbCecomp.clases.ejbCcoAlumnoExternoDTO;
 import java.util.List;
 
 @Stateless
@@ -18,11 +17,15 @@ public class ejbCcoCcoAlumnoExternoService implements ejbCcoCcoAlumnoExternoServ
     public int autentificar(String correo, String clave) {
         try {
             ejbCcoCcoAlumnoExterno alumno = dao.buscarPorCorreo(correo);
+
             if (alumno == null) return 1;
+
             if (!alumno.getPassword().equals(clave)) return 2;
+
         } catch (Exception e) {
             return 3;
         }
+
         return 0;
     }
 
@@ -37,12 +40,7 @@ public class ejbCcoCcoAlumnoExternoService implements ejbCcoCcoAlumnoExternoServ
     }
 
     @Override
-    public List<ejbCcoAlumnoExternoDTO> listarAlumnosExternosDTO() {
-        return dao.listarAlumnosExternosDTO();
-    }
-
-    @Override
-    public ejbCcoDrtPersonanatural guardarPersona(ejbCcoDrtPersonanatural persona) {
+    public ejbCcoDrtPersonanatural  guardarPersona(ejbCcoDrtPersonanatural persona) {
         return dao.guardarPersona(persona);
     }
 
@@ -65,25 +63,4 @@ public class ejbCcoCcoAlumnoExternoService implements ejbCcoCcoAlumnoExternoServ
     public void cambiarEstado(Integer idAlumno, short estado) {
         dao.cambiarEstado(idAlumno, estado);
     }
-    
-    @Override
-    public Integer obtenerUltimoIdPersona() {
-        return dao.obtenerUltimoIdPersona();
-    }
-    
-    @Override
-    public Integer obtenerUltimoIdAlumno() {
-        return dao.obtenerUltimoIdAlumno();
-    }
-    
-    @Override
-    public ejbCcoCcoAlumnoExterno buscarPorId(Integer id) {
-        return dao.buscarPorId(id);
-    }
-    
-    @Override
-    public ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir) {
-        return dao.buscarPorIdDir(idDir);
-    }
-    
 }

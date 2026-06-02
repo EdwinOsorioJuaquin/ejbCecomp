@@ -5,35 +5,36 @@
 package ejbCecomp.entidades;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author Jael
  */
-@Entity(name="CepPersonal")
+@Entity(name = "CepPersonal")
 @Table(name = "cep_personal")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CepPersonal.findAll", query = "SELECT e FROM CepPersonal e"),
-    @NamedQuery(name = "CepPersonal.findByIdPersonal", query = "SELECT e FROM CepPersonal e WHERE e.idPersonal = :idPersonal"),
-    @NamedQuery(name = "CepPersonal.findByFechaIng", query = "SELECT e FROM CepPersonal e WHERE e.fechaIng = :fechaIng"),
-    @NamedQuery(name = "CepPersonal.findByFechaFin", query = "SELECT e FROM CepPersonal e WHERE e.fechaFin = :fechaFin"),
-    @NamedQuery(name = "CepPersonal.findByIdDep", query = "SELECT e FROM CepPersonal e WHERE e.idDep = :idDep"),
-    @NamedQuery(name = "CepPersonal.findByBandera", query = "SELECT e FROM CepPersonal e WHERE e.bandera = :bandera")})
+    @NamedQuery(name = "CepPersonal.findAll", query = "SELECT c FROM CepPersonal c"),
+    @NamedQuery(name = "CepPersonal.findByIdPersonal", query = "SELECT c FROM CepPersonal c WHERE c.idPersonal = :idPersonal"),
+    @NamedQuery(name = "CepPersonal.findByFechaIng", query = "SELECT c FROM CepPersonal c WHERE c.fechaIng = :fechaIng"),
+    @NamedQuery(name = "CepPersonal.findByFechaFin", query = "SELECT c FROM CepPersonal c WHERE c.fechaFin = :fechaFin"),
+    @NamedQuery(name = "CepPersonal.findByTipo", query = "SELECT c FROM CepPersonal c WHERE c.tipo = :tipo"),
+    @NamedQuery(name = "CepPersonal.findByIdEsc", query = "SELECT c FROM CepPersonal c WHERE c.idEsc = :idEsc"),
+    @NamedQuery(name = "CepPersonal.findByIdDep", query = "SELECT c FROM CepPersonal c WHERE c.idDep = :idDep"),
+    @NamedQuery(name = "CepPersonal.findByBandera", query = "SELECT c FROM CepPersonal c WHERE c.bandera = :bandera")})
 public class ejbCcoCepPersonal implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,16 +49,20 @@ public class ejbCcoCepPersonal implements Serializable {
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
+    @Column(name = "tipo")
+    private Character tipo;
+    @Column(name = "id_esc")
+    private Integer idEsc;
     @Column(name = "id_dep")
     private Integer idDep;
     @Column(name = "bandera")
     private Boolean bandera;
-    @JoinColumn(name = "id_tipo_cecomp", referencedColumnName = "id_tipo_cecomp")
-    @ManyToOne(optional = false)
-    private ejbCcoCepTipoPersonal idTipoCecomp;
-    @JoinColumn(name = "id_esc", referencedColumnName = "id_esc")
-    @ManyToOne
-    private ejbCcoEscPersonal idEsc;
+    @OneToMany(mappedBy = "cepPersonal")
+    private List<ejbCcoCepCursoDocente> cepCursoDocenteList;
+    @OneToMany(mappedBy = "cepPersonal")
+    private List<ejbCcoCepAulaCursoDocente> cepAulaCursoDocenteList;
+    @OneToMany(mappedBy = "cepPersonal")
+    private List<ejbCcoCepDocenteAsistencia> cepDocenteAsistenciaList;
 
     public ejbCcoCepPersonal() {
     }
@@ -90,6 +95,22 @@ public class ejbCcoCepPersonal implements Serializable {
         this.fechaFin = fechaFin;
     }
 
+    public Character getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Character tipo) {
+        this.tipo = tipo;
+    }
+
+    public Integer getIdEsc() {
+        return idEsc;
+    }
+
+    public void setIdEsc(Integer idEsc) {
+        this.idEsc = idEsc;
+    }
+
     public Integer getIdDep() {
         return idDep;
     }
@@ -106,20 +127,28 @@ public class ejbCcoCepPersonal implements Serializable {
         this.bandera = bandera;
     }
 
-    public ejbCcoCepTipoPersonal getIdTipoCecomp() {
-        return idTipoCecomp;
+    public List<ejbCcoCepCursoDocente> getCepCursoDocenteList() {
+        return cepCursoDocenteList;
     }
 
-    public void setIdTipoCecomp(ejbCcoCepTipoPersonal idTipoCecomp) {
-        this.idTipoCecomp = idTipoCecomp;
+    public void setCepCursoDocenteList(List<ejbCcoCepCursoDocente> cepCursoDocenteList) {
+        this.cepCursoDocenteList = cepCursoDocenteList;
     }
 
-    public ejbCcoEscPersonal getIdEsc() {
-        return idEsc;
+    public List<ejbCcoCepAulaCursoDocente> getCepAulaCursoDocenteList() {
+        return cepAulaCursoDocenteList;
     }
 
-    public void setIdEsc(ejbCcoEscPersonal idEsc) {
-        this.idEsc = idEsc;
+    public void setCepAulaCursoDocenteList(List<ejbCcoCepAulaCursoDocente> cepAulaCursoDocenteList) {
+        this.cepAulaCursoDocenteList = cepAulaCursoDocenteList;
+    }
+
+    public List<ejbCcoCepDocenteAsistencia> getCepDocenteAsistenciaList() {
+        return cepDocenteAsistenciaList;
+    }
+
+    public void setCepDocenteAsistenciaList(List<ejbCcoCepDocenteAsistencia> cepDocenteAsistenciaList) {
+        this.cepDocenteAsistenciaList = cepDocenteAsistenciaList;
     }
 
     @Override
@@ -144,7 +173,7 @@ public class ejbCcoCepPersonal implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.ejbCcoCepPersonal[ idPersonal=" + idPersonal + " ]";
+        return "ejbCecomp.entidades.CepPersonal[ idPersonal=" + idPersonal + " ]";
     }
     
 }

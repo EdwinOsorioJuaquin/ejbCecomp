@@ -3,7 +3,7 @@
   <!-- Define Persistence Unit -->
   <persistence-unit name="ejbCecompPU" transaction-type="JTA">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-    <jta-data-source>java:/comp/env/siigaa</jta-data-source>
+    <jta-data-source>java:/datasources/CECOMPDS</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.SybaseDialect"/>

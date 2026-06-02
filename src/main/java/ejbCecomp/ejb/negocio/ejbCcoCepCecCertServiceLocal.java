@@ -1,23 +1,46 @@
+
 package ejbCecomp.ejb.negocio;
 
-import ejbCecomp.clases.ejbCcoCertificadoDTO;
 import ejbCecomp.entidades.ejbCcoCepCecCert;
 import jakarta.ejb.Local;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Servicio de negocio para certificados.
+ */
 @Local
 public interface ejbCcoCepCecCertServiceLocal {
-    ejbCcoCepCecCert crear(ejbCcoCepCecCert certificado);
-    ejbCcoCepCecCert actualizar(ejbCcoCepCecCert certificado);
+    /**
+     * Función para crear un certificado
+     * @param cert Datos del certificado
+     * @return Certificado creado
+     */
+    ejbCcoCepCecCert crear(ejbCcoCepCecCert cert);
+
+    /**
+     * Función para actualizar un certificado
+     * @param cert Datos actualizados
+     * @return Certificado actualizado
+     */
+    ejbCcoCepCecCert actualizar(ejbCcoCepCecCert cert);
+
+    /**
+     * Función para buscar por ID
+     * @param id Identificador del certificado
+     * @return Certificado encontrado o null
+     */
     ejbCcoCepCecCert buscarPorId(Integer id);
+
+    /**
+     * Función para listar todos los certificados
+     * @return Lista de certificados
+     */
     List<ejbCcoCepCecCert> listarTodos();
-    List<ejbCcoCertificadoDTO> listarCertificadosDTO();
-    ejbCcoCepCecCert buscarPorMatricula(Integer idMtaAlu);
-    boolean puedeCertificar(Integer idMtaAlu, Integer notaFinal);
-    boolean yaTieneCertificado(Integer idMtaAlu);
-    ejbCcoCepCecCert generarCertificado(Integer idMtaAlu, Integer resol, Date fechaCert);
-    Integer obtenerUltimoIdCert();
-    Map<String, Object> obtenerDatosCertificado(Integer idCert);
+
+    /**
+     * Función para listar certificados por alumno
+     * @param idAlumno Identificador del alumno
+     * @return Lista de certificados
+     */
+    List<ejbCcoCepCecCert> listarPorAlumno(Integer idAlumno);
 }

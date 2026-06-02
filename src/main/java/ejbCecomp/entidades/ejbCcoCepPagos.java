@@ -69,9 +69,9 @@ public class ejbCcoCepPagos implements Serializable {
     @JoinColumn(name = "id_mta_alu", referencedColumnName = "id_mta_alu")
     @ManyToOne
     private ejbCcoCepCcoMatriculaCab cepCcoMatriculaCab;
-//    @JoinColumn(name = "id_cert", referencedColumnName = "id_cert")
-//    @ManyToOne
-//    private ejbCcoCepCecCert cepCecCert;
+    @JoinColumn(name = "id_cert", referencedColumnName = "id_cert")
+    @ManyToOne
+    private ejbCcoCepCecCert cepCecCert;
     @JoinColumn(name = "id_dir", referencedColumnName = "id_dir")
     @ManyToOne(optional = false)
     private ejbCcoDrtPersonanatural drtPersonanatural;
@@ -171,13 +171,13 @@ public class ejbCcoCepPagos implements Serializable {
         this.cepCcoMatriculaCab = cepCcoMatriculaCab;
     }
 
-//    public ejbCcoCepCecCert getCepCecCert() {
-//        return cepCecCert;
-//    }
-//
-//    public void setCepCecCert(ejbCcoCepCecCert cepCecCert) {
-//        this.cepCecCert = cepCecCert;
-//    }
+    public ejbCcoCepCecCert getCepCecCert() {
+        return cepCecCert;
+    }
+
+    public void setCepCecCert(ejbCcoCepCecCert cepCecCert) {
+        this.cepCecCert = cepCecCert;
+    }
 
     public ejbCcoDrtPersonanatural getDrtPersonanatural() {
         return drtPersonanatural;

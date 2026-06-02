@@ -37,43 +37,42 @@ public class ejbCcoCepNivelModalidad implements Serializable {
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "id_niv_mod")
-    private Integer idNivMod;
-    @Size(max = 100)
+    private String idNivMod;
     @Column(name = "nom_niv_mod")
-    private String nomNivMod;
+    private Character nomNivMod;
     @Column(name = "habilitado")
-    private Boolean habilitado;
+    private Character habilitado;
     @OneToMany(mappedBy = "cepNivelModalidad")
     private List<ejbCcoCepCurso> cepCursoList;
 
     public ejbCcoCepNivelModalidad() {
     }
 
-    public ejbCcoCepNivelModalidad(Integer idNivMod) {
+    public ejbCcoCepNivelModalidad(String idNivMod) {
         this.idNivMod = idNivMod;
     }
 
-    public Integer getIdNivMod() {
+    public String getIdNivMod() {
         return idNivMod;
     }
 
-    public void setIdNivMod(Integer idNivMod) {
+    public void setIdNivMod(String idNivMod) {
         this.idNivMod = idNivMod;
     }
 
-    public String getNomNivMod() {
+    public Character getNomNivMod() {
         return nomNivMod;
     }
 
-    public void setNomNivMod(String nomNivMod) {
+    public void setNomNivMod(Character nomNivMod) {
         this.nomNivMod = nomNivMod;
     }
 
-    public Boolean getHabilitado() {
+    public Character getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Boolean habilitado) {
+    public void setHabilitado(Character habilitado) {
         this.habilitado = habilitado;
     }
 
