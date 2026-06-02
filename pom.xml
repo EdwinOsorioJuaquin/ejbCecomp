@@ -9,7 +9,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jakartaee>11.0.0-M1</jakartaee>
+            <jakartaee>10.0.0</jakartaee>
     </properties>
     
     <dependencies>
@@ -32,12 +32,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ancientlightstudios</groupId>
-            <artifactId>quarkus-kotlin-openapi-maven-plugin</artifactId>
-            <version>0.6.1</version>
-            <type>maven-plugin</type>
         </dependency>
     </dependencies>
     
