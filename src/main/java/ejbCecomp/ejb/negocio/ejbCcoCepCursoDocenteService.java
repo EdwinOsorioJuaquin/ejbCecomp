@@ -7,53 +7,53 @@ import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.UserTransaction;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+/**
+ * Servicio de negocio para grupos (curso docente).
+ */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-public class ejbCcoCepCursoDocenteService implements ejbCcoCepCursoDocenteServiceLocal {
+public class ejbCcoCepCursoDocenteService 
+        implements ejbCcoCepCursoDocenteServiceLocal {
 
     @Resource
-    private UserTransaction ut;
+    UserTransaction ut;
 
     @Inject
-    private ejbCcoCepCursoDocenteDAOLocal dao;
+    ejbCcoCepCursoDocenteDAOLocal dao;
+
+    @PersistenceContext(unitName = "ejbCecompPU")
+    private EntityManager em;
 
     @Override
     public ejbCcoCepCursoDocente crear(ejbCcoCepCursoDocente grupo) {
         try {
             ut.begin();
-            grupo = dao.guardarGrupo(grupo);
+            grupo = dao.crear(grupo);
             ut.commit();
             return grupo;
         } catch (Exception e) {
-            try {
-                ut.rollback();
-            } catch (Exception ex) {
-                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
+            rollback();
         }
+        return null;
     }
 
     @Override
     public ejbCcoCepCursoDocente actualizar(ejbCcoCepCursoDocente grupo) {
         try {
             ut.begin();
-            grupo = dao.actualizarGrupo(grupo);
+            grupo = dao.actualizar(grupo);
             ut.commit();
             return grupo;
         } catch (Exception e) {
-            try {
-                ut.rollback();
-            } catch (Exception ex) {
-                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
+            rollback();
         }
+        return null;
     }
 
     @Override
@@ -67,12 +67,50 @@ public class ejbCcoCepCursoDocenteService implements ejbCcoCepCursoDocenteServic
     }
 
     @Override
-    public List<ejbCcoCepCursoDocente> listarActivos() {
-        return dao.listarActivos();
+    public List<ejbCcoCepCursoDocente> listarPorCurso(Integer idCurso) {
+        return dao.listarPorCurso(idCurso);
     }
-    
+
+    /**
+     * Cuenta la cantidad de preregistros en un grupo
+     */
     @Override
-    public Integer obtenerUltimoIdGrupo() {
-        return dao.obtenerUltimoIdGrupo();
+    public Long contarPreregistros(Integer idGrupo) {
+
+        TypedQuery<Long> q = em.createQuery(
+            "SELECT COUNT(a) FROM CepCcoAluIns a WHERE a.idAd.idAd = :idGrupo",
+            Long.class
+        );
+
+        q.setParameter("idGrupo", idGrupo);
+
+        return q.getSingleResult();
+    }
+
+    /**
+     * Lista los alumnos matriculados en un grupo
+     */
+    @Override
+    public List<Object> listarMatriculados(Integer idGrupo) {
+
+        TypedQuery<Object> q = em.createQuery(
+            "SELECT m FROM CepCcoMatriculaCab m WHERE m.idAd.idAd = :idGrupo",
+            Object.class
+        );
+
+        q.setParameter("idGrupo", idGrupo);
+
+        return q.getResultList();
+    }
+
+    /**
+     * Manejo de rollback
+     */
+    private void rollback() {
+        try {
+            ut.rollback();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

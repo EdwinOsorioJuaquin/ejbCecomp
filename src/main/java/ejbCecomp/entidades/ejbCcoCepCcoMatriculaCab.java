@@ -16,7 +16,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,9 +30,6 @@ import java.util.List;
     @NamedQuery(name = "CepCcoMatriculaCab.findByIdMtaAlu", query = "SELECT c FROM CepCcoMatriculaCab c WHERE c.idMtaAlu = :idMtaAlu"),
     @NamedQuery(name = "CepCcoMatriculaCab.findByNotaFinal", query = "SELECT c FROM CepCcoMatriculaCab c WHERE c.notaFinal = :notaFinal")})
 public class ejbCcoCepCcoMatriculaCab implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMtaAlu")
-    private List<ejbCcoCepCecCert> cepCecCertList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -132,15 +128,6 @@ public class ejbCcoCepCcoMatriculaCab implements Serializable {
     @Override
     public String toString() {
         return "ejbCecomp.entidades.CepCcoMatriculaCab[ idMtaAlu=" + idMtaAlu + " ]";
-    }
-
-    @XmlTransient
-    public List<ejbCcoCepCecCert> getCepCecCertList() {
-        return cepCecCertList;
-    }
-
-    public void setCepCecCertList(List<ejbCcoCepCecCert> cepCecCertList) {
-        this.cepCecCertList = cepCecCertList;
     }
     
 }

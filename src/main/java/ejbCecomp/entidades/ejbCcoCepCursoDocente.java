@@ -72,8 +72,8 @@ public class ejbCcoCepCursoDocente implements Serializable {
     private ejbCcoCepPersonal cepPersonal;
     @OneToMany(mappedBy = "cepCursoDocente")
     private List<ejbCcoCepHorarioDia> cepHorarioDiaList;
-//    @OneToMany(mappedBy = "cepCursoDocente")
-//    private List<ejbCcoCepCcoAluIns> cepCcoAluInsList;
+    @OneToMany(mappedBy = "cepCursoDocente")
+    private List<ejbCcoCepCcoAluIns> cepCcoAluInsList;
     @OneToMany(mappedBy = "cepCursoDocente")
     private List<ejbCcoCepCcoMatriculaCab> cepCcoMatriculaCabList;
 
@@ -180,13 +180,13 @@ public class ejbCcoCepCursoDocente implements Serializable {
         this.cepHorarioDiaList = cepHorarioDiaList;
     }
 
-//    public List<ejbCcoCepCcoAluIns> getCepCcoAluInsList() {
-//        return cepCcoAluInsList;
-//    }
-//
-//    public void setCepCcoAluInsList(List<ejbCcoCepCcoAluIns> cepCcoAluInsList) {
-//        this.cepCcoAluInsList = cepCcoAluInsList;
-//    }
+    public List<ejbCcoCepCcoAluIns> getCepCcoAluInsList() {
+        return cepCcoAluInsList;
+    }
+
+    public void setCepCcoAluInsList(List<ejbCcoCepCcoAluIns> cepCcoAluInsList) {
+        this.cepCcoAluInsList = cepCcoAluInsList;
+    }
 
     public List<ejbCcoCepCcoMatriculaCab> getCepCcoMatriculaCabList() {
         return cepCcoMatriculaCabList;

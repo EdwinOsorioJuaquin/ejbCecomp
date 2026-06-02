@@ -4,58 +4,62 @@
  */
 package ejbCecomp.entidades;
 
+import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author Jael
  */
-@Entity(name="CepCecSesion")
+@Entity(name = "CepCecSesion")
 @Table(name = "cep_cec_sesion")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CepCecSesion.findAll", query = "SELECT s FROM CepCecSesion s"),
-    @NamedQuery(name = "CepCecSesion.findByIdSesio", query = "SELECT s FROM CepCecSesion s WHERE s.ejbCcoCepCecSesionPK.idSesio = :idSesio"),
-    @NamedQuery(name = "CepCecSesion.findByIdPland", query = "SELECT s FROM CepCecSesion s WHERE s.ejbCcoCepCecSesionPK.idPland = :idPland"),
-    @NamedQuery(name = "CepCecSesion.findByEstadoSesion", query = "SELECT s FROM CepCecSesion s WHERE s.estadoSesion = :estadoSesion"),
-    @NamedQuery(name = "CepCecSesion.findByNombreSesion", query = "SELECT s FROM CepCecSesion s WHERE s.nombreSesion = :nombreSesion")
-})
+    @NamedQuery(name = "CepCecSesion.findAll", query = "SELECT c FROM CepCecSesion c"),
+    @NamedQuery(name = "CepCecSesion.findByIdSesio", query = "SELECT c FROM CepCecSesion c WHERE c.idSesio = :idSesio"),
+    @NamedQuery(name = "CepCecSesion.findByEstadoSesion", query = "SELECT c FROM CepCecSesion c WHERE c.estadoSesion = :estadoSesion")})
 public class ejbCcoCepCecSesion implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ejbCcoCepCecSesionPK ejbCcoCepCecSesionPK;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_sesio")
+    private Integer idSesio;
     @Column(name = "estado_sesion")
     private Boolean estadoSesion;
-    @Size(max = 100)
-    @Column(name = "nombre_sesion")
-    private String nombreSesion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cepCecSesion")
+    private List<ejbCcoCepCecNotas> cepCecNotasList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cepCecSesion")
+    private List<ejbCcoCepCecTema> cepCecTemaList;
+    @JoinColumn(name = "id_pland", referencedColumnName = "id_pland")
+    @ManyToOne(optional = false)
+    private ejbCcoCepCecPlan cepCecPlan;
 
     public ejbCcoCepCecSesion() {
     }
 
-    public ejbCcoCepCecSesion(ejbCcoCepCecSesionPK ejbCcoCepCecSesionPK) {
-        this.ejbCcoCepCecSesionPK = ejbCcoCepCecSesionPK;
+    public ejbCcoCepCecSesion(Integer idSesio) {
+        this.idSesio = idSesio;
     }
 
-    public ejbCcoCepCecSesion(int idSesio, int idPland) {
-        this.ejbCcoCepCecSesionPK = new ejbCcoCepCecSesionPK(idSesio, idPland);
+    public Integer getIdSesio() {
+        return idSesio;
     }
 
-    public ejbCcoCepCecSesionPK getEjbCcoCepCecSesionPK() {
-        return ejbCcoCepCecSesionPK;
-    }
-
-    public void setEjbCcoCepCecSesionPK(ejbCcoCepCecSesionPK ejbCcoCepCecSesionPK) {
-        this.ejbCcoCepCecSesionPK = ejbCcoCepCecSesionPK;
+    public void setIdSesio(Integer idSesio) {
+        this.idSesio = idSesio;
     }
 
     public Boolean getEstadoSesion() {
@@ -66,18 +70,34 @@ public class ejbCcoCepCecSesion implements Serializable {
         this.estadoSesion = estadoSesion;
     }
 
-    public String getNombreSesion() {
-        return nombreSesion;
+    public List<ejbCcoCepCecNotas> getCepCecNotasList() {
+        return cepCecNotasList;
     }
 
-    public void setNombreSesion(String nombreSesion) {
-        this.nombreSesion = nombreSesion;
+    public void setCepCecNotasList(List<ejbCcoCepCecNotas> cepCecNotasList) {
+        this.cepCecNotasList = cepCecNotasList;
+    }
+
+    public List<ejbCcoCepCecTema> getCepCecTemaList() {
+        return cepCecTemaList;
+    }
+
+    public void setCepCecTemaList(List<ejbCcoCepCecTema> cepCecTemaList) {
+        this.cepCecTemaList = cepCecTemaList;
+    }
+
+    public ejbCcoCepCecPlan getCepCecPlan() {
+        return cepCecPlan;
+    }
+
+    public void setCepCecPlan(ejbCcoCepCecPlan cepCecPlan) {
+        this.cepCecPlan = cepCecPlan;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ejbCcoCepCecSesionPK != null ? ejbCcoCepCecSesionPK.hashCode() : 0);
+        hash += (idSesio != null ? idSesio.hashCode() : 0);
         return hash;
     }
 
@@ -88,7 +108,7 @@ public class ejbCcoCepCecSesion implements Serializable {
             return false;
         }
         ejbCcoCepCecSesion other = (ejbCcoCepCecSesion) object;
-        if ((this.ejbCcoCepCecSesionPK == null && other.ejbCcoCepCecSesionPK != null) || (this.ejbCcoCepCecSesionPK != null && !this.ejbCcoCepCecSesionPK.equals(other.ejbCcoCepCecSesionPK))) {
+        if ((this.idSesio == null && other.idSesio != null) || (this.idSesio != null && !this.idSesio.equals(other.idSesio))) {
             return false;
         }
         return true;
@@ -96,7 +116,7 @@ public class ejbCcoCepCecSesion implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.ejbCcoCepCecSesion[ ejbCcoCepCecSesionPK=" + ejbCcoCepCecSesionPK + " ]";
+        return "ejbCecomp.entidades.CepCecSesion[ idSesio=" + idSesio + " ]";
     }
     
 }

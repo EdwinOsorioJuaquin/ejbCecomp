@@ -9,7 +9,6 @@ import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
 import jakarta.inject.Inject;
 import jakarta.transaction.*;
-import java.util.List;
 import java.util.logging.*;
 
 @Stateless
@@ -43,11 +42,6 @@ public class ejbCcoFxaEstudianteService implements ejbCcoFxaEstudianteServiceLoc
             }
         }
         return null;
-    }
-    
-    @Override
-    public List<ejbCcoFxaEstudiante> listarTodosActivos() {
-        return daoFxaEstudiante.listarTodosActivos();
     }
     
 }
