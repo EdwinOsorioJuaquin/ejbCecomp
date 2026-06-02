@@ -8,6 +8,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -53,6 +55,8 @@ public class ejbCcoCepCurso implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "abreviatura")
     private String abreviatura;
+    @Column(name = "duracion")
+    private String duracion;
     @OneToMany(mappedBy = "cepCurso")
     private List<ejbCcoCepCursoDocente> cepCursoDocenteList;
     @OneToMany(mappedBy = "cepCurso")
@@ -114,6 +118,14 @@ public class ejbCcoCepCurso implements Serializable {
 
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
+    }
+    
+    public String getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(String duracion) {
+        this.duracion = duracion;
     }
 
     public List<ejbCcoCepCursoDocente> getCepCursoDocenteList() {
