@@ -15,22 +15,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
  * @author Jael
  */
-@Entity(name = "CepCecCert")
+@Entity(name="CepCecCert")
 @Table(name = "cep_cec_cert")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCecCert.findAll", query = "SELECT c FROM CepCecCert c"),
     @NamedQuery(name = "CepCecCert.findByIdCert", query = "SELECT c FROM CepCecCert c WHERE c.idCert = :idCert"),
@@ -55,7 +55,6 @@ public class ejbCcoCepCecCert implements Serializable {
     private Boolean estadoCert;
     @Column(name = "resol")
     private Integer resol;
-    
     @OneToMany(mappedBy = "idCertificado")
     private Collection<ejbCcoCcoCertificadoQr> ejbCcoCcoCertificadoQrCollection;
 
@@ -66,6 +65,9 @@ public class ejbCcoCepCecCert implements Serializable {
     public void setEjbCcoCcoCertificadoQrCollection(Collection<ejbCcoCcoCertificadoQr> ejbCcoCcoCertificadoQrCollection) {
         this.ejbCcoCcoCertificadoQrCollection = ejbCcoCcoCertificadoQrCollection;
     }
+    @JoinColumn(name = "id_mta_alu", referencedColumnName = "id_mta_alu")
+    @ManyToOne(optional = false)
+    private ejbCcoCepCcoMatriculaCab idMtaAlu;
 
     public ejbCcoCepCecCert() {
     }
@@ -119,6 +121,13 @@ public class ejbCcoCepCecCert implements Serializable {
         this.resol = resol;
     }
 
+    public ejbCcoCepCcoMatriculaCab getIdMtaAlu() {
+        return idMtaAlu;
+    }
+
+    public void setIdMtaAlu(ejbCcoCepCcoMatriculaCab idMtaAlu) {
+        this.idMtaAlu = idMtaAlu;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

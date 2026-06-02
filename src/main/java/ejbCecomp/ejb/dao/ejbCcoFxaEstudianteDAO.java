@@ -34,5 +34,14 @@ public class ejbCcoFxaEstudianteDAO extends ejbCcoGenericoDAO<ejbCcoFxaEstudiant
         }else{
             return lstEstudiante;
         }
+    }
+
+    @Override
+    public List<ejbCcoFxaEstudiante> listarTodosActivos() {
+        TypedQuery<ejbCcoFxaEstudiante> query = em.createQuery(
+            "SELECT e FROM FxaEstudiante e WHERE e.activo = 1",
+            ejbCcoFxaEstudiante.class
+        );
+        return query.getResultList();
     }    
 }

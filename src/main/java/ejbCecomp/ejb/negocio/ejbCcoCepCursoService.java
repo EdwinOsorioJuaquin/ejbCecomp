@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-public class ejbCcoCursoService implements ejbCcoCursoServiceLocal {
+public class ejbCcoCepCursoService implements ejbCcoCepCursoServiceLocal {
     @Resource
     UserTransaction ut;
 
@@ -73,6 +73,11 @@ public class ejbCcoCursoService implements ejbCcoCursoServiceLocal {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public List<ejbCcoCepCurso> listarActivos() {
+            return dao.listarActivos();
     }
     
 }

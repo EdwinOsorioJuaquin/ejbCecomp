@@ -1,6 +1,7 @@
 
 package ejbCecomp.ejb.dao;
 
+import ejbCecomp.clases.ejbCcoCursoDTO;
 import ejbCecomp.entidades.ejbCcoCepCurso;
 import jakarta.ejb.Local;
 import java.util.List;
@@ -24,4 +25,18 @@ public interface ejbCcoCursoDAOLocal extends ejbCcoGenericoDAOLocal<ejbCcoCepCur
      * @return Lista de cursos que coinciden con la búsqueda
      */
     List<ejbCcoCepCurso> buscarPorNombre(String nombre);
+    
+    /**
+     * Listar solo cursos activos (bandera = true)
+     * @return Lista de cursos activos
+     */
+    List<ejbCcoCepCurso> listarActivos();
+    
+    /**
+     * Listar solo cursos activos con su nivel(bandera = true)
+     * @return Lista de cursos activos con su nivel
+     */
+    List<ejbCcoCursoDTO> listarCursosConNivel();
+    
+    
 }

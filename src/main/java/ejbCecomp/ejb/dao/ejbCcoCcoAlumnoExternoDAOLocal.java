@@ -1,6 +1,7 @@
 
 package ejbCecomp.ejb.dao;
 
+import ejbCecomp.clases.ejbCcoAlumnoExternoDTO;
 import ejbCecomp.entidades.*;
 import jakarta.ejb.Local;
 import java.util.List;
@@ -28,6 +29,7 @@ public interface ejbCcoCcoAlumnoExternoDAOLocal extends ejbCcoGenericoDAOLocal<e
      * @return 
     */
     public List<ejbCcoCcoAlumnoExterno> listarAlumnosExternos();
+    
     /**
     * Guarda persona natural
      * @param persona
@@ -49,6 +51,7 @@ public interface ejbCcoCcoAlumnoExternoDAOLocal extends ejbCcoGenericoDAOLocal<e
     */
     public ejbCcoDrtPersonanatural actualizarPersona(ejbCcoDrtPersonanatural persona);
     
+    
     public void actualizarAlumnoExterno(ejbCcoCcoAlumnoExterno alumno);
 
     /**
@@ -58,4 +61,12 @@ public interface ejbCcoCcoAlumnoExternoDAOLocal extends ejbCcoGenericoDAOLocal<e
      */
 
     public void cambiarEstado(Integer idAlumno, short estado);
+    
+    public List<ejbCcoAlumnoExternoDTO> listarAlumnosExternosDTO();
+    
+    public Integer obtenerUltimoIdPersona();
+     
+    public Integer obtenerUltimoIdAlumno();
+     
+    ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir);
 }
