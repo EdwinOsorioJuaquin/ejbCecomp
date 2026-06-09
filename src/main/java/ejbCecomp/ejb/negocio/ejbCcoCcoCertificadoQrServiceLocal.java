@@ -4,8 +4,10 @@
  */
 package ejbCecomp.ejb.negocio;
 
+import ejbCecomp.clases.ejbCcoCertificadoPendiente;
 import ejbCecomp.entidades.ejbCcoCcoCertificadoQr;
 import jakarta.ejb.Local;
+import java.util.List;
 
 /**
  *
@@ -16,4 +18,12 @@ public interface ejbCcoCcoCertificadoQrServiceLocal {
     void guardarQR(ejbCcoCcoCertificadoQr qr);
 
     ejbCcoCcoCertificadoQr buscarPorCodigo(String codigo);
+
+    List<ejbCcoCertificadoPendiente> listarPendientesQr();
+
+    boolean guardarQr(
+            Integer idCertificado,
+            String codigoQr,
+            String urlValidacion,
+            byte[] imagenQr);
 }

@@ -4,10 +4,12 @@
  */
 package ejbCecomp.ejb.negocio;
 
+import ejbCecomp.clases.ejbCcoCertificadoPendiente;
 import ejbCecomp.ejb.dao.ejbCcoCcoCertificadoQrDAOLocal;
 import ejbCecomp.entidades.ejbCcoCcoCertificadoQr;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import java.util.List;
 
 /**
  *
@@ -30,4 +32,25 @@ public class ejbCcoCcoCertificadoQrService implements ejbCcoCcoCertificadoQrServ
 
         return dao.buscarPorCodigo(codigo);
     }
+    
+    @Override
+    public List<ejbCcoCertificadoPendiente> listarPendientesQr() {
+
+        return dao.listarPendientesQr();
+    }
+
+    @Override
+    public boolean guardarQr(
+            Integer idCertificado,
+            String codigoQr,
+            String urlValidacion,
+            byte[] imagenQr) {
+
+        return dao.guardarQr(
+                idCertificado,
+                codigoQr,
+                urlValidacion,
+                imagenQr);
+    }
+
 }
