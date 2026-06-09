@@ -173,4 +173,26 @@ public class ejbCcoCcoCertificadoQrDAO extends ejbCcoGenericoDAO<ejbCcoCcoCertif
             return false;
         }
     }
+    
+    @Override
+    public ejbCcoCcoCertificadoQr buscarPorCertificado(Integer idCert) {
+
+        try {
+
+            String jpql =
+                    "SELECT q " +
+                    "FROM CcoCertificadoQr q " +
+                    "WHERE q.idCertificado.idCert = :idCert";
+
+            return em.createQuery(
+                    jpql,
+                    ejbCcoCcoCertificadoQr.class)
+                    .setParameter("idCert", idCert)
+                    .getSingleResult();
+
+        } catch (Exception e) {
+
+            return null;
+        }
+    }
 }

@@ -26,4 +26,5 @@ public interface ejbCcoCcoCertificadoQrServiceLocal {
             String codigoQr,
             String urlValidacion,
             byte[] imagenQr);
+    ejbCcoCcoCertificadoQr buscarPorCertificado(Integer idCert);
 }

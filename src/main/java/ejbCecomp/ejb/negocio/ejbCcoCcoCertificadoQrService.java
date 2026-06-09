@@ -52,5 +52,11 @@ public class ejbCcoCcoCertificadoQrService implements ejbCcoCcoCertificadoQrServ
                 urlValidacion,
                 imagenQr);
     }
+    
+    @Override
+    public ejbCcoCcoCertificadoQr buscarPorCertificado(Integer idCert) {
+
+        return dao.buscarPorCertificado(idCert);
+    }
 
 }
