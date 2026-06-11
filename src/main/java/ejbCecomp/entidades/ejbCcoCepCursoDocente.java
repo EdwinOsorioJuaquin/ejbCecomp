@@ -5,6 +5,7 @@
 package ejbCecomp.entidades;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,6 +18,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -25,14 +28,16 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "CepCursoDocente")
+@Entity(name="CepCursoDocente")
 @Table(name = "cep_curso_docente")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCursoDocente.findAll", query = "SELECT c FROM CepCursoDocente c"),
     @NamedQuery(name = "CepCursoDocente.findByIdAd", query = "SELECT c FROM CepCursoDocente c WHERE c.idAd = :idAd"),
     @NamedQuery(name = "CepCursoDocente.findByIdDep", query = "SELECT c FROM CepCursoDocente c WHERE c.idDep = :idDep"),
     @NamedQuery(name = "CepCursoDocente.findByEstado", query = "SELECT c FROM CepCursoDocente c WHERE c.estado = :estado"),
     @NamedQuery(name = "CepCursoDocente.findByFecha", query = "SELECT c FROM CepCursoDocente c WHERE c.fecha = :fecha"),
+    @NamedQuery(name = "CepCursoDocente.findByIdNivel", query = "SELECT c FROM CepCursoDocente c WHERE c.idNivel = :idNivel"),
     @NamedQuery(name = "CepCursoDocente.findByFechaFin", query = "SELECT c FROM CepCursoDocente c WHERE c.fechaFin = :fechaFin"),
     @NamedQuery(name = "CepCursoDocente.findByCerraAper", query = "SELECT c FROM CepCursoDocente c WHERE c.cerraAper = :cerraAper")})
 public class ejbCcoCepCursoDocente implements Serializable {
@@ -50,20 +55,19 @@ public class ejbCcoCepCursoDocente implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    @Column(name = "id_nivel")
+    private Integer idNivel;
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
     @Column(name = "cerra_aper")
     private Boolean cerraAper;
-    @JoinColumn(name = "id_ciclo", referencedColumnName = "id_ciclo")
-    @ManyToOne
-    private ejbCcoCepCecCiclo cepCecCiclo;
     @JoinColumn(name = "id_grupo", referencedColumnName = "id_grupo")
     @ManyToOne
     private ejbCcoCepCecGrupoCurso cepCecGrupoCurso;
-    @JoinColumn(name = "id_nivel", referencedColumnName = "id_nivel")
+    @JoinColumn(name = "id_tipo_desarrollo", referencedColumnName = "id_ciclo")
     @ManyToOne
-    private ejbCcoCepCecNivel cepCecNivel;
+    private ejbCcoCepCecTipoDesarrollo cepCecTipoDesarrollo;
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne
     private ejbCcoCepCurso cepCurso;
@@ -72,10 +76,12 @@ public class ejbCcoCepCursoDocente implements Serializable {
     private ejbCcoCepPersonal cepPersonal;
     @OneToMany(mappedBy = "cepCursoDocente")
     private List<ejbCcoCepHorarioDia> cepHorarioDiaList;
-//    @OneToMany(mappedBy = "cepCursoDocente")
-//    private List<ejbCcoCepCcoAluIns> cepCcoAluInsList;
+    @OneToMany(mappedBy = "cepCursoDocente")
+    private List<ejbCcoCepCcoAluIns> cepCcoAluInsList;
     @OneToMany(mappedBy = "cepCursoDocente")
     private List<ejbCcoCepCcoMatriculaCab> cepCcoMatriculaCabList;
+    @OneToMany(mappedBy = "cepCursoDocente")
+    private List<ejbCcoCepGrupoPrecio> cepGrupoPrecioList;
 
     public ejbCcoCepCursoDocente() {
     }
@@ -116,6 +122,14 @@ public class ejbCcoCepCursoDocente implements Serializable {
         this.fecha = fecha;
     }
 
+    public Integer getIdNivel() {
+        return idNivel;
+    }
+
+    public void setIdNivel(Integer idNivel) {
+        this.idNivel = idNivel;
+    }
+
     public Date getFechaFin() {
         return fechaFin;
     }
@@ -132,14 +146,6 @@ public class ejbCcoCepCursoDocente implements Serializable {
         this.cerraAper = cerraAper;
     }
 
-    public ejbCcoCepCecCiclo getCepCecCiclo() {
-        return cepCecCiclo;
-    }
-
-    public void setCepCecCiclo(ejbCcoCepCecCiclo cepCecCiclo) {
-        this.cepCecCiclo = cepCecCiclo;
-    }
-
     public ejbCcoCepCecGrupoCurso getCepCecGrupoCurso() {
         return cepCecGrupoCurso;
     }
@@ -148,12 +154,12 @@ public class ejbCcoCepCursoDocente implements Serializable {
         this.cepCecGrupoCurso = cepCecGrupoCurso;
     }
 
-    public ejbCcoCepCecNivel getCepCecNivel() {
-        return cepCecNivel;
+    public ejbCcoCepCecTipoDesarrollo getCepCecTipoDesarrollo() {
+        return cepCecTipoDesarrollo;
     }
 
-    public void setCepCecNivel(ejbCcoCepCecNivel cepCecNivel) {
-        this.cepCecNivel = cepCecNivel;
+    public void setCepCecTipoDesarrollo(ejbCcoCepCecTipoDesarrollo cepCecTipoDesarrollo) {
+        this.cepCecTipoDesarrollo = cepCecTipoDesarrollo;
     }
 
     public ejbCcoCepCurso getCepCurso() {
@@ -172,6 +178,7 @@ public class ejbCcoCepCursoDocente implements Serializable {
         this.cepPersonal = cepPersonal;
     }
 
+    @XmlTransient
     public List<ejbCcoCepHorarioDia> getCepHorarioDiaList() {
         return cepHorarioDiaList;
     }
@@ -180,20 +187,31 @@ public class ejbCcoCepCursoDocente implements Serializable {
         this.cepHorarioDiaList = cepHorarioDiaList;
     }
 
-//    public List<ejbCcoCepCcoAluIns> getCepCcoAluInsList() {
-//        return cepCcoAluInsList;
-//    }
-//
-//    public void setCepCcoAluInsList(List<ejbCcoCepCcoAluIns> cepCcoAluInsList) {
-//        this.cepCcoAluInsList = cepCcoAluInsList;
-//    }
+    @XmlTransient
+    public List<ejbCcoCepCcoAluIns> getCepCcoAluInsList() {
+        return cepCcoAluInsList;
+    }
 
+    public void setCepCcoAluInsList(List<ejbCcoCepCcoAluIns> cepCcoAluInsList) {
+        this.cepCcoAluInsList = cepCcoAluInsList;
+    }
+
+    @XmlTransient
     public List<ejbCcoCepCcoMatriculaCab> getCepCcoMatriculaCabList() {
         return cepCcoMatriculaCabList;
     }
 
     public void setCepCcoMatriculaCabList(List<ejbCcoCepCcoMatriculaCab> cepCcoMatriculaCabList) {
         this.cepCcoMatriculaCabList = cepCcoMatriculaCabList;
+    }
+
+    @XmlTransient
+    public List<ejbCcoCepGrupoPrecio> getCepGrupoPrecioList() {
+        return cepGrupoPrecioList;
+    }
+
+    public void setCepGrupoPrecioList(List<ejbCcoCepGrupoPrecio> cepGrupoPrecioList) {
+        this.cepGrupoPrecioList = cepGrupoPrecioList;
     }
 
     @Override

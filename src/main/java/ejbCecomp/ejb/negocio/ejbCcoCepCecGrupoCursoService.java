@@ -1,29 +1,29 @@
 package ejbCecomp.ejb.negocio;
 
+import ejbCecomp.ejb.dao.ejbCcoCepCecGrupoCursoDAOLocal;
 import ejbCecomp.entidades.ejbCcoCepCecGrupoCurso;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
 public class ejbCcoCepCecGrupoCursoService implements ejbCcoCepCecGrupoCursoServiceLocal {
 
-    @PersistenceContext(unitName = "ejbCecompPU")
-    private EntityManager em;
+    @EJB
+    private ejbCcoCepCecGrupoCursoDAOLocal dao;
 
     @Override
     public List<ejbCcoCepCecGrupoCurso> listarTodos() {
-        TypedQuery<ejbCcoCepCecGrupoCurso> query = em.createQuery(
-            "SELECT g FROM CepCecGrupoCurso g",
-            ejbCcoCepCecGrupoCurso.class
-        );
-        return query.getResultList();
+        return dao.listarTodos();
     }
-    
+
     @Override
-    public ejbCcoCepCecGrupoCurso buscarPorId(Integer id) {
-        return em.find(ejbCcoCepCecGrupoCurso.class, id);
+    public List<ejbCcoCepCecGrupoCurso> listarActivos() {
+        return dao.listarActivos();
+    }
+
+    @Override
+    public ejbCcoCepCecGrupoCurso buscarPorId(Integer idGrupo) {
+        return dao.buscarPorId(idGrupo);
     }
 }

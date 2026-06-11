@@ -5,7 +5,6 @@
 package ejbCecomp.entidades;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +18,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,21 +27,23 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "CepCurso")
+@Entity(name="CepCurso")
 @Table(name = "cep_curso")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCurso.findAll", query = "SELECT c FROM CepCurso c"),
     @NamedQuery(name = "CepCurso.findByIdCurso", query = "SELECT c FROM CepCurso c WHERE c.idCurso = :idCurso"),
     @NamedQuery(name = "CepCurso.findByNomCurso", query = "SELECT c FROM CepCurso c WHERE c.nomCurso = :nomCurso"),
     @NamedQuery(name = "CepCurso.findByBandera", query = "SELECT c FROM CepCurso c WHERE c.bandera = :bandera"),
     @NamedQuery(name = "CepCurso.findByIdDep", query = "SELECT c FROM CepCurso c WHERE c.idDep = :idDep"),
-    @NamedQuery(name = "CepCurso.findByAbreviatura", query = "SELECT c FROM CepCurso c WHERE c.abreviatura = :abreviatura")})
+    @NamedQuery(name = "CepCurso.findByAbreviatura", query = "SELECT c FROM CepCurso c WHERE c.abreviatura = :abreviatura"),
+    @NamedQuery(name = "CepCurso.findByDuracion", query = "SELECT c FROM CepCurso c WHERE c.duracion = :duracion")})
 public class ejbCcoCepCurso implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id_curso")
     private Integer idCurso;
     @Size(max = 90)
@@ -55,12 +58,11 @@ public class ejbCcoCepCurso implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "abreviatura")
     private String abreviatura;
+    @Size(max = 50)
     @Column(name = "duracion")
     private String duracion;
     @OneToMany(mappedBy = "cepCurso")
     private List<ejbCcoCepCursoDocente> cepCursoDocenteList;
-    @OneToMany(mappedBy = "cepCurso")
-    private List<ejbCcoCepAulaCursoDocente> cepAulaCursoDocenteList;
     @JoinColumn(name = "id_pland", referencedColumnName = "id_pland")
     @ManyToOne
     private ejbCcoCepCecPlan cepCecPlan;
@@ -119,7 +121,7 @@ public class ejbCcoCepCurso implements Serializable {
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
     }
-    
+
     public String getDuracion() {
         return duracion;
     }
@@ -128,20 +130,13 @@ public class ejbCcoCepCurso implements Serializable {
         this.duracion = duracion;
     }
 
+    @XmlTransient
     public List<ejbCcoCepCursoDocente> getCepCursoDocenteList() {
         return cepCursoDocenteList;
     }
 
     public void setCepCursoDocenteList(List<ejbCcoCepCursoDocente> cepCursoDocenteList) {
         this.cepCursoDocenteList = cepCursoDocenteList;
-    }
-
-    public List<ejbCcoCepAulaCursoDocente> getCepAulaCursoDocenteList() {
-        return cepAulaCursoDocenteList;
-    }
-
-    public void setCepAulaCursoDocenteList(List<ejbCcoCepAulaCursoDocente> cepAulaCursoDocenteList) {
-        this.cepAulaCursoDocenteList = cepAulaCursoDocenteList;
     }
 
     public ejbCcoCepCecPlan getCepCecPlan() {

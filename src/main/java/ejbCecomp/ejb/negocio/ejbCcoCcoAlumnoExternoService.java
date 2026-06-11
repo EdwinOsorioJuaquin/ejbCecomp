@@ -6,11 +6,21 @@ import jakarta.inject.Inject;
 import ejbCecomp.ejb.dao.ejbCcoCcoAlumnoExternoDAOLocal;
 import ejbCecomp.entidades.ejbCcoDrtPersonanatural;
 import ejbCecomp.clases.ejbCcoAlumnoExternoDTO;
+import jakarta.annotation.Resource;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
+import jakarta.transaction.UserTransaction;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 public class ejbCcoCcoAlumnoExternoService implements ejbCcoCcoAlumnoExternoServiceLocal {
-
+    
+    @Resource
+    private UserTransaction ut;
+    
     @Inject
     ejbCcoCcoAlumnoExternoDAOLocal dao;
 
@@ -84,6 +94,23 @@ public class ejbCcoCcoAlumnoExternoService implements ejbCcoCcoAlumnoExternoServ
     @Override
     public ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir) {
         return dao.buscarPorIdDir(idDir);
+    }
+    
+    @Override
+    public ejbCcoCcoAlumnoExterno buscarPorCodigoAlu(String codigoAlu) {
+        try {
+            ut.begin();
+            ejbCcoCcoAlumnoExterno resultado = dao.buscarPorCodigoAlu(codigoAlu);
+            ut.commit();
+            return resultado;
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                Logger.getLogger(ejbCcoCcoAlumnoExternoService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
     }
     
 }

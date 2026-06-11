@@ -48,6 +48,7 @@ public class ejbCcoEscPersonal implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_esc")
     private Integer idEsc;
@@ -77,9 +78,9 @@ public class ejbCcoEscPersonal implements Serializable {
     private String observaciones;
     @JoinColumn(name = "id_dir", referencedColumnName = "id_dir")
     @ManyToOne
-    private ejbCcoDrtPersonanatural idDir;
-    @OneToMany(mappedBy = "idEsc")
-    private List<ejbCcoCepPersonal> ejbCcoCepPersonalList;
+    private ejbCcoDrtPersonanatural drtPersonanatural;
+    @OneToMany(mappedBy = "escPersonal")
+    private List<ejbCcoCepPersonal> cepPersonalList;
 
     public ejbCcoEscPersonal() {
     }
@@ -168,21 +169,21 @@ public class ejbCcoEscPersonal implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public ejbCcoDrtPersonanatural getIdDir() {
-        return idDir;
+    public ejbCcoDrtPersonanatural getDrtPersonanatural() {
+        return drtPersonanatural;
     }
 
-    public void setIdDir(ejbCcoDrtPersonanatural idDir) {
-        this.idDir = idDir;
+    public void setDrtPersonanatural(ejbCcoDrtPersonanatural drtPersonanatural) {
+        this.drtPersonanatural = drtPersonanatural;
     }
 
     @XmlTransient
-    public List<ejbCcoCepPersonal> getEjbCcoCepPersonalList() {
-        return ejbCcoCepPersonalList;
+    public List<ejbCcoCepPersonal> getCepPersonalList() {
+        return cepPersonalList;
     }
 
-    public void setEjbCcoCepPersonalList(List<ejbCcoCepPersonal> ejbCcoCepPersonalList) {
-        this.ejbCcoCepPersonalList = ejbCcoCepPersonalList;
+    public void setCepPersonalList(List<ejbCcoCepPersonal> cepPersonalList) {
+        this.cepPersonalList = cepPersonalList;
     }
 
     @Override
@@ -207,7 +208,7 @@ public class ejbCcoEscPersonal implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.ejbCcoEscPersonal[ idEsc=" + idEsc + " ]";
+        return "ejbCecomp.entidades.EscPersonal[ idEsc=" + idEsc + " ]";
     }
     
 }

@@ -16,6 +16,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
@@ -24,16 +25,14 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "CepCcoMatriculaCab")
+@Entity(name="CepCcoMatriculaCab")
 @Table(name = "cep_cco_matricula_cab")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCcoMatriculaCab.findAll", query = "SELECT c FROM CepCcoMatriculaCab c"),
     @NamedQuery(name = "CepCcoMatriculaCab.findByIdMtaAlu", query = "SELECT c FROM CepCcoMatriculaCab c WHERE c.idMtaAlu = :idMtaAlu"),
     @NamedQuery(name = "CepCcoMatriculaCab.findByNotaFinal", query = "SELECT c FROM CepCcoMatriculaCab c WHERE c.notaFinal = :notaFinal")})
 public class ejbCcoCepCcoMatriculaCab implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMtaAlu")
-    private List<ejbCcoCepCecCert> cepCecCertList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,6 +42,8 @@ public class ejbCcoCepCcoMatriculaCab implements Serializable {
     private Integer idMtaAlu;
     @Column(name = "nota_final")
     private Integer notaFinal;
+    @OneToMany(mappedBy = "cepCcoMatriculaCab")
+    private List<ejbCcoCepCecCert> cepCecCertList;
     @OneToMany(mappedBy = "cepCcoMatriculaCab")
     private List<ejbCcoCepCecNotas> cepCecNotasList;
     @OneToMany(mappedBy = "cepCcoMatriculaCab")
@@ -77,6 +78,16 @@ public class ejbCcoCepCcoMatriculaCab implements Serializable {
         this.notaFinal = notaFinal;
     }
 
+    @XmlTransient
+    public List<ejbCcoCepCecCert> getCepCecCertList() {
+        return cepCecCertList;
+    }
+
+    public void setCepCecCertList(List<ejbCcoCepCecCert> cepCecCertList) {
+        this.cepCecCertList = cepCecCertList;
+    }
+
+    @XmlTransient
     public List<ejbCcoCepCecNotas> getCepCecNotasList() {
         return cepCecNotasList;
     }
@@ -85,6 +96,7 @@ public class ejbCcoCepCcoMatriculaCab implements Serializable {
         this.cepCecNotasList = cepCecNotasList;
     }
 
+    @XmlTransient
     public List<ejbCcoCepPagos> getCepPagosList() {
         return cepPagosList;
     }
@@ -132,15 +144,6 @@ public class ejbCcoCepCcoMatriculaCab implements Serializable {
     @Override
     public String toString() {
         return "ejbCecomp.entidades.CepCcoMatriculaCab[ idMtaAlu=" + idMtaAlu + " ]";
-    }
-
-    @XmlTransient
-    public List<ejbCcoCepCecCert> getCepCecCertList() {
-        return cepCecCertList;
-    }
-
-    public void setCepCecCertList(List<ejbCcoCepCecCert> cepCecCertList) {
-        this.cepCecCertList = cepCecCertList;
     }
     
 }

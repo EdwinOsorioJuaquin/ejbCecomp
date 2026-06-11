@@ -12,13 +12,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -50,7 +53,11 @@ public class ejbCcoCepCecCert implements Serializable {
     private Integer resol;
     @JoinColumn(name = "id_mta_alu", referencedColumnName = "id_mta_alu")
     @ManyToOne(optional = false)
-    private ejbCcoCepCcoMatriculaCab idMtaAlu;
+    private ejbCcoCepCcoMatriculaCab cepCcoMatriculaCab;
+    @OneToMany(mappedBy = "cepCecCert")
+    private List<ejbCcoCepCecHistorico> cepCecHistoricoList;
+    @OneToMany(mappedBy = "cepCecCert")
+    private List<ejbCcoCepPagos> cepPagosList;
 
     public ejbCcoCepCecCert() {
     }
@@ -91,12 +98,30 @@ public class ejbCcoCepCecCert implements Serializable {
         this.resol = resol;
     }
 
-    public ejbCcoCepCcoMatriculaCab getIdMtaAlu() {
-        return idMtaAlu;
+    public ejbCcoCepCcoMatriculaCab getCepCcoMatriculaCab() {
+        return cepCcoMatriculaCab;
     }
 
-    public void setIdMtaAlu(ejbCcoCepCcoMatriculaCab idMtaAlu) {
-        this.idMtaAlu = idMtaAlu;
+    public void setCepCcoMatriculaCab(ejbCcoCepCcoMatriculaCab cepCcoMatriculaCab) {
+        this.cepCcoMatriculaCab = cepCcoMatriculaCab;
+    }
+
+    @XmlTransient
+    public List<ejbCcoCepCecHistorico> getCepCecHistoricoList() {
+        return cepCecHistoricoList;
+    }
+
+    public void setCepCecHistoricoList(List<ejbCcoCepCecHistorico> cepCecHistoricoList) {
+        this.cepCecHistoricoList = cepCecHistoricoList;
+    }
+
+    @XmlTransient
+    public List<ejbCcoCepPagos> getCepPagosList() {
+        return cepPagosList;
+    }
+
+    public void setCepPagosList(List<ejbCcoCepPagos> cepPagosList) {
+        this.cepPagosList = cepPagosList;
     }
 
     @Override

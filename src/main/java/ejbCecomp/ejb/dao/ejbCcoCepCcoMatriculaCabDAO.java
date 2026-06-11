@@ -39,6 +39,8 @@ public class ejbCcoCepCcoMatriculaCabDAO extends ejbCcoGenericoDAO<ejbCcoCepCcoM
             "SELECT m FROM CepCcoMatriculaCab m " +
             "JOIN FETCH m.cepCursoDocente " +
             "JOIN FETCH m.cepCursoDocente.cepCurso " +
+            "JOIN FETCH m.cepCursoDocente.cepHorarioDiaList " +
+            "JOIN FETCH m.cepCursoDocente.cepHorarioDiaList.cepHorarioHora " +
             "WHERE m.drtPersonanatural.idDir = :idDir",
             ejbCcoCepCcoMatriculaCab.class
         );

@@ -15,22 +15,24 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  *
  * @author Jael
  */
-@Entity(name = "CcoAlumnoExterno")
+@Entity(name="CcoAlumnoExterno")
 @Table(name = "cco_alumno_externo")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CcoAlumnoExterno.findAll", query = "SELECT c FROM CcoAlumnoExterno c"),
     @NamedQuery(name = "CcoAlumnoExterno.findByIdCcoUsuEx", query = "SELECT c FROM CcoAlumnoExterno c WHERE c.idCcoUsuEx = :idCcoUsuEx"),
     @NamedQuery(name = "CcoAlumnoExterno.findByActivo", query = "SELECT c FROM CcoAlumnoExterno c WHERE c.activo = :activo"),
     @NamedQuery(name = "CcoAlumnoExterno.findByAnulado", query = "SELECT c FROM CcoAlumnoExterno c WHERE c.anulado = :anulado"),
     @NamedQuery(name = "CcoAlumnoExterno.findByCorreoLogin", query = "SELECT c FROM CcoAlumnoExterno c WHERE c.correoLogin = :correoLogin"),
-    @NamedQuery(name = "CcoAlumnoExterno.findByPassword", query = "SELECT c FROM CcoAlumnoExterno c WHERE c.password = :password")})
+    @NamedQuery(name = "CcoAlumnoExterno.findByPassword", query = "SELECT c FROM CcoAlumnoExterno c WHERE c.password = :password"),
+    @NamedQuery(name = "CcoAlumnoExterno.findByCodigoAlu", query = "SELECT c FROM CcoAlumnoExterno c WHERE c.codigoAlu = :codigoAlu")})
 public class ejbCcoCcoAlumnoExterno implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +55,11 @@ public class ejbCcoCcoAlumnoExterno implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "password")
     private String password;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "codigo_alu")
+    private String codigoAlu;
     @JoinColumn(name = "id_dir", referencedColumnName = "id_dir")
     @ManyToOne
     private ejbCcoDrtPersonanatural drtPersonanatural;
@@ -64,10 +71,11 @@ public class ejbCcoCcoAlumnoExterno implements Serializable {
         this.idCcoUsuEx = idCcoUsuEx;
     }
 
-    public ejbCcoCcoAlumnoExterno(Integer idCcoUsuEx, String correoLogin, String password) {
+    public ejbCcoCcoAlumnoExterno(Integer idCcoUsuEx, String correoLogin, String password, String codigoAlu) {
         this.idCcoUsuEx = idCcoUsuEx;
         this.correoLogin = correoLogin;
         this.password = password;
+        this.codigoAlu = codigoAlu;
     }
 
     public Integer getIdCcoUsuEx() {
@@ -110,6 +118,14 @@ public class ejbCcoCcoAlumnoExterno implements Serializable {
         this.password = password;
     }
 
+    public String getCodigoAlu() {
+        return codigoAlu;
+    }
+
+    public void setCodigoAlu(String codigoAlu) {
+        this.codigoAlu = codigoAlu;
+    }
+
     public ejbCcoDrtPersonanatural getDrtPersonanatural() {
         return drtPersonanatural;
     }
@@ -141,10 +157,6 @@ public class ejbCcoCcoAlumnoExterno implements Serializable {
     @Override
     public String toString() {
         return "ejbCecomp.entidades.CcoAlumnoExterno[ idCcoUsuEx=" + idCcoUsuEx + " ]";
-    }
-
-    public void setFechaIng(Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

@@ -15,6 +15,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,8 +24,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "DrtDirectorioClase")
+@Entity(name="DrtDirectorioClase")
 @Table(name = "drt_directorio_clase")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DrtDirectorioClase.findAll", query = "SELECT d FROM DrtDirectorioClase d"),
     @NamedQuery(name = "DrtDirectorioClase.findByIdDclas", query = "SELECT d FROM DrtDirectorioClase d WHERE d.idDclas = :idDclas"),
@@ -32,6 +35,12 @@ import java.util.List;
     @NamedQuery(name = "DrtDirectorioClase.findByAbrevia", query = "SELECT d FROM DrtDirectorioClase d WHERE d.abrevia = :abrevia")})
 public class ejbCcoDrtDirectorioClase implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_dclas")
+    private Short idDclas;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
@@ -47,13 +56,6 @@ public class ejbCcoDrtDirectorioClase implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "abrevia")
     private String abrevia;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_dclas")
-    private Short idDclas;
     @OneToMany(mappedBy = "drtDirectorioClase")
     private List<ejbCcoDrtDirectorio> drtDirectorioList;
 
@@ -79,7 +81,31 @@ public class ejbCcoDrtDirectorioClase implements Serializable {
         this.idDclas = idDclas;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getAbrevia() {
+        return abrevia;
+    }
+
+    public void setAbrevia(String abrevia) {
+        this.abrevia = abrevia;
+    }
+
+    @XmlTransient
     public List<ejbCcoDrtDirectorio> getDrtDirectorioList() {
         return drtDirectorioList;
     }
@@ -111,30 +137,6 @@ public class ejbCcoDrtDirectorioClase implements Serializable {
     @Override
     public String toString() {
         return "ejbCecomp.entidades.DrtDirectorioClase[ idDclas=" + idDclas + " ]";
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getAbrevia() {
-        return abrevia;
-    }
-
-    public void setAbrevia(String abrevia) {
-        this.abrevia = abrevia;
     }
     
 }

@@ -14,14 +14,16 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  *
  * @author Jael
  */
-@Entity(name = "CepHorarioDia")
+@Entity(name="CepHorarioDia")
 @Table(name = "cep_horario_dia")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepHorarioDia.findAll", query = "SELECT c FROM CepHorarioDia c"),
     @NamedQuery(name = "CepHorarioDia.findByIdHorario", query = "SELECT c FROM CepHorarioDia c WHERE c.idHorario = :idHorario"),

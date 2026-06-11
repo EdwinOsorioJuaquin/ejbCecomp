@@ -18,6 +18,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,8 +27,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "DrtProvincia")
+@Entity(name="DrtProvincia")
 @Table(name = "drt_provincia")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DrtProvincia.findAll", query = "SELECT d FROM DrtProvincia d"),
     @NamedQuery(name = "DrtProvincia.findByIdPais", query = "SELECT d FROM DrtProvincia d WHERE d.drtProvinciaPK.idPais = :idPais"),
@@ -129,6 +132,7 @@ public class ejbCcoDrtProvincia implements Serializable {
         this.drtDepartamento = drtDepartamento;
     }
 
+    @XmlTransient
     public List<ejbCcoDrtDistrito> getDrtDistritoList() {
         return drtDistritoList;
     }

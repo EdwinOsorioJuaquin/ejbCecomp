@@ -24,14 +24,14 @@ public class ejbCcoCertificadoDTO implements Serializable {
     private Integer idMtaAlu;
     private Integer notaFinal;
     
-    // Datos del alumno (desde MatriculaCab -> DrtPersonanatural)
+    // Datos del alumno (desde MatriculaCab -> ejbCcoDrtPersonanatural)
     private Integer idDir;
     private String nombreCompleto;
     private String dni;
     private String email;
     private String celular;
     
-    // Datos del grupo (desde MatriculaCab -> CepCursoDocente)
+    // Datos del grupo (desde MatriculaCab -> ejbCcoCepCursoDocente)
     private Integer idAd;
     private String nombreCurso;
     private String nombreDocente;
@@ -67,19 +67,19 @@ public class ejbCcoCertificadoDTO implements Serializable {
                 ejbCcoCepCursoDocente grupo = matricula.getCepCursoDocente();
                 this.idAd = grupo.getIdAd();
                 
-                if (grupo.getCepCurso() != null) {
+                if (grupo.getCepCurso()!= null) {
                     this.nombreCurso = grupo.getCepCurso().getNomCurso();
                 }
                 
                 if (grupo.getCepPersonal() != null && 
-                    grupo.getCepPersonal().getIdEsc() != null &&
-                    grupo.getCepPersonal().getIdEsc().getIdDir() != null) {
-                    this.nombreDocente = grupo.getCepPersonal().getIdEsc().getIdDir().getNombreCompleto();
+                    grupo.getCepPersonal().getEscPersonal()!= null &&
+                    grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural()!= null) {
+                    this.nombreDocente = grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural().getNombreCompleto();
                 }
                 
-                if (grupo.getCepCecNivel() != null) {
-                    this.nombreNivel = grupo.getCepCecNivel().getNombreNivel();
-                }
+//                if (grupo.getCepCecNivel() != null) {
+//                    this.nombreNivel = grupo.getCepCecNivel().getNombreNivel();
+//                }
                 
                 if (grupo.getCepCecGrupoCurso() != null) {
                     this.nombreGrupo = grupo.getCepCecGrupoCurso().getNombre();

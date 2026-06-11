@@ -68,7 +68,7 @@ public class ejbCcoCepCecCertDAO extends ejbCcoGenericoDAO<ejbCcoCepCecCert> imp
             );
             
             insertQuery.setParameter(1, certificado.getIdCert());
-            insertQuery.setParameter(2, certificado.getIdMtaAlu().getIdMtaAlu());
+            insertQuery.setParameter(2, certificado.getCepCcoMatriculaCab().getIdMtaAlu());
             insertQuery.setParameter(3, certificado.getFechaCert());
             insertQuery.setParameter(4, certificado.getEstadoCert() ? 1 : 0);
             insertQuery.setParameter(5, certificado.getResol());

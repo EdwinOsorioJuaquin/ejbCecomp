@@ -14,6 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,8 +23,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "CepHorarioHora")
+@Entity(name="CepHorarioHora")
 @Table(name = "cep_horario_hora")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepHorarioHora.findAll", query = "SELECT c FROM CepHorarioHora c"),
     @NamedQuery(name = "CepHorarioHora.findByIdHora", query = "SELECT c FROM CepHorarioHora c WHERE c.idHora = :idHora"),
@@ -108,6 +111,7 @@ public class ejbCcoCepHorarioHora implements Serializable {
         this.orden = orden;
     }
 
+    @XmlTransient
     public List<ejbCcoCepHorarioDia> getCepHorarioDiaList() {
         return cepHorarioDiaList;
     }

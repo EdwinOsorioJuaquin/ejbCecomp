@@ -22,18 +22,17 @@ import java.io.Serializable;
 @Table(name = "cep_cec_tema")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "CepCecTema.findAll", query = "SELECT t FROM CepCecTema t"),
-    @NamedQuery(name = "CepCecTema.findByIdTem", query = "SELECT t FROM CepCecTema t WHERE t.ejbCcoCepCecTemaPK.idTem = :idTem"),
-    @NamedQuery(name = "CepCecTema.findByIdSesio", query = "SELECT t FROM CepCecTema t WHERE t.ejbCcoCepCecTemaPK.idSesio = :idSesio"),
-    @NamedQuery(name = "CepCecTema.findByIdPland", query = "SELECT t FROM CepCecTema t WHERE t.ejbCcoCepCecTemaPK.idPland = :idPland"),
-    @NamedQuery(name = "CepCecTema.findByNomTem", query = "SELECT t FROM CepCecTema t WHERE t.nomTem = :nomTem"),
-    @NamedQuery(name = "CepCecTema.findByEstadoTem", query = "SELECT t FROM CepCecTema t WHERE t.estadoTem = :estadoTem")
-})
+    @NamedQuery(name = "CepCecTema.findAll", query = "SELECT c FROM CepCecTema c"),
+    @NamedQuery(name = "CepCecTema.findByIdTem", query = "SELECT c FROM CepCecTema c WHERE c.cepCecTemaPK.idTem = :idTem"),
+    @NamedQuery(name = "CepCecTema.findByIdSesio", query = "SELECT c FROM CepCecTema c WHERE c.cepCecTemaPK.idSesio = :idSesio"),
+    @NamedQuery(name = "CepCecTema.findByNomTem", query = "SELECT c FROM CepCecTema c WHERE c.nomTem = :nomTem"),
+    @NamedQuery(name = "CepCecTema.findByEstadoTem", query = "SELECT c FROM CepCecTema c WHERE c.estadoTem = :estadoTem"),
+    @NamedQuery(name = "CepCecTema.findByIdPland", query = "SELECT c FROM CepCecTema c WHERE c.cepCecTemaPK.idPland = :idPland")})
 public class ejbCcoCepCecTema implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected ejbCcoCepCecTemaPK ejbCcoCepCecTemaPK;
+    protected ejbCcoCepCecTemaPK cepCecTemaPK;
     @Size(max = 100)
     @Column(name = "nom_tem")
     private String nomTem;
@@ -43,20 +42,20 @@ public class ejbCcoCepCecTema implements Serializable {
     public ejbCcoCepCecTema() {
     }
 
-    public ejbCcoCepCecTema(ejbCcoCepCecTemaPK ejbCcoCepCecTemaPK) {
-        this.ejbCcoCepCecTemaPK = ejbCcoCepCecTemaPK;
+    public ejbCcoCepCecTema(ejbCcoCepCecTemaPK cepCecTemaPK) {
+        this.cepCecTemaPK = cepCecTemaPK;
     }
 
     public ejbCcoCepCecTema(int idTem, int idSesio, int idPland) {
-        this.ejbCcoCepCecTemaPK = new ejbCcoCepCecTemaPK(idTem, idSesio, idPland);
+        this.cepCecTemaPK = new ejbCcoCepCecTemaPK(idTem, idSesio, idPland);
     }
 
-    public ejbCcoCepCecTemaPK getEjbCcoCepCecTemaPK() {
-        return ejbCcoCepCecTemaPK;
+    public ejbCcoCepCecTemaPK getCepCecTemaPK() {
+        return cepCecTemaPK;
     }
 
-    public void setEjbCcoCepCecTemaPK(ejbCcoCepCecTemaPK ejbCcoCepCecTemaPK) {
-        this.ejbCcoCepCecTemaPK = ejbCcoCepCecTemaPK;
+    public void setCepCecTemaPK(ejbCcoCepCecTemaPK cepCecTemaPK) {
+        this.cepCecTemaPK = cepCecTemaPK;
     }
 
     public String getNomTem() {
@@ -78,7 +77,7 @@ public class ejbCcoCepCecTema implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ejbCcoCepCecTemaPK != null ? ejbCcoCepCecTemaPK.hashCode() : 0);
+        hash += (cepCecTemaPK != null ? cepCecTemaPK.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +88,7 @@ public class ejbCcoCepCecTema implements Serializable {
             return false;
         }
         ejbCcoCepCecTema other = (ejbCcoCepCecTema) object;
-        if ((this.ejbCcoCepCecTemaPK == null && other.ejbCcoCepCecTemaPK != null) || (this.ejbCcoCepCecTemaPK != null && !this.ejbCcoCepCecTemaPK.equals(other.ejbCcoCepCecTemaPK))) {
+        if ((this.cepCecTemaPK == null && other.cepCecTemaPK != null) || (this.cepCecTemaPK != null && !this.cepCecTemaPK.equals(other.cepCecTemaPK))) {
             return false;
         }
         return true;
@@ -97,7 +96,7 @@ public class ejbCcoCepCecTema implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.ejbCcoCepCecTema[ ejbCcoCepCecTemaPK=" + ejbCcoCepCecTemaPK + " ]";
+        return "ejbCecomp.entidades.CepCecTema[ cepCecTemaPK=" + cepCecTemaPK + " ]";
     }
     
 }

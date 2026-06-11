@@ -1,27 +1,27 @@
 package ejbCecomp.ejb.dao;
 
-import ejbCecomp.entidades.ejbCcoVwCecompPagos;
+import ejbCecomp.entidades.ejbCcoVtCecompPagos;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Stateless
-public class ejbCcoVwCecompPagosDAO extends ejbCcoGenericoDAO<ejbCcoVwCecompPagos> implements ejbCcoVwCecompPagosDAOLocal {
+public class ejbCcoVtCecompPagosDAO extends ejbCcoGenericoDAO<ejbCcoVtCecompPagos> implements ejbCcoVtCecompPagosDAOLocal {
 
     @Override
-    public List<ejbCcoVwCecompPagos> listarTodos() {
-        TypedQuery<ejbCcoVwCecompPagos> query = em.createQuery(
-            "SELECT v FROM VwCecompPagos v ORDER BY v.fechaPago DESC",
-            ejbCcoVwCecompPagos.class
+    public List<ejbCcoVtCecompPagos> listarTodos() {
+        TypedQuery<ejbCcoVtCecompPagos> query = em.createQuery("SELECT v FROM VtCecompPagos v ORDER BY v.fechaPago DESC",
+            ejbCcoVtCecompPagos.class
         );
         return query.getResultList();
     }
     
     @Override
-    public List<ejbCcoVwCecompPagos> buscarPorFiltros(String nombre, Date fechaInicio, Date fechaFin, 
+    public List<ejbCcoVtCecompPagos> buscarPorFiltros(String nombre, Date fechaInicio, Date fechaFin, 
                                                        Integer montoMin, Integer montoMax) {
-        StringBuilder jpql = new StringBuilder("SELECT v FROM VwCecompPagos v WHERE 1=1");
+        StringBuilder jpql = new StringBuilder("SELECT v FROM VtCecompPagos v WHERE 1=1");
         
         if (nombre != null && !nombre.trim().isEmpty()) {
             jpql.append(" AND (UPPER(v.estudiante) LIKE :nombre)");
@@ -41,7 +41,7 @@ public class ejbCcoVwCecompPagosDAO extends ejbCcoGenericoDAO<ejbCcoVwCecompPago
         
         jpql.append(" ORDER BY v.fechaPago DESC");
         
-        TypedQuery<ejbCcoVwCecompPagos> query = em.createQuery(jpql.toString(), ejbCcoVwCecompPagos.class);
+        TypedQuery<ejbCcoVtCecompPagos> query = em.createQuery(jpql.toString(), ejbCcoVtCecompPagos.class);
         
         if (nombre != null && !nombre.trim().isEmpty()) {
             query.setParameter("nombre", "%" + nombre.toUpperCase() + "%");
@@ -65,7 +65,7 @@ public class ejbCcoVwCecompPagosDAO extends ejbCcoGenericoDAO<ejbCcoVwCecompPago
     @Override
     public Long sumarMontosPorFiltros(String nombre, Date fechaInicio, Date fechaFin,
                                        Integer montoMin, Integer montoMax) {
-        StringBuilder jpql = new StringBuilder("SELECT COALESCE(SUM(v.monto), 0) FROM VwCecompPagos v WHERE 1=1");
+        StringBuilder jpql = new StringBuilder("SELECT COALESCE(SUM(v.monto), 0) FROM VtCecompPagos v WHERE 1=1");
         
         if (nombre != null && !nombre.trim().isEmpty()) {
             jpql.append(" AND (UPPER(v.estudiante) LIKE :nombre)");
@@ -102,5 +102,23 @@ public class ejbCcoVwCecompPagosDAO extends ejbCcoGenericoDAO<ejbCcoVwCecompPago
         }
         
         return query.getSingleResult();
+    }
+    
+    @Override
+    public List<ejbCcoVtCecompPagos> listarPagosNoUtilizadosPorAlumno(String dni) {
+        try {
+            TypedQuery<ejbCcoVtCecompPagos> query = em.createQuery(
+                "SELECT p FROM VtCecompPagos p " +
+                "WHERE p.dni = :dni " +
+                "AND p.estadoVoucher = '1' " +
+                "ORDER BY p.fechaPago DESC",
+                ejbCcoVtCecompPagos.class
+            );
+            query.setParameter("dni", dni);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error listarPagosNoUtilizadosPorAlumno: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

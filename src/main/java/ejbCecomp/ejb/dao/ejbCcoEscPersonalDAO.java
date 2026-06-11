@@ -108,7 +108,7 @@ public class ejbCcoEscPersonalDAO extends ejbCcoGenericoDAO<ejbCcoEscPersonal> i
             insertQuery.setParameter(8, escPersonal.getAbrevEsp());
             insertQuery.setParameter(9, escPersonal.getFechaCese());
             insertQuery.setParameter(10, escPersonal.getObservaciones());
-            insertQuery.setParameter(11, escPersonal.getIdDir() != null ? escPersonal.getIdDir().getIdDir() : null);
+            insertQuery.setParameter(11, escPersonal.getDrtPersonanatural()!= null ? escPersonal.getDrtPersonanatural().getIdDir() : null);
             
             insertQuery.executeUpdate();
             
@@ -135,7 +135,7 @@ public class ejbCcoEscPersonalDAO extends ejbCcoGenericoDAO<ejbCcoEscPersonal> i
         updateQuery.setParameter(7, escPersonal.getAbrevEsp());
         updateQuery.setParameter(8, escPersonal.getFechaCese());
         updateQuery.setParameter(9, escPersonal.getObservaciones());
-        updateQuery.setParameter(10, escPersonal.getIdDir() != null ? escPersonal.getIdDir().getIdDir() : null);
+        updateQuery.setParameter(10, escPersonal.getDrtPersonanatural()!= null ? escPersonal.getDrtPersonanatural().getIdDir() : null);
         updateQuery.setParameter(11, escPersonal.getIdEsc());
         
         updateQuery.executeUpdate();

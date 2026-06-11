@@ -75,4 +75,19 @@ public class ejbCcoCepCursoDocenteService implements ejbCcoCepCursoDocenteServic
     public Integer obtenerUltimoIdGrupo() {
         return dao.obtenerUltimoIdGrupo();
     }
+    
+    @Override
+    public List<ejbCcoCepCursoDocente> listarConPrecios() {
+        return dao.listarConPrecios();
+    }
+    
+    @Override
+    public List<ejbCcoCepCursoDocente> buscarPorCurso(Integer idCurso) {
+        return dao.buscarPorCurso(idCurso);
+    }
+    
+    @Override
+    public List<ejbCcoCepCursoDocente> listarGruposPorCodigoPago(String codigoPago) {
+        return dao.listarGruposPorCodigoPago(codigoPago);
+    }
 }

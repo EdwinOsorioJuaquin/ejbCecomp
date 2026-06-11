@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,8 +19,9 @@ import java.util.Date;
  *
  * @author Jael
  */
-@Entity(name = "CepDocenteAsistencia")
+@Entity(name="CepDocenteAsistencia")
 @Table(name = "cep_docente_asistencia")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepDocenteAsistencia.findAll", query = "SELECT c FROM CepDocenteAsistencia c"),
     @NamedQuery(name = "CepDocenteAsistencia.findByIdHora", query = "SELECT c FROM CepDocenteAsistencia c WHERE c.cepDocenteAsistenciaPK.idHora = :idHora"),

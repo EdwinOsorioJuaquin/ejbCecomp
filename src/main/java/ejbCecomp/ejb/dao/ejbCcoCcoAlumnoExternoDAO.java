@@ -224,4 +224,20 @@ public class ejbCcoCcoAlumnoExternoDAO extends ejbCcoGenericoDAO<ejbCcoCcoAlumno
             return null;
         }
     }
+    
+    @Override
+    public ejbCcoCcoAlumnoExterno buscarPorCodigoAlu(String codigoAlu) {
+        try {
+            TypedQuery<ejbCcoCcoAlumnoExterno> query = em.createQuery(
+                "SELECT a FROM CcoAlumnoExterno a WHERE a.codigoAlu = :codigo",
+                ejbCcoCcoAlumnoExterno.class
+            );
+            query.setParameter("codigo", codigoAlu);
+            List<ejbCcoCcoAlumnoExterno> result = query.getResultList();
+            return result.isEmpty() ? null : result.get(0);
+        } catch (Exception e) {
+            System.out.println("Error buscarPorCodigoAlu: " + e.getMessage());
+            return null;
+        }
+    }
 }

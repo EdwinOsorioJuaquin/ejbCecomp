@@ -15,6 +15,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,8 +24,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "CepCecAulaClass")
+@Entity(name="CepCecAulaClass")
 @Table(name = "cep_cec_aula_class")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCecAulaClass.findAll", query = "SELECT c FROM CepCecAulaClass c"),
     @NamedQuery(name = "CepCecAulaClass.findByIdAulClass", query = "SELECT c FROM CepCecAulaClass c WHERE c.idAulClass = :idAulClass"),
@@ -142,6 +145,7 @@ public class ejbCcoCepCecAulaClass implements Serializable {
         this.numAula = numAula;
     }
 
+    @XmlTransient
     public List<ejbCcoCepHorarioDia> getCepHorarioDiaList() {
         return cepHorarioDiaList;
     }
@@ -150,6 +154,7 @@ public class ejbCcoCepCecAulaClass implements Serializable {
         this.cepHorarioDiaList = cepHorarioDiaList;
     }
 
+    @XmlTransient
     public List<ejbCcoCepAulaCursoDocente> getCepAulaCursoDocenteList() {
         return cepAulaCursoDocenteList;
     }

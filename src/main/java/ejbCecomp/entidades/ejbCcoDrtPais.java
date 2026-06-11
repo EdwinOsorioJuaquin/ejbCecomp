@@ -15,6 +15,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,8 +24,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "DrtPais")
+@Entity(name="DrtPais")
 @Table(name = "drt_pais")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DrtPais.findAll", query = "SELECT d FROM DrtPais d"),
     @NamedQuery(name = "DrtPais.findByIdPais", query = "SELECT d FROM DrtPais d WHERE d.idPais = :idPais"),
@@ -96,6 +99,7 @@ public class ejbCcoDrtPais implements Serializable {
         this.codigoPostal = codigoPostal;
     }
 
+    @XmlTransient
     public List<ejbCcoDrtDepartamento> getDrtDepartamentoList() {
         return drtDepartamentoList;
     }

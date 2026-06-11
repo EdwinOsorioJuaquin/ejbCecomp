@@ -17,6 +17,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,12 +25,12 @@ import java.util.Date;
  *
  * @author Jael
  */
-@Entity(name = "CepPagos")
+@Entity(name="CepPagos")
 @Table(name = "cep_pagos")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepPagos.findAll", query = "SELECT c FROM CepPagos c"),
     @NamedQuery(name = "CepPagos.findByIdNumPago", query = "SELECT c FROM CepPagos c WHERE c.idNumPago = :idNumPago"),
-    @NamedQuery(name = "CepPagos.findByCodigoAlu", query = "SELECT c FROM CepPagos c WHERE c.codigoAlu = :codigoAlu"),
     @NamedQuery(name = "CepPagos.findByIdDep", query = "SELECT c FROM CepPagos c WHERE c.idDep = :idDep"),
     @NamedQuery(name = "CepPagos.findByFecha", query = "SELECT c FROM CepPagos c WHERE c.fecha = :fecha"),
     @NamedQuery(name = "CepPagos.findByMonto", query = "SELECT c FROM CepPagos c WHERE c.monto = :monto"),
@@ -45,8 +46,6 @@ public class ejbCcoCepPagos implements Serializable {
     @NotNull
     @Column(name = "id_num_pago")
     private Integer idNumPago;
-    @Column(name = "codigo_alu")
-    private Integer codigoAlu;
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_dep")
@@ -69,9 +68,9 @@ public class ejbCcoCepPagos implements Serializable {
     @JoinColumn(name = "id_mta_alu", referencedColumnName = "id_mta_alu")
     @ManyToOne
     private ejbCcoCepCcoMatriculaCab cepCcoMatriculaCab;
-//    @JoinColumn(name = "id_cert", referencedColumnName = "id_cert")
-//    @ManyToOne
-//    private ejbCcoCepCecCert cepCecCert;
+    @JoinColumn(name = "id_cert", referencedColumnName = "id_cert")
+    @ManyToOne
+    private ejbCcoCepCecCert cepCecCert;
     @JoinColumn(name = "id_dir", referencedColumnName = "id_dir")
     @ManyToOne(optional = false)
     private ejbCcoDrtPersonanatural drtPersonanatural;
@@ -97,14 +96,6 @@ public class ejbCcoCepPagos implements Serializable {
 
     public void setIdNumPago(Integer idNumPago) {
         this.idNumPago = idNumPago;
-    }
-
-    public Integer getCodigoAlu() {
-        return codigoAlu;
-    }
-
-    public void setCodigoAlu(Integer codigoAlu) {
-        this.codigoAlu = codigoAlu;
     }
 
     public int getIdDep() {
@@ -171,13 +162,13 @@ public class ejbCcoCepPagos implements Serializable {
         this.cepCcoMatriculaCab = cepCcoMatriculaCab;
     }
 
-//    public ejbCcoCepCecCert getCepCecCert() {
-//        return cepCecCert;
-//    }
-//
-//    public void setCepCecCert(ejbCcoCepCecCert cepCecCert) {
-//        this.cepCecCert = cepCecCert;
-//    }
+    public ejbCcoCepCecCert getCepCecCert() {
+        return cepCecCert;
+    }
+
+    public void setCepCecCert(ejbCcoCepCecCert cepCecCert) {
+        this.cepCecCert = cepCecCert;
+    }
 
     public ejbCcoDrtPersonanatural getDrtPersonanatural() {
         return drtPersonanatural;

@@ -77,10 +77,10 @@ public class ejbCcoCepPersonalDAO extends ejbCcoGenericoDAO<ejbCcoCepPersonal> i
             insertQuery.setParameter(1, cepPersonal.getIdPersonal());
             insertQuery.setParameter(2, cepPersonal.getFechaIng());
             insertQuery.setParameter(3, cepPersonal.getFechaFin());
-            insertQuery.setParameter(4, cepPersonal.getIdEsc() != null ? cepPersonal.getIdEsc().getIdEsc() : null);
+            insertQuery.setParameter(4, cepPersonal.getEscPersonal()!= null ? cepPersonal.getEscPersonal().getIdEsc() : null);
             insertQuery.setParameter(5, cepPersonal.getIdDep());
             insertQuery.setParameter(6, cepPersonal.getBandera() ? 1 : 0);
-            insertQuery.setParameter(7, cepPersonal.getIdTipoCecomp() != null ? cepPersonal.getIdTipoCecomp().getIdTipoCecomp() : null);
+            insertQuery.setParameter(7, cepPersonal.getCepTipoPersonal()!= null ? cepPersonal.getCepTipoPersonal().getIdTipoCecomp() : null);
             
             insertQuery.executeUpdate();
             
@@ -99,10 +99,10 @@ public class ejbCcoCepPersonalDAO extends ejbCcoGenericoDAO<ejbCcoCepPersonal> i
         
         updateQuery.setParameter(1, cepPersonal.getFechaIng());
         updateQuery.setParameter(2, cepPersonal.getFechaFin());
-        updateQuery.setParameter(3, cepPersonal.getIdEsc() != null ? cepPersonal.getIdEsc().getIdEsc() : null);
+        updateQuery.setParameter(3, cepPersonal.getEscPersonal()!= null ? cepPersonal.getEscPersonal().getIdEsc() : null);
         updateQuery.setParameter(4, cepPersonal.getIdDep());
         updateQuery.setParameter(5, cepPersonal.getBandera() ? 1 : 0);
-        updateQuery.setParameter(6, cepPersonal.getIdTipoCecomp() != null ? cepPersonal.getIdTipoCecomp().getIdTipoCecomp() : null);
+        updateQuery.setParameter(6, cepPersonal.getCepTipoPersonal()!= null ? cepPersonal.getCepTipoPersonal().getIdTipoCecomp() : null);
         updateQuery.setParameter(7, cepPersonal.getIdPersonal());
         
         updateQuery.executeUpdate();

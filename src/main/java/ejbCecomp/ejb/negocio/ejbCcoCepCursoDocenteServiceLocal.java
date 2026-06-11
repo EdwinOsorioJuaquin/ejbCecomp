@@ -12,4 +12,7 @@ public interface ejbCcoCepCursoDocenteServiceLocal {
     List<ejbCcoCepCursoDocente> listarTodos();
     List<ejbCcoCepCursoDocente> listarActivos();
     Integer obtenerUltimoIdGrupo();
+    List<ejbCcoCepCursoDocente> listarConPrecios();
+    List<ejbCcoCepCursoDocente> buscarPorCurso(Integer idCurso);
+    List<ejbCcoCepCursoDocente> listarGruposPorCodigoPago(String codigoPago);
 }

@@ -20,4 +20,5 @@ public interface ejbCcoCepCecCertServiceLocal {
     ejbCcoCepCecCert generarCertificado(Integer idMtaAlu, Integer resol, Date fechaCert);
     Integer obtenerUltimoIdCert();
     Map<String, Object> obtenerDatosCertificado(Integer idCert);
+    List<ejbCcoCepCecCert> listarPorAlumno(Integer idDir);
 }

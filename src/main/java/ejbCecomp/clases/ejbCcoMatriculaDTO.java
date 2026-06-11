@@ -13,7 +13,6 @@ public class ejbCcoMatriculaDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    // Datos de la matrícula
     private ejbCcoCepCcoMatriculaCab matricula;
     private Integer idMtaAlu;
     private Integer notaFinal;
@@ -21,25 +20,19 @@ public class ejbCcoMatriculaDTO implements Serializable {
     private Date historialFecha;
     private Integer iduser;
     
-    // Datos del grupo
     private Integer idAd;
     private String nombreCurso;
     private String nombreDocente;
-    private String nombreCiclo;
-    private String nombreNivel;
+    private String nombreTipoDesarrollo;
     private String nombreGrupo;
     
-    // Datos del alumno (persona natural)
     private Integer idDir;
     private String nombreCompleto;
     private String dni;
     private String email;
     private String celular;
     
-    // Tipo de alumno
     private String tipoAlumno;
-    
-    // Para búsqueda de alumnos
     private boolean seleccionado;
     
     public ejbCcoMatriculaDTO(ejbCcoCepCcoMatriculaCab matricula) {
@@ -49,27 +42,23 @@ public class ejbCcoMatriculaDTO implements Serializable {
             this.idMtaAlu = matricula.getIdMtaAlu();
             this.notaFinal = matricula.getNotaFinal();
             
-            // Grupo
             if (matricula.getCepCursoDocente() != null) {
                 ejbCcoCepCursoDocente grupo = matricula.getCepCursoDocente();
                 this.idAd = grupo.getIdAd();
                 
-                if (grupo.getCepCurso() != null) {
+                if (grupo.getCepCurso()!= null) {
                     this.nombreCurso = grupo.getCepCurso().getNomCurso();
                 }
                 
                 if (grupo.getCepPersonal() != null && 
-                    grupo.getCepPersonal().getIdEsc() != null &&
-                    grupo.getCepPersonal().getIdEsc().getIdDir() != null) {
-                    this.nombreDocente = grupo.getCepPersonal().getIdEsc().getIdDir().getNombreCompleto();
+                    grupo.getCepPersonal().getEscPersonal()!= null &&
+                    grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural()!= null) {
+                    this.nombreDocente = grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural().getNombreCompleto();
                 }
                 
-                if (grupo.getCepCecCiclo() != null) {
-                    this.nombreCiclo = grupo.getCepCecCiclo().getNomCiclo();
-                }
-                
-                if (grupo.getCepCecNivel() != null) {
-                    this.nombreNivel = grupo.getCepCecNivel().getNombreNivel();
+                // CORREGIDO: usar getTipoDesarrollo()
+                if (grupo.getCepCecTipoDesarrollo()!= null) {
+                    this.nombreTipoDesarrollo = grupo.getCepCecTipoDesarrollo().getNombreDesarrollo();
                 }
                 
                 if (grupo.getCepCecGrupoCurso() != null) {
@@ -77,7 +66,6 @@ public class ejbCcoMatriculaDTO implements Serializable {
                 }
             }
             
-            // Alumno
             if (matricula.getDrtPersonanatural() != null) {
                 ejbCcoDrtPersonanatural persona = matricula.getDrtPersonanatural();
                 this.idDir = persona.getIdDir();

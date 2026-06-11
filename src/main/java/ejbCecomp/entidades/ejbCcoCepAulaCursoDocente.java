@@ -14,14 +14,16 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  *
  * @author Jael
  */
-@Entity(name = "CepAulaCursoDocente")
+@Entity(name="CepAulaCursoDocente")
 @Table(name = "cep_aula_curso_docente")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepAulaCursoDocente.findAll", query = "SELECT c FROM CepAulaCursoDocente c"),
     @NamedQuery(name = "CepAulaCursoDocente.findByIdAulClass", query = "SELECT c FROM CepAulaCursoDocente c WHERE c.cepAulaCursoDocentePK.idAulClass = :idAulClass"),
@@ -43,9 +45,6 @@ public class ejbCcoCepAulaCursoDocente implements Serializable {
     @JoinColumn(name = "id_aul_class", referencedColumnName = "id_aul_class", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ejbCcoCepCecAulaClass cepCecAulaClass;
-    @JoinColumn(name = "id_curso", referencedColumnName = "id_curso", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private ejbCcoCepCurso cepCurso;
     @JoinColumn(name = "id_personal", referencedColumnName = "id_personal", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ejbCcoCepPersonal cepPersonal;
@@ -96,14 +95,6 @@ public class ejbCcoCepAulaCursoDocente implements Serializable {
 
     public void setCepCecAulaClass(ejbCcoCepCecAulaClass cepCecAulaClass) {
         this.cepCecAulaClass = cepCecAulaClass;
-    }
-
-    public ejbCcoCepCurso getCepCurso() {
-        return cepCurso;
-    }
-
-    public void setCepCurso(ejbCcoCepCurso cepCurso) {
-        this.cepCurso = cepCurso;
     }
 
     public ejbCcoCepPersonal getCepPersonal() {

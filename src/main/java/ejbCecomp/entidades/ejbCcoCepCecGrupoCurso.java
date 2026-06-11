@@ -14,6 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,8 +23,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "CepCecGrupoCurso")
+@Entity(name="CepCecGrupoCurso")
 @Table(name = "cep_cec_grupo_curso")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCecGrupoCurso.findAll", query = "SELECT c FROM CepCecGrupoCurso c"),
     @NamedQuery(name = "CepCecGrupoCurso.findByIdGrupo", query = "SELECT c FROM CepCecGrupoCurso c WHERE c.idGrupo = :idGrupo"),
@@ -64,6 +67,7 @@ public class ejbCcoCepCecGrupoCurso implements Serializable {
         this.nombre = nombre;
     }
 
+    @XmlTransient
     public List<ejbCcoCepCursoDocente> getCepCursoDocenteList() {
         return cepCursoDocenteList;
     }

@@ -77,8 +77,8 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
         
         for (ejbCcoCepCecCert cert : certificados) {
             ejbCcoCepCcoMatriculaCab matricula = null;
-            if (cert.getIdMtaAlu() != null) {
-                matricula = daoMatricula.buscarPorId(cert.getIdMtaAlu().getIdMtaAlu());
+            if (cert.getCepCcoMatriculaCab()!= null) {
+                matricula = daoMatricula.buscarPorId(cert.getCepCcoMatriculaCab());
             }
             dtos.add(new ejbCcoCertificadoDTO(cert, matricula));
         }
@@ -118,7 +118,7 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
             }
             
             ejbCcoCepCecCert certificado = new ejbCcoCepCecCert();
-            certificado.setIdMtaAlu(matricula);
+            certificado.setCepCcoMatriculaCab(matricula);
             certificado.setFechaCert(fechaCert != null ? fechaCert : new Date());
             certificado.setEstadoCert(true);
             certificado.setResol(resol);
@@ -144,7 +144,7 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
             ejbCcoCepCecCert certificado = dao.buscarPorId(idCert);
             if (certificado == null) return null;
 
-            ejbCcoCepCcoMatriculaCab matricula = certificado.getIdMtaAlu();
+            ejbCcoCepCcoMatriculaCab matricula = certificado.getCepCcoMatriculaCab();
             if (matricula == null) return null;
 
             Map<String, Object> datos = new HashMap<>();
@@ -167,19 +167,15 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
                 ejbCcoCepCursoDocente grupo = matricula.getCepCursoDocente();
                 datos.put("notaFinal", matricula.getNotaFinal());
 
-                if (grupo.getCepCurso() != null) {
+                if (grupo.getCepCurso()!= null) {
                     datos.put("nombreCurso", grupo.getCepCurso().getNomCurso());
                     datos.put("duracionCurso", grupo.getCepCurso().getDuracion());
                 }
 
                 if (grupo.getCepPersonal() != null && 
-                    grupo.getCepPersonal().getIdEsc() != null &&
-                    grupo.getCepPersonal().getIdEsc().getIdDir() != null) {
-                    datos.put("nombreDocente", grupo.getCepPersonal().getIdEsc().getIdDir().getNombreCompleto());
-                }
-
-                if (grupo.getCepCecNivel() != null) {
-                    datos.put("nombreNivel", grupo.getCepCecNivel().getNombreNivel());
+                    grupo.getCepPersonal().getEscPersonal()!= null &&
+                    grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural()!= null) {
+                    datos.put("nombreDocente", grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural().getNombreCompleto());
                 }
 
                 if (grupo.getCepCecGrupoCurso() != null) {
@@ -200,5 +196,10 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
         } catch (Exception ex) {
             Logger.getLogger(ejbCcoCepCecCertService.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Override
+    public List<ejbCcoCepCecCert> listarPorAlumno(Integer idDir) {
+        return dao.listarPorAlumno(idDir);
     }
 }

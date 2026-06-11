@@ -76,7 +76,7 @@ public class ejbCcoCepCecSesionPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.ejbCcoCepCecSesionPK[ idSesio=" + idSesio + ", idPland=" + idPland + " ]";
+        return "ejbCecomp.entidades.CepCecSesionPK[ idSesio=" + idSesio + ", idPland=" + idPland + " ]";
     }
     
 }

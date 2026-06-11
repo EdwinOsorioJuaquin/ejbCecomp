@@ -1,18 +1,27 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package ejbCecomp.entidades;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
-@Entity(name = "CepCecNotas")
+/**
+ *
+ * @author Jael
+ */
+@Entity(name="CepCecNotas")
 @Table(name = "cep_cec_notas")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepCecNotas.findAll", query = "SELECT c FROM CepCecNotas c"),
     @NamedQuery(name = "CepCecNotas.findByIdMtaAlu", query = "SELECT c FROM CepCecNotas c WHERE c.cepCecNotasPK.idMtaAlu = :idMtaAlu"),
@@ -21,24 +30,13 @@ import java.io.Serializable;
 public class ejbCcoCepCecNotas implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @EmbeddedId
     protected ejbCcoCepCecNotasPK cepCecNotasPK;
-    
     @Column(name = "nota")
     private Integer nota;
-    
     @JoinColumn(name = "id_mta_alu", referencedColumnName = "id_mta_alu", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ejbCcoCepCcoMatriculaCab cepCcoMatriculaCab;
-    
-    // Relación corregida con clave compuesta
-    @JoinColumns({
-        @JoinColumn(name = "id_sesio", referencedColumnName = "id_sesio", insertable = false, updatable = false),
-        @JoinColumn(name = "id_pland", referencedColumnName = "id_pland", insertable = false, updatable = false)
-    })
-    @ManyToOne(optional = false)
-    private ejbCcoCepCecSesion cepCecSesion;
 
     public ejbCcoCepCecNotas() {
     }
@@ -75,14 +73,6 @@ public class ejbCcoCepCecNotas implements Serializable {
         this.cepCcoMatriculaCab = cepCcoMatriculaCab;
     }
 
-    public ejbCcoCepCecSesion getCepCecSesion() {
-        return cepCecSesion;
-    }
-
-    public void setCepCecSesion(ejbCcoCepCecSesion cepCecSesion) {
-        this.cepCecSesion = cepCecSesion;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -92,12 +82,12 @@ public class ejbCcoCepCecNotas implements Serializable {
 
     @Override
     public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ejbCcoCepCecNotas)) {
             return false;
         }
         ejbCcoCepCecNotas other = (ejbCcoCepCecNotas) object;
-        if ((this.cepCecNotasPK == null && other.cepCecNotasPK != null) || 
-            (this.cepCecNotasPK != null && !this.cepCecNotasPK.equals(other.cepCecNotasPK))) {
+        if ((this.cepCecNotasPK == null && other.cepCecNotasPK != null) || (this.cepCecNotasPK != null && !this.cepCecNotasPK.equals(other.cepCecNotasPK))) {
             return false;
         }
         return true;
@@ -107,4 +97,5 @@ public class ejbCcoCepCecNotas implements Serializable {
     public String toString() {
         return "ejbCecomp.entidades.CepCecNotas[ cepCecNotasPK=" + cepCecNotasPK + " ]";
     }
+    
 }

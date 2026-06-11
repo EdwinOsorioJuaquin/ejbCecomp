@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,8 +26,9 @@ import java.util.Date;
  *
  * @author Jael
  */
-@Entity(name = "DrtDirectorio")
+@Entity(name="DrtDirectorio")
 @Table(name = "drt_directorio")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DrtDirectorio.findAll", query = "SELECT d FROM DrtDirectorio d"),
     @NamedQuery(name = "DrtDirectorio.findByIdDir", query = "SELECT d FROM DrtDirectorio d WHERE d.idDir = :idDir"),
@@ -36,6 +38,12 @@ import java.util.Date;
     @NamedQuery(name = "DrtDirectorio.findByDateinsert", query = "SELECT d FROM DrtDirectorio d WHERE d.dateinsert = :dateinsert")})
 public class ejbCcoDrtDirectorio implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_dir")
+    private Integer idDir;
     @Basic(optional = false)
     @NotNull
     @Column(name = "psp_cxt")
@@ -53,13 +61,6 @@ public class ejbCcoDrtDirectorio implements Serializable {
     @Column(name = "dateinsert")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateinsert;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_dir")
-    private Integer idDir;
     @JoinColumn(name = "id_dclas", referencedColumnName = "id_dclas")
     @ManyToOne(optional = false)
     private ejbCcoDrtDirectorioClase drtDirectorioClase;
@@ -113,6 +114,13 @@ public class ejbCcoDrtDirectorio implements Serializable {
         this.pspUid = pspUid;
     }
 
+    public Date getDateinsert() {
+        return dateinsert;
+    }
+
+    public void setDateinsert(Date dateinsert) {
+        this.dateinsert = dateinsert;
+    }
 
     public ejbCcoDrtDirectorioClase getDrtDirectorioClase() {
         return drtDirectorioClase;
@@ -153,14 +161,6 @@ public class ejbCcoDrtDirectorio implements Serializable {
     @Override
     public String toString() {
         return "ejbCecomp.entidades.DrtDirectorio[ idDir=" + idDir + " ]";
-    }
-
-    public Date getDateinsert() {
-        return dateinsert;
-    }
-
-    public void setDateinsert(Date dateinsert) {
-        this.dateinsert = dateinsert;
     }
     
 }

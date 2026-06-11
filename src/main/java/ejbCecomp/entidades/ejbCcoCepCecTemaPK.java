@@ -93,7 +93,7 @@ public class ejbCcoCepCecTemaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "ejbCecomp.entidades.ejbCcoCepCecTemaPK[ idTem=" + idTem + ", idSesio=" + idSesio + ", idPland=" + idPland + " ]";
+        return "ejbCecomp.entidades.CepCecTemaPK[ idTem=" + idTem + ", idSesio=" + idSesio + ", idPland=" + idPland + " ]";
     }
     
 }

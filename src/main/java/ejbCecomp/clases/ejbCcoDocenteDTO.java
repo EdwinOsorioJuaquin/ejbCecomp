@@ -50,14 +50,14 @@ public class ejbCcoDocenteDTO implements Serializable {
             this.estado = (cepPersonal.getBandera() != null && cepPersonal.getBandera()) ? "ACTIVO" : "INACTIVO";
             
             // Obtener tipo CEcomp
-            if (cepPersonal.getIdTipoCecomp() != null) {
-                this.idTipoCecomp = cepPersonal.getIdTipoCecomp().getIdTipoCecomp();
-                this.tipoCecompNombre = cepPersonal.getIdTipoCecomp().getNombre();
+            if (cepPersonal.getCepTipoPersonal()!= null) {
+                this.idTipoCecomp = cepPersonal.getCepTipoPersonal().getIdTipoCecomp();
+                this.tipoCecompNombre = cepPersonal.getCepTipoPersonal().getNombre();
             }
             
             // Obtener esc_personal
-            if (cepPersonal.getIdEsc() != null) {
-                this.escPersonal = cepPersonal.getIdEsc();
+            if (cepPersonal.getEscPersonal()!= null) {
+                this.escPersonal = cepPersonal.getEscPersonal();
                 this.idEsc = escPersonal.getIdEsc();
                 this.idTipo = escPersonal.getIdTipo();
                 this.especialidad = escPersonal.getEspecialidad();
@@ -65,8 +65,8 @@ public class ejbCcoDocenteDTO implements Serializable {
                 this.condicionEsc = escPersonal.getCondicion();
                 
                 // Obtener persona natural
-                if (escPersonal.getIdDir() != null) {
-                    this.persona = escPersonal.getIdDir();
+                if (escPersonal.getDrtPersonanatural()!= null) {
+                    this.persona = escPersonal.getDrtPersonanatural();
                     this.dni = persona.getNumeroPndid();
                     this.nombreCompleto = persona.getNombreCompleto();
                     this.email = persona.getEmailPrin();

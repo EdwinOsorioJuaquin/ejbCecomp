@@ -14,6 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,8 +23,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "RcdConcepto")
+@Entity(name="RcdConcepto")
 @Table(name = "rcd_concepto")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RcdConcepto.findAll", query = "SELECT r FROM RcdConcepto r"),
     @NamedQuery(name = "RcdConcepto.findByIdConcepto", query = "SELECT r FROM RcdConcepto r WHERE r.idConcepto = :idConcepto"),
@@ -119,6 +122,7 @@ public class ejbCcoRcdConcepto implements Serializable {
         this.condicion = condicion;
     }
 
+    @XmlTransient
     public List<ejbCcoRcdVoucher> getRcdVoucherList() {
         return rcdVoucherList;
     }

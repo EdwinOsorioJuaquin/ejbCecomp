@@ -57,8 +57,8 @@ public class ejbCcoCepTipoPersonal implements Serializable {
     @NotNull
     @Column(name = "activo")
     private boolean activo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoCecomp")
-    private List<ejbCcoCepPersonal> ejbCcoCepPersonalList;
+    @OneToMany(mappedBy = "cepTipoPersonal")
+    private List<ejbCcoCepPersonal> cepPersonalList;
 
     public ejbCcoCepTipoPersonal() {
     }
@@ -114,12 +114,12 @@ public class ejbCcoCepTipoPersonal implements Serializable {
     }
 
     @XmlTransient
-    public List<ejbCcoCepPersonal> getEjbCcoCepPersonalList() {
-        return ejbCcoCepPersonalList;
+    public List<ejbCcoCepPersonal> getCepPersonalList() {
+        return cepPersonalList;
     }
 
-    public void setEjbCcoCepPersonalList(List<ejbCcoCepPersonal> ejbCcoCepPersonalList) {
-        this.ejbCcoCepPersonalList = ejbCcoCepPersonalList;
+    public void setCepPersonalList(List<ejbCcoCepPersonal> cepPersonalList) {
+        this.cepPersonalList = cepPersonalList;
     }
 
     @Override

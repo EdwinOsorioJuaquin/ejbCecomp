@@ -24,7 +24,7 @@ public class ejbCcoCursoDTO implements Serializable {
             if (curso.getCepNivelModalidad() != null) {
                 this.nombreNivel = curso.getCepNivelModalidad().getNomNivMod();
             }
-            if (curso.getCepCecPlan() != null) {
+            if (curso.getCepCecPlan()!= null) {
                 this.nombrePlan = curso.getCepCecPlan().getNomPland();
             }
         }

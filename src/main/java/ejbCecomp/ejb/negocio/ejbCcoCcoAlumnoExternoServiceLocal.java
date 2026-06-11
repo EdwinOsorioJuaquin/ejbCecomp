@@ -34,4 +34,6 @@ public interface ejbCcoCcoAlumnoExternoServiceLocal {
     ejbCcoCcoAlumnoExterno buscarPorId(Integer id);
     
     public ejbCcoCcoAlumnoExterno buscarPorIdDir(Integer idDir);
+    
+    ejbCcoCcoAlumnoExterno buscarPorCodigoAlu(String codigoAlu);
 }

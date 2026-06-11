@@ -17,6 +17,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,8 +25,9 @@ import java.util.Date;
  *
  * @author Jael
  */
-@Entity(name = "FxaEstudiante")
+@Entity(name="FxaEstudiante")
 @Table(name = "fxa_estudiante")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FxaEstudiante.findAll", query = "SELECT f FROM FxaEstudiante f"),
     @NamedQuery(name = "FxaEstudiante.findByIdAcexp", query = "SELECT f FROM FxaEstudiante f WHERE f.idAcexp = :idAcexp"),
@@ -64,7 +66,7 @@ public class ejbCcoFxaEstudiante implements Serializable {
     @Size(max = 3)
     @Column(name = "id_plancur")
     private String idPlancur;
-    @Size(max = 3)
+    @Size(max = 10)
     @Column(name = "codigo_estudiante")
     private String codigoEstudiante;
     @Size(max = 150)

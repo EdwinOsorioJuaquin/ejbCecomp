@@ -15,6 +15,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,8 +24,9 @@ import java.util.List;
  *
  * @author Jael
  */
-@Entity(name = "CepNivelModalidad")
+@Entity(name="CepNivelModalidad")
 @Table(name = "cep_nivel_modalidad")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CepNivelModalidad.findAll", query = "SELECT c FROM CepNivelModalidad c"),
     @NamedQuery(name = "CepNivelModalidad.findByIdNivMod", query = "SELECT c FROM CepNivelModalidad c WHERE c.idNivMod = :idNivMod"),
@@ -35,7 +38,6 @@ public class ejbCcoCepNivelModalidad implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
     @Column(name = "id_niv_mod")
     private Integer idNivMod;
     @Size(max = 100)
@@ -77,6 +79,7 @@ public class ejbCcoCepNivelModalidad implements Serializable {
         this.habilitado = habilitado;
     }
 
+    @XmlTransient
     public List<ejbCcoCepCurso> getCepCursoList() {
         return cepCursoList;
     }
