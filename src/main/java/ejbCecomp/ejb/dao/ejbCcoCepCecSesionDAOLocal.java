@@ -7,4 +7,5 @@ import java.util.List;
 @Local
 public interface ejbCcoCepCecSesionDAOLocal extends ejbCcoGenericoDAOLocal<ejbCcoCepCecSesion> {
     List<ejbCcoCepCecSesion> listarPorPlan(Integer idPlan);
+    List<ejbCcoCepCecSesion> listarPorCurso(Integer idAd);
 }

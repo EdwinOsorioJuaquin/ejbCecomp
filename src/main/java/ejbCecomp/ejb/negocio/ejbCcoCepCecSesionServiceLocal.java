@@ -10,4 +10,5 @@ public interface ejbCcoCepCecSesionServiceLocal {
     ejbCcoCepCecSesion actualizar(ejbCcoCepCecSesion sesion);
     ejbCcoCepCecSesion buscarPorId(Integer idPland, Integer idSesio);
     List<ejbCcoCepCecSesion> listarPorPlan(Integer idPlan);
+    List<ejbCcoCepCecSesion> listarPorCurso(Integer idCurso);
 }

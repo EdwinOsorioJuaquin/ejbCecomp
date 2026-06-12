@@ -73,4 +73,9 @@ public class ejbCcoCepCecSesionService implements ejbCcoCepCecSesionServiceLocal
     public List<ejbCcoCepCecSesion> listarPorPlan(Integer idPlan) {
         return dao.listarPorPlan(idPlan);
     }
+    
+    @Override
+    public List<ejbCcoCepCecSesion> listarPorCurso(Integer idCurso) {
+        return dao.listarPorCurso(idCurso);
+    }
 }
