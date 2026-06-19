@@ -10,4 +10,5 @@ public interface ejbCcoCepServicioPrecioDAOLocal extends ejbCcoGenericoDAOLocal<
     List<ejbCcoCepServicioPrecio> listarPorTipoAlumno(String tipoAlumno);
     ejbCcoCepServicioPrecio buscarPorTipo(String tipoServicio, String tipoAlumno);
     List<ejbCcoCepServicioPrecio> listarActivos();
+    ejbCcoCepServicioPrecio buscarPorId(Integer id);
 }

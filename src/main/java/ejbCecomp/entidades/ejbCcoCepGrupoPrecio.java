@@ -55,6 +55,14 @@ public class ejbCcoCepGrupoPrecio implements Serializable {
     @JoinColumn(name = "id_ad")
     private ejbCcoCepCursoDocente cepCursoDocente;
 
+    public ejbCcoCepCursoDocente getCepCursoDocente() {
+        return cepCursoDocente;
+    }
+
+    public void setCepCursoDocente(ejbCcoCepCursoDocente cepCursoDocente) {
+        this.cepCursoDocente = cepCursoDocente;
+    }
+
     public ejbCcoCepGrupoPrecio() {
     }
 

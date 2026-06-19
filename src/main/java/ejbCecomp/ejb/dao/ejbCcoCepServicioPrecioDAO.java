@@ -7,7 +7,22 @@ import java.util.List;
 
 @Stateless
 public class ejbCcoCepServicioPrecioDAO extends ejbCcoGenericoDAO<ejbCcoCepServicioPrecio> implements ejbCcoCepServicioPrecioDAOLocal {
+    @Override
+    public ejbCcoCepServicioPrecio crear(ejbCcoCepServicioPrecio precio) {
+        em.persist(precio);
+        return precio;
+    }
 
+    @Override
+    public ejbCcoCepServicioPrecio actualizar(ejbCcoCepServicioPrecio precio) {
+        return em.merge(precio);
+    }
+
+    @Override
+    public ejbCcoCepServicioPrecio buscarPorId(Integer id) {
+        return em.find(ejbCcoCepServicioPrecio.class, id);
+    }
+    
     @Override
     public List<ejbCcoCepServicioPrecio> listarTodos() {
         TypedQuery<ejbCcoCepServicioPrecio> query = em.createQuery(

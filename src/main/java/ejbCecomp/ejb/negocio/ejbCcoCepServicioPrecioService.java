@@ -31,4 +31,19 @@ public class ejbCcoCepServicioPrecioService implements ejbCcoCepServicioPrecioSe
     public List<ejbCcoCepServicioPrecio> listarActivos() {
         return dao.listarActivos();
     }
+    
+    @Override
+    public ejbCcoCepServicioPrecio crear(ejbCcoCepServicioPrecio precio) {
+        return dao.crear(precio);
+    }
+
+    @Override
+    public ejbCcoCepServicioPrecio actualizar(ejbCcoCepServicioPrecio precio) {
+        return dao.actualizar(precio);
+    }
+
+    @Override
+    public ejbCcoCepServicioPrecio buscarPorId(Integer id) {
+        return dao.buscarPorId(id);
+    }
 }

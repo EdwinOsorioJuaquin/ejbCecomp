@@ -10,4 +10,7 @@ public interface ejbCcoCepServicioPrecioServiceLocal {
     List<ejbCcoCepServicioPrecio> listarPorTipoAlumno(String tipoAlumno);
     ejbCcoCepServicioPrecio buscarPorTipo(String tipoServicio, String tipoAlumno);
     List<ejbCcoCepServicioPrecio> listarActivos();
+    ejbCcoCepServicioPrecio crear(ejbCcoCepServicioPrecio precio);
+    ejbCcoCepServicioPrecio actualizar(ejbCcoCepServicioPrecio precio);
+    ejbCcoCepServicioPrecio buscarPorId(Integer id);
 }
