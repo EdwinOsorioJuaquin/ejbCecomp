@@ -12,4 +12,5 @@ public interface ejbCcoCepCecCertDAOLocal extends ejbCcoGenericoDAOLocal<ejbCcoC
     Integer obtenerUltimoIdCert();
     ejbCcoCepCecCert guardarCertificado(ejbCcoCepCecCert certificado);
     ejbCcoCepCecCert actualizarCertificado(ejbCcoCepCecCert certificado);
+    void actualizarVoucher(Integer idVoucher, String estado);
 }

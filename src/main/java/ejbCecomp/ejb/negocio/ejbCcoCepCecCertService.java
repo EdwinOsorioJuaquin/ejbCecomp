@@ -102,38 +102,6 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
     }
 
     @Override
-    public ejbCcoCepCecCert generarCertificado(Integer idMtaAlu, Integer resol, Date fechaCert) {
-        try {
-            ut.begin();
-            
-            if (yaTieneCertificado(idMtaAlu)) {
-                ut.rollback();
-                return null;
-            }
-            
-            ejbCcoCepCcoMatriculaCab matricula = daoMatricula.buscarPorId(idMtaAlu);
-            if (matricula == null) {
-                ut.rollback();
-                return null;
-            }
-            
-            ejbCcoCepCecCert certificado = new ejbCcoCepCecCert();
-            certificado.setCepCcoMatriculaCab(matricula);
-            certificado.setFechaCert(fechaCert != null ? fechaCert : new Date());
-            certificado.setEstadoCert(true);
-            certificado.setResol(resol);
-            
-            certificado = dao.guardarCertificado(certificado);
-            ut.commit();
-            return certificado;
-            
-        } catch (Exception e) {
-            rollback();
-            return null;
-        }
-    }
-
-    @Override
     public Integer obtenerUltimoIdCert() {
         return dao.obtenerUltimoIdCert();
     }
@@ -201,5 +169,21 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
     @Override
     public List<ejbCcoCepCecCert> listarPorAlumno(Integer idDir) {
         return dao.listarPorAlumno(idDir);
+    }
+    
+    @Override
+    public void actualizarVoucher(Integer idVoucher, String estado) {
+        try {
+            ut.begin();
+            dao.actualizarVoucher(idVoucher, estado);
+            ut.commit();
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                System.out.println("Error rollback: " + ex.getMessage());
+            }
+            e.printStackTrace();
+        }
     }
 }

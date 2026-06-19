@@ -3,6 +3,7 @@ package ejbCecomp.clases;
 import ejbCecomp.entidades.*;
 import lombok.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -86,5 +87,13 @@ public class ejbCcoCertificadoDTO implements Serializable {
                 }
             }
         }
+    }
+    
+    public String getFechaCertFormateada() {
+        if (fechaCert != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            return sdf.format(fechaCert);
+        }
+        return "";
     }
 }

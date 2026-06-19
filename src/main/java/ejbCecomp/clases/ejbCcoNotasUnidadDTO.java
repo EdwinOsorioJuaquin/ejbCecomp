@@ -16,7 +16,7 @@ public class ejbCcoNotasUnidadDTO implements Serializable {
     private Integer idSesio;
     private String nombreUnidad;
     private Integer nota;
-    private String estado;
+    private boolean tieneNota;
     
     public ejbCcoNotasUnidadDTO(ejbCcoCepCecSesion sesion, ejbCcoCepCecNotas notaEntity) {
         this.idSesio = sesion.getCepCecSesionPK().getIdSesio();
@@ -24,10 +24,10 @@ public class ejbCcoNotasUnidadDTO implements Serializable {
         
         if (notaEntity != null && notaEntity.getNota() != null) {
             this.nota = notaEntity.getNota();
-            this.estado = "REGISTRADO";
+            this.tieneNota = true;
         } else {
             this.nota = null;
-            this.estado = "PENDIENTE";
+            this.tieneNota = false;
         }
     }
 }

@@ -23,12 +23,14 @@ public class ejbCcoSolicitarCertificadoDTO implements Serializable {
     private String fechaFin;
     private String horarios;
     private boolean tieneCertificado;
+    private boolean seleccionado;
     
     public ejbCcoSolicitarCertificadoDTO(ejbCcoCepCcoMatriculaCab matricula, boolean tieneCertificado) {
         if (matricula != null) {
             this.idMtaAlu = matricula.getIdMtaAlu();
             this.notaFinal = matricula.getNotaFinal();
             this.tieneCertificado = tieneCertificado;
+            this.seleccionado = false;
             
             if (matricula.getCepCursoDocente() != null) {
                 ejbCcoCepCursoDocente grupo = matricula.getCepCursoDocente();

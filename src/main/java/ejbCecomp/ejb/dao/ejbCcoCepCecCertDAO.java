@@ -96,4 +96,12 @@ public class ejbCcoCepCecCertDAO extends ejbCcoGenericoDAO<ejbCcoCepCecCert> imp
         updateQuery.executeUpdate();
         return certificado;
     }
+    
+    @Override
+    public void actualizarVoucher(Integer idVoucher, String estado) {
+        Query query = em.createNativeQuery("UPDATE rcd_voucher SET estado = ? WHERE id_voucher = ?");
+        query.setParameter(1, estado);
+        query.setParameter(2, idVoucher);
+        query.executeUpdate();
+    }
 }

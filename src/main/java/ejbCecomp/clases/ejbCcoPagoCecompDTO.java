@@ -16,7 +16,7 @@ public class ejbCcoPagoCecompDTO implements Serializable {
     private String fechaFormateada;
     private String montoFormateado;
     
-    // NUEVO: Para selección en matrícula
+    //Para selección en matrícula y/o certificado
     private boolean seleccionado;
     
     public ejbCcoPagoCecompDTO(ejbCcoVtCecompPagos pago) {

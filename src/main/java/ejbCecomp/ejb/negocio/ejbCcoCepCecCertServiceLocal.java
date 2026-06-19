@@ -17,8 +17,8 @@ public interface ejbCcoCepCecCertServiceLocal {
     ejbCcoCepCecCert buscarPorMatricula(Integer idMtaAlu);
     boolean puedeCertificar(Integer idMtaAlu, Integer notaFinal);
     boolean yaTieneCertificado(Integer idMtaAlu);
-    ejbCcoCepCecCert generarCertificado(Integer idMtaAlu, Integer resol, Date fechaCert);
     Integer obtenerUltimoIdCert();
     Map<String, Object> obtenerDatosCertificado(Integer idCert);
     List<ejbCcoCepCecCert> listarPorAlumno(Integer idDir);
+    void actualizarVoucher(Integer idVoucher, String estado);
 }

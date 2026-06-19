@@ -31,7 +31,7 @@ public class ejbCcoCepServicioPrecioDAO extends ejbCcoGenericoDAO<ejbCcoCepServi
     public ejbCcoCepServicioPrecio buscarPorTipo(String tipoServicio, String tipoAlumno) {
         try {
             TypedQuery<ejbCcoCepServicioPrecio> query = em.createQuery(
-                "SELECT s FROM CepServicioPrecio s WHERE s.tipoServicio = :tipoServicio AND s.tipoAlumno = :tipoAlumno AND (s.activo = 1 OR s.activo IS NULL)",
+                "SELECT s FROM CepServicioPrecio s WHERE s.tipoServicio = :tipoServicio AND s.tipoAlumno = :tipoAlumno",
                 ejbCcoCepServicioPrecio.class
             );
             query.setParameter("tipoServicio", tipoServicio);
