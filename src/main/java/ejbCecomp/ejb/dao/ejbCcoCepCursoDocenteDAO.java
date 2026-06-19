@@ -16,8 +16,8 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         TypedQuery<ejbCcoCepCursoDocente> query = em.createQuery(
             "SELECT g FROM CepCursoDocente g " +
             "JOIN FETCH g.cepPersonal " +
-            "JOIN FETCH g.cepPersonal.idEsc " +
-            "JOIN FETCH g.cepPersonal.idEsc.idDir " +
+            "JOIN FETCH g.cepPersonal.escPersonal " +
+            "JOIN FETCH g.cepPersonal.escPersonal.drtPersonanatural " +
             "JOIN FETCH g.cepCurso " +
             "LEFT JOIN FETCH g.cepCecGrupoCurso",
             ejbCcoCepCursoDocente.class
@@ -30,8 +30,8 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         TypedQuery<ejbCcoCepCursoDocente> query = em.createQuery(
             "SELECT g FROM CepCursoDocente g " +
             "JOIN FETCH g.cepPersonal " +
-            "JOIN FETCH g.cepPersonal.idEsc " +
-            "JOIN FETCH g.cepPersonal.idEsc.idDir " +
+            "JOIN FETCH g.cepPersonal.escPersonal " +
+            "JOIN FETCH g.cepPersonal.escPersonal.drtPersonanatural " +
             "JOIN FETCH g.cepCurso " +
             "LEFT JOIN FETCH g.cepCecGrupoCurso " +
             "WHERE g.estado = true",
@@ -42,7 +42,6 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
     
     @Override
     public List<ejbCcoCepCursoDocente> listarConPrecios() {
-        // Primero obtener las entidades principales
         List<ejbCcoCepCursoDocente> lista = em.createQuery(
             "SELECT DISTINCT g FROM CepCursoDocente g " +
             "JOIN FETCH g.cepCurso " +
@@ -51,7 +50,6 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
             ejbCcoCepCursoDocente.class
         ).getResultList();
 
-        // Luego inicializar las colecciones por separado
         for (ejbCcoCepCursoDocente item : lista) {
             Hibernate.initialize(item.getCepGrupoPrecioList());
             Hibernate.initialize(item.getCepHorarioDiaList());
@@ -59,7 +57,6 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
                 Hibernate.initialize(dia.getCepHorarioHora());
             }
         }
-
         return lista;
     }
     
@@ -68,8 +65,8 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         TypedQuery<ejbCcoCepCursoDocente> query = em.createQuery(
             "SELECT g FROM CepCursoDocente g " +
             "JOIN FETCH g.cepPersonal " +
-            "JOIN FETCH g.cepPersonal.idEsc " +
-            "JOIN FETCH g.cepPersonal.idEsc.idDir " +
+            "JOIN FETCH g.cepPersonal.escPersonal " +
+            "JOIN FETCH g.cepPersonal.escPersonal.drtPersonanatural " +
             "JOIN FETCH g.cepCurso " +
             "LEFT JOIN FETCH g.cepCecGrupoCurso " +
             "WHERE g.idAd = :id",
@@ -86,7 +83,7 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
     @Override
     public List<ejbCcoCepCursoDocente> buscarPorCurso(Integer idCurso) {
         TypedQuery<ejbCcoCepCursoDocente> query = em.createQuery(
-            "SELECT g FROM CepCursoDocente g WHERE g.idCurso = :idCurso",
+            "SELECT g FROM CepCursoDocente g WHERE g.cepCurso.idCurso = :idCurso",
             ejbCcoCepCursoDocente.class
         );
         query.setParameter("idCurso", idCurso);
@@ -124,10 +121,9 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
             insertQuery.setParameter(7, grupo.getCepCecGrupoCurso() != null ? grupo.getCepCecGrupoCurso().getIdGrupo() : null);
             insertQuery.setParameter(8, grupo.getFechaFin());
             insertQuery.setParameter(9, grupo.getCerraAper() ? 1 : 0);
-            insertQuery.setParameter(10, grupo.getCepCecTipoDesarrollo());
+            insertQuery.setParameter(10, grupo.getCepCecTipoDesarrollo() != null ? grupo.getCepCecTipoDesarrollo().getIdCiclo() : null);
             
             insertQuery.executeUpdate();
-            
             return grupo;
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,8 +145,7 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         updateQuery.setParameter(6, grupo.getCepCecGrupoCurso() != null ? grupo.getCepCecGrupoCurso().getIdGrupo() : null);
         updateQuery.setParameter(7, grupo.getFechaFin());
         updateQuery.setParameter(8, grupo.getCerraAper() ? 1 : 0);
-        updateQuery.setParameter(9, grupo.getCepCecTipoDesarrollo() != null ? 
-                         grupo.getCepCecTipoDesarrollo().getIdCiclo() : null);
+        updateQuery.setParameter(9, grupo.getCepCecTipoDesarrollo() != null ? grupo.getCepCecTipoDesarrollo().getIdCiclo() : null);
         updateQuery.setParameter(10, grupo.getIdAd());
         
         updateQuery.executeUpdate();
@@ -159,8 +154,6 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
     
     @Override
     public List<ejbCcoCepCursoDocente> listarGruposPorCodigoPago(String codigoPago) {
-        System.out.println("DAO - Buscando grupos con codigoPago: '" + codigoPago + "'");
-
         Query query = em.createNativeQuery(
             "SELECT DISTINCT cd.* FROM cep_curso_docente cd " +
             "INNER JOIN cep_grupo_precio gp ON cd.id_ad = gp.id_ad " +
@@ -169,9 +162,7 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         );
         query.setParameter(1, codigoPago);
         List<ejbCcoCepCursoDocente> resultado = query.getResultList();
-        System.out.println("DAO - Resultados encontrados: " + resultado.size());
-
-        // Inicializar las colecciones para evitar LazyInitializationException
+        
         for (ejbCcoCepCursoDocente item : resultado) {
             Hibernate.initialize(item.getCepGrupoPrecioList());
             Hibernate.initialize(item.getCepHorarioDiaList());
@@ -181,7 +172,6 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
                 }
             }
         }
-
         return resultado;
     }
 }
