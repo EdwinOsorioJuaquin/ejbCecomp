@@ -22,7 +22,7 @@ public class ejbCcoCepCecHistoricoDAO extends ejbCcoGenericoDAO<ejbCcoCepCecHist
 
             return em.createQuery(
                     "SELECT h FROM CepCecHistorico h "
-                    + "WHERE h.idCert = :idCert",
+                    + "WHERE h.idCertHis = :idCert",  // ← CORREGIDO: idCert → idCertHis
                     ejbCcoCepCecHistorico.class
             )
             .setParameter("idCert", idCert)

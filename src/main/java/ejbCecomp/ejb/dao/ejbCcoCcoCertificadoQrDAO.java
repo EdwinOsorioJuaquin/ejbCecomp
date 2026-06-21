@@ -69,7 +69,7 @@ public class ejbCcoCcoCertificadoQrDAO extends ejbCcoGenericoDAO<ejbCcoCcoCertif
             String jpql =
                     "SELECT c, h " +
                     "FROM CepCecCert c, CepCecHistorico h " +
-                    "WHERE c.idCert = h.idCert " +
+                    "WHERE c.idCert = h.idCertHis " +  // ← CORREGIDO: h.idCert → h.idCertHis
                     "AND c.estadoCert = false " +
                     "AND h.notaMatHis >= 14";
 

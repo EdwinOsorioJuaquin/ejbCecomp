@@ -14,7 +14,7 @@ public class ejbCcoCepPersonalDAO extends ejbCcoGenericoDAO<ejbCcoCepPersonal> i
         TypedQuery<ejbCcoCepPersonal> query = em.createQuery(
             "SELECT c FROM CepPersonal c " +
             "JOIN FETCH c.escPersonal " +
-            "JOIN FETCH c.escPersonal.idDir " +
+            "JOIN FETCH c.escPersonal.drtPersonanatural " +
             "LEFT JOIN FETCH c.cepTipoPersonal",
             ejbCcoCepPersonal.class
         );
@@ -26,7 +26,7 @@ public class ejbCcoCepPersonalDAO extends ejbCcoGenericoDAO<ejbCcoCepPersonal> i
         TypedQuery<ejbCcoCepPersonal> query = em.createQuery(
             "SELECT c FROM CepPersonal c " +
             "JOIN FETCH c.escPersonal " +
-            "JOIN FETCH c.escPersonal.idDir " +
+            "JOIN FETCH c.escPersonal.drtPersonanatural " +
             "LEFT JOIN FETCH c.cepTipoPersonal " +
             "WHERE c.bandera = true",
             ejbCcoCepPersonal.class
@@ -39,7 +39,7 @@ public class ejbCcoCepPersonalDAO extends ejbCcoGenericoDAO<ejbCcoCepPersonal> i
         TypedQuery<ejbCcoCepPersonal> query = em.createQuery(
             "SELECT c FROM CepPersonal c " +
             "JOIN FETCH c.escPersonal " +
-            "JOIN FETCH c.escPersonal.idDir " +
+            "JOIN FETCH c.escPersonal.drtPersonanatural " +
             "LEFT JOIN FETCH c.cepTipoPersonal " +
             "WHERE c.idPersonal = :id",
             ejbCcoCepPersonal.class
@@ -83,7 +83,6 @@ public class ejbCcoCepPersonalDAO extends ejbCcoGenericoDAO<ejbCcoCepPersonal> i
             insertQuery.setParameter(7, cepPersonal.getCepTipoPersonal() != null ? cepPersonal.getCepTipoPersonal().getIdTipoCecomp() : null);
             
             insertQuery.executeUpdate();
-            
             return cepPersonal;
         } catch (Exception e) {
             e.printStackTrace();

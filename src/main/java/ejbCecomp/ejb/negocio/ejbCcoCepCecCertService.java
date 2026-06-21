@@ -74,12 +74,9 @@ public class ejbCcoCepCecCertService implements ejbCcoCepCecCertServiceLocal {
     public List<ejbCcoCertificadoDTO> listarCertificadosDTO() {
         List<ejbCcoCepCecCert> certificados = dao.listarTodos();
         List<ejbCcoCertificadoDTO> dtos = new ArrayList<>();
-        
+
         for (ejbCcoCepCecCert cert : certificados) {
-            ejbCcoCepCcoMatriculaCab matricula = null;
-            if (cert.getCepCcoMatriculaCab()!= null) {
-                matricula = daoMatricula.buscarPorId(cert.getCepCcoMatriculaCab());
-            }
+            ejbCcoCepCcoMatriculaCab matricula = cert.getCepCcoMatriculaCab();
             dtos.add(new ejbCcoCertificadoDTO(cert, matricula));
         }
         return dtos;
