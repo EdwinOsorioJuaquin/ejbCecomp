@@ -14,7 +14,7 @@ public class ejbCcoCepCecSesionDAO extends ejbCcoGenericoDAO<ejbCcoCepCecSesion>
     @Override
     public List<ejbCcoCepCecSesion> listarPorPlan(Integer idPlan) {
         TypedQuery<ejbCcoCepCecSesion> query = em.createQuery(
-            "SELECT s FROM CepCecSesion s WHERE s.ejbCcoCepCecSesionPK.idPland = :idPlan", 
+            "SELECT s FROM CepCecSesion s WHERE s.cepCecSesionPK.idPland = :idPlan", 
             ejbCcoCepCecSesion.class);
         query.setParameter("idPlan", idPlan);
         return query.getResultList();

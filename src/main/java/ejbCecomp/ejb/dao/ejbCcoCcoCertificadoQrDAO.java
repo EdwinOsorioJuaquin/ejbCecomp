@@ -10,6 +10,7 @@ import ejbCecomp.entidades.ejbCcoCepCecCert;
 import ejbCecomp.entidades.ejbCcoCepCecHistorico;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -135,40 +136,30 @@ public class ejbCcoCcoCertificadoQrDAO extends ejbCcoGenericoDAO<ejbCcoCcoCertif
     }
     
     @Override
-    public boolean guardarQr(
-            Integer idCertificado,
-            String codigoQr,
-            String urlValidacion,
-            byte[] imagenQr) {
-
+    public boolean guardarQr(Integer idCertificado, String codigoQr, String urlValidacion, byte[] imagenQr) {
         try {
+            // Obtener siguiente ID manualmente
+            Query idQuery = em.createNativeQuery("SELECT ISNULL(MAX(id_qr), 0) + 1 FROM cco_certificado_qr");
+            Integer nextId = (Integer) idQuery.getSingleResult();
 
-            ejbCcoCepCecCert cert =
-                    em.find(
-                            ejbCcoCepCecCert.class,
-                            idCertificado);
+            // Insert con Native Query
+            Query insertQuery = em.createNativeQuery(
+                "INSERT INTO cco_certificado_qr (id_qr, id_certificado, codigo_qr, url_validacion, fecha_generacion, estado, qr_imagen) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)"
+            );
 
-            if (cert == null) {
+            insertQuery.setParameter(1, nextId);
+            insertQuery.setParameter(2, idCertificado);
+            insertQuery.setParameter(3, codigoQr);
+            insertQuery.setParameter(4, urlValidacion);
+            insertQuery.setParameter(5, new Date());
+            insertQuery.setParameter(6, "GENERADO");
+            insertQuery.setParameter(7, imagenQr);
 
-                return false;
-            }
-
-            ejbCcoCcoCertificadoQr qr =
-                    new ejbCcoCcoCertificadoQr();
-
-            qr.setIdCertificado(cert);
-            qr.setCodigoQr(codigoQr);
-            qr.setUrlValidacion(urlValidacion);
-            qr.setFechaGeneracion(new Date());
-            qr.setEstado("GENERADO");
-            qr.setQrImagen(imagenQr);
-
-            em.persist(qr);
-
+            insertQuery.executeUpdate();
             return true;
 
         } catch (Exception e) {
-
             e.printStackTrace();
             return false;
         }
