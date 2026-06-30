@@ -13,7 +13,7 @@ import java.util.Date;
 public class ejbCcoGrupoDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     // Datos del grupo
     private ejbCcoCepCursoDocente grupo;
     private Integer idAd;
@@ -22,64 +22,64 @@ public class ejbCcoGrupoDTO implements Serializable {
     private Boolean estado;
     private Boolean cerraAper;
     private String nombreTipoDesarrollo;
-    
+
     // Datos del docente
     private Integer idPersonal;
     private String nombreDocente;
     private String especialidadDocente;
-    
+
     // Datos del curso
     private Integer idCurso;
     private String nombreCurso;
     private String abreviaturaCurso;
-    
+
     // Datos del grupo curso
     private Integer idGrupo;
     private String nombreGrupo;
-    
-    // ========== PRECIOS (tomar el primero de la lista) ==========
+
+    // Precios (tomar el primero de la lista)
     private BigDecimal precio;
     private String codigoPago;
-    
+
     public ejbCcoGrupoDTO(ejbCcoCepCursoDocente grupo) {
         this.grupo = grupo;
-        
+
         if (grupo != null) {
             this.idAd = grupo.getIdAd();
             this.fecha = grupo.getFecha();
             this.fechaFin = grupo.getFechaFin();
             this.estado = grupo.getEstado();
             this.cerraAper = grupo.getCerraAper();
-            
+
             // Tipo Desarrollo
             if (grupo.getCepCecTipoDesarrollo() != null) {
                 this.nombreTipoDesarrollo = grupo.getCepCecTipoDesarrollo().getNombreDesarrollo();
             }
-            
+
             // Docente
             if (grupo.getCepPersonal() != null) {
                 this.idPersonal = grupo.getCepPersonal().getIdPersonal();
-                if (grupo.getCepPersonal().getEscPersonal() != null && 
+                if (grupo.getCepPersonal().getEscPersonal() != null &&
                     grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural() != null) {
                     this.nombreDocente = grupo.getCepPersonal().getEscPersonal().getDrtPersonanatural().getNombreCompleto();
                     this.especialidadDocente = grupo.getCepPersonal().getEscPersonal().getEspecialidad();
                 }
             }
-            
+
             // Curso
             if (grupo.getCepCurso() != null) {
                 this.idCurso = grupo.getCepCurso().getIdCurso();
                 this.nombreCurso = grupo.getCepCurso().getNomCurso();
                 this.abreviaturaCurso = grupo.getCepCurso().getAbreviatura();
             }
-            
+
             // Grupo Curso
             if (grupo.getCepCecGrupoCurso() != null) {
                 this.idGrupo = grupo.getCepCecGrupoCurso().getIdGrupo();
                 this.nombreGrupo = grupo.getCepCecGrupoCurso().getNombre();
             }
-            
-            // ========== PRECIO (tomar el primero de la lista) ==========
+
+            // Precio (tomar el primero de la lista)
             if (grupo.getCepGrupoPrecioList() != null && !grupo.getCepGrupoPrecioList().isEmpty()) {
                 ejbCcoCepGrupoPrecio precioObj = grupo.getCepGrupoPrecioList().get(0);
                 this.precio = precioObj.getMonto();
@@ -87,11 +87,11 @@ public class ejbCcoGrupoDTO implements Serializable {
             }
         }
     }
-    
+
     public String getPrecioFormateado() {
         return precio != null ? String.format("S/ %,.2f", precio) : "S/ 0.00";
     }
-    
+
     public String getFechaFormateada() {
         if (fecha != null) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
@@ -99,7 +99,7 @@ public class ejbCcoGrupoDTO implements Serializable {
         }
         return "";
     }
-    
+
     public String getFechaFinFormateada() {
         if (fechaFin != null) {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
@@ -107,8 +107,41 @@ public class ejbCcoGrupoDTO implements Serializable {
         }
         return "";
     }
-    
+
     public String getEstadoTexto() {
         return estado != null && estado ? "ACTIVO" : "INACTIVO";
+    }
+
+    // =============================================
+    // NUEVO MÉTODO PARA HORARIOS
+    // =============================================
+    public String getHorariosFormateados() {
+        if (grupo != null && grupo.getCepHorarioDiaList() != null && !grupo.getCepHorarioDiaList().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (ejbCcoCepHorarioDia horario : grupo.getCepHorarioDiaList()) {
+                if (horario.getCepHorarioHora() != null) {
+                    String dia = getDiaSemana(horario.getDia());
+                    sb.append(dia).append(" ");
+                    sb.append(horario.getCepHorarioHora().getNomHora());
+                    sb.append(" | ");
+                }
+            }
+            return sb.length() > 0 ? sb.substring(0, sb.length() - 3) : "No definido";
+        }
+        return "No definido";
+    }
+
+    private String getDiaSemana(Short dia) {
+        if (dia == null) return "";
+        switch (dia) {
+            case 1: return "Lunes";
+            case 2: return "Martes";
+            case 3: return "Miércoles";
+            case 4: return "Jueves";
+            case 5: return "Viernes";
+            case 6: return "Sábado";
+            case 7: return "Domingo";
+            default: return "Día " + dia;
+        }
     }
 }
