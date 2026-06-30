@@ -8,6 +8,7 @@ import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
 import jakarta.inject.Inject;
 import jakarta.transaction.UserTransaction;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,36 +59,108 @@ public class ejbCcoCepCursoDocenteService implements ejbCcoCepCursoDocenteServic
 
     @Override
     public ejbCcoCepCursoDocente buscarPorId(Integer id) {
-        return dao.buscarPorId(id);
+        try {
+            ut.begin();
+            ejbCcoCepCursoDocente resultado = dao.buscarPorId(id);
+            ut.commit();
+            return resultado;
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
     }
 
     @Override
     public List<ejbCcoCepCursoDocente> listarTodos() {
-        return dao.listarTodos();
+        try {
+            ut.begin();
+            List<ejbCcoCepCursoDocente> lista = dao.listarTodos();
+            ut.commit();
+            return lista;
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return new ArrayList<>();
+        }
     }
 
     @Override
     public List<ejbCcoCepCursoDocente> listarActivos() {
-        return dao.listarActivos();
+        try {
+            ut.begin();
+            List<ejbCcoCepCursoDocente> lista = dao.listarActivos();
+            ut.commit();
+            return lista;
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return new ArrayList<>();
+        }
     }
-    
+
+    @Override
+    public List<ejbCcoCepCursoDocente> listarConPrecios() {
+        try {
+            ut.begin();
+            List<ejbCcoCepCursoDocente> lista = dao.listarConPrecios();
+            ut.commit();
+            return lista;
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return new ArrayList<>();
+        }
+    }
+
     @Override
     public Integer obtenerUltimoIdGrupo() {
         return dao.obtenerUltimoIdGrupo();
     }
-    
-    @Override
-    public List<ejbCcoCepCursoDocente> listarConPrecios() {
-        return dao.listarConPrecios();
-    }
-    
+
     @Override
     public List<ejbCcoCepCursoDocente> buscarPorCurso(Integer idCurso) {
-        return dao.buscarPorCurso(idCurso);
+        try {
+            ut.begin();
+            List<ejbCcoCepCursoDocente> lista = dao.buscarPorCurso(idCurso);
+            ut.commit();
+            return lista;
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return new ArrayList<>();
+        }
     }
-    
+
     @Override
     public List<ejbCcoCepCursoDocente> listarGruposPorCodigoPago(String codigoPago) {
-        return dao.listarGruposPorCodigoPago(codigoPago);
+        try {
+            ut.begin();
+            List<ejbCcoCepCursoDocente> lista = dao.listarGruposPorCodigoPago(codigoPago);
+            ut.commit();
+            return lista;
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (Exception ex) {
+                Logger.getLogger(ejbCcoCepCursoDocenteService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return new ArrayList<>();
+        }
     }
 }

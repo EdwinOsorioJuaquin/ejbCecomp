@@ -5,6 +5,7 @@ import ejbCecomp.entidades.ejbCcoCepHorarioDia;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Hibernate;
 
@@ -24,7 +25,7 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         );
         return query.getResultList();
     }
-    
+
     @Override
     public List<ejbCcoCepCursoDocente> listarActivos() {
         TypedQuery<ejbCcoCepCursoDocente> query = em.createQuery(
@@ -39,47 +40,65 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         );
         return query.getResultList();
     }
-    
+
     @Override
     public List<ejbCcoCepCursoDocente> listarConPrecios() {
-        List<ejbCcoCepCursoDocente> lista = em.createQuery(
-            "SELECT DISTINCT g FROM CepCursoDocente g " +
-            "JOIN FETCH g.cepCurso " +
-            "LEFT JOIN FETCH g.cepCecGrupoCurso " +
-            "WHERE g.estado = true", 
-            ejbCcoCepCursoDocente.class
-        ).getResultList();
+        try {
+            List<ejbCcoCepCursoDocente> lista = em.createQuery(
+                "SELECT DISTINCT g FROM CepCursoDocente g " +
+                "JOIN FETCH g.cepCurso " +
+                "LEFT JOIN FETCH g.cepCecGrupoCurso " +
+                "LEFT JOIN FETCH g.cepGrupoPrecioList " +
+                "WHERE g.estado = true",
+                ejbCcoCepCursoDocente.class
+            ).getResultList();
 
-        for (ejbCcoCepCursoDocente item : lista) {
-            Hibernate.initialize(item.getCepGrupoPrecioList());
-            Hibernate.initialize(item.getCepHorarioDiaList());
-            for (ejbCcoCepHorarioDia dia : item.getCepHorarioDiaList()) {
-                Hibernate.initialize(dia.getCepHorarioHora());
+            for (ejbCcoCepCursoDocente grupo : lista) {
+                List<ejbCcoCepHorarioDia> horarios = em.createQuery(
+                    "SELECT h FROM CepHorarioDia h " +
+                    "JOIN FETCH h.cepHorarioHora " +
+                    "WHERE h.cepCursoDocente.idAd = :idAd",
+                    ejbCcoCepHorarioDia.class
+                ).setParameter("idAd", grupo.getIdAd()).getResultList();
+                grupo.setCepHorarioDiaList(horarios);
             }
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
-        return lista;
     }
-    
+
     @Override
     public ejbCcoCepCursoDocente buscarPorId(Integer id) {
-        TypedQuery<ejbCcoCepCursoDocente> query = em.createQuery(
-            "SELECT g FROM CepCursoDocente g " +
-            "JOIN FETCH g.cepPersonal " +
-            "JOIN FETCH g.cepPersonal.escPersonal " +
-            "JOIN FETCH g.cepPersonal.escPersonal.drtPersonanatural " +
-            "JOIN FETCH g.cepCurso " +
-            "LEFT JOIN FETCH g.cepCecGrupoCurso " +
-            "WHERE g.idAd = :id",
-            ejbCcoCepCursoDocente.class
-        );
-        query.setParameter("id", id);
         try {
-            return query.getSingleResult();
+            ejbCcoCepCursoDocente grupo = em.createQuery(
+                "SELECT DISTINCT g FROM CepCursoDocente g " +
+                "JOIN FETCH g.cepPersonal " +
+                "JOIN FETCH g.cepPersonal.escPersonal " +
+                "JOIN FETCH g.cepPersonal.escPersonal.drtPersonanatural " +
+                "JOIN FETCH g.cepCurso " +
+                "LEFT JOIN FETCH g.cepCecGrupoCurso " +
+                "LEFT JOIN FETCH g.cepGrupoPrecioList " +
+                "WHERE g.idAd = :id",
+                ejbCcoCepCursoDocente.class
+            ).setParameter("id", id).getSingleResult();
+
+            List<ejbCcoCepHorarioDia> horarios = em.createQuery(
+                "SELECT h FROM CepHorarioDia h " +
+                "JOIN FETCH h.cepHorarioHora " +
+                "WHERE h.cepCursoDocente.idAd = :idAd",
+                ejbCcoCepHorarioDia.class
+            ).setParameter("idAd", id).getResultList();
+            grupo.setCepHorarioDiaList(horarios);
+
+            return grupo;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
-    
+
     @Override
     public List<ejbCcoCepCursoDocente> buscarPorCurso(Integer idCurso) {
         TypedQuery<ejbCcoCepCursoDocente> query = em.createQuery(
@@ -89,7 +108,7 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         query.setParameter("idCurso", idCurso);
         return query.getResultList();
     }
-    
+
     @Override
     public Integer obtenerUltimoIdGrupo() {
         try {
@@ -99,22 +118,22 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
             return 1;
         }
     }
-    
+
     @Override
     public ejbCcoCepCursoDocente guardarGrupo(ejbCcoCepCursoDocente grupo) {
         try {
             Query idQuery = em.createNativeQuery("SELECT ISNULL(MAX(id_ad), 0) + 1 FROM cep_curso_docente");
             Integer nextId = (Integer) idQuery.getSingleResult();
             grupo.setIdAd(nextId);
-            
+
             Query insertQuery = em.createNativeQuery(
                 "INSERT INTO cep_curso_docente (id_ad, id_personal, id_curso, id_dep, estado, fecha, id_grupo, fecha_fin, cerra_aper, id_tipo_desarrollo) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
-            
+
             insertQuery.setParameter(1, grupo.getIdAd());
             insertQuery.setParameter(2, grupo.getCepPersonal() != null ? grupo.getCepPersonal().getIdPersonal() : null);
-            insertQuery.setParameter(3, grupo.getCepCurso()!= null ? grupo.getCepCurso().getIdCurso() : null);
+            insertQuery.setParameter(3, grupo.getCepCurso() != null ? grupo.getCepCurso().getIdCurso() : null);
             insertQuery.setParameter(4, grupo.getIdDep());
             insertQuery.setParameter(5, grupo.getEstado() ? 1 : 0);
             insertQuery.setParameter(6, grupo.getFecha());
@@ -122,7 +141,7 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
             insertQuery.setParameter(8, grupo.getFechaFin());
             insertQuery.setParameter(9, grupo.getCerraAper() ? 1 : 0);
             insertQuery.setParameter(10, grupo.getCepCecTipoDesarrollo() != null ? grupo.getCepCecTipoDesarrollo().getIdCiclo() : null);
-            
+
             insertQuery.executeUpdate();
             return grupo;
         } catch (Exception e) {
@@ -130,15 +149,15 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
             throw e;
         }
     }
-    
+
     @Override
     public ejbCcoCepCursoDocente actualizarGrupo(ejbCcoCepCursoDocente grupo) {
         Query updateQuery = em.createNativeQuery(
             "UPDATE cep_curso_docente SET id_personal=?, id_curso=?, id_dep=?, estado=?, fecha=?, id_grupo=?, fecha_fin=?, cerra_aper=?, id_tipo_desarrollo=? WHERE id_ad=?"
         );
-        
+
         updateQuery.setParameter(1, grupo.getCepPersonal() != null ? grupo.getCepPersonal().getIdPersonal() : null);
-        updateQuery.setParameter(2, grupo.getCepCurso()!= null ? grupo.getCepCurso().getIdCurso() : null);
+        updateQuery.setParameter(2, grupo.getCepCurso() != null ? grupo.getCepCurso().getIdCurso() : null);
         updateQuery.setParameter(3, grupo.getIdDep());
         updateQuery.setParameter(4, grupo.getEstado() ? 1 : 0);
         updateQuery.setParameter(5, grupo.getFecha());
@@ -147,11 +166,11 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         updateQuery.setParameter(8, grupo.getCerraAper() ? 1 : 0);
         updateQuery.setParameter(9, grupo.getCepCecTipoDesarrollo() != null ? grupo.getCepCecTipoDesarrollo().getIdCiclo() : null);
         updateQuery.setParameter(10, grupo.getIdAd());
-        
+
         updateQuery.executeUpdate();
         return grupo;
     }
-    
+
     @Override
     public List<ejbCcoCepCursoDocente> listarGruposPorCodigoPago(String codigoPago) {
         Query query = em.createNativeQuery(
@@ -162,7 +181,7 @@ public class ejbCcoCepCursoDocenteDAO extends ejbCcoGenericoDAO<ejbCcoCepCursoDo
         );
         query.setParameter(1, codigoPago);
         List<ejbCcoCepCursoDocente> resultado = query.getResultList();
-        
+
         for (ejbCcoCepCursoDocente item : resultado) {
             Hibernate.initialize(item.getCepGrupoPrecioList());
             Hibernate.initialize(item.getCepHorarioDiaList());
